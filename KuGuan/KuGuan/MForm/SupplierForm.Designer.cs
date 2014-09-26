@@ -30,18 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.addNextButton = new System.Windows.Forms.Button();
             this.delButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.tLabel = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView = new System.Windows.Forms.TreeView();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.addNextButton = new System.Windows.Forms.Button();
-            this.refreshButton = new System.Windows.Forms.Button();
-            this.addSupButton = new System.Windows.Forms.Button();
-            this.searchButton = new System.Windows.Forms.Button();
-            this.delSupButton = new System.Windows.Forms.Button();
-            this.changeButton = new System.Windows.Forms.Button();
             this.supplieridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.suppliernameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,11 +50,24 @@
             this.bankaccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataDataSet = new KuGuan.dataDataSet();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.addSupButton = new System.Windows.Forms.Button();
+            this.delSupButton = new System.Windows.Forms.Button();
+            this.changeButton = new System.Windows.Forms.Button();
             this.supplierTableAdapter = new KuGuan.dataDataSetTableAdapters.supplierTableAdapter();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkmanBox = new System.Windows.Forms.TextBox();
+            this.addrBox = new System.Windows.Forms.TextBox();
+            this.supBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.searchButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -76,6 +84,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "客户类别结构图";
+            // 
+            // addNextButton
+            // 
+            this.addNextButton.Location = new System.Drawing.Point(70, 521);
+            this.addNextButton.Name = "addNextButton";
+            this.addNextButton.Size = new System.Drawing.Size(63, 35);
+            this.addNextButton.TabIndex = 5;
+            this.addNextButton.Text = "增加下层";
+            this.addNextButton.UseVisualStyleBackColor = true;
+            this.addNextButton.Click += new System.EventHandler(this.addNextButton_Click);
             // 
             // delButton
             // 
@@ -158,65 +176,6 @@
             this.dataGridView.Size = new System.Drawing.Size(1114, 457);
             this.dataGridView.TabIndex = 1;
             // 
-            // addNextButton
-            // 
-            this.addNextButton.Location = new System.Drawing.Point(70, 521);
-            this.addNextButton.Name = "addNextButton";
-            this.addNextButton.Size = new System.Drawing.Size(63, 35);
-            this.addNextButton.TabIndex = 5;
-            this.addNextButton.Text = "增加下层";
-            this.addNextButton.UseVisualStyleBackColor = true;
-            this.addNextButton.Click += new System.EventHandler(this.addNextButton_Click);
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Location = new System.Drawing.Point(1247, 496);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(87, 38);
-            this.refreshButton.TabIndex = 2;
-            this.refreshButton.Text = "刷新列表";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
-            // addSupButton
-            // 
-            this.addSupButton.Location = new System.Drawing.Point(220, 496);
-            this.addSupButton.Name = "addSupButton";
-            this.addSupButton.Size = new System.Drawing.Size(80, 38);
-            this.addSupButton.TabIndex = 3;
-            this.addSupButton.Text = "新增";
-            this.addSupButton.UseVisualStyleBackColor = true;
-            this.addSupButton.Click += new System.EventHandler(this.addSupButton_Click);
-            // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(478, 496);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(80, 38);
-            this.searchButton.TabIndex = 4;
-            this.searchButton.Text = "查询";
-            this.searchButton.UseVisualStyleBackColor = true;
-            // 
-            // delSupButton
-            // 
-            this.delSupButton.Location = new System.Drawing.Point(392, 496);
-            this.delSupButton.Name = "delSupButton";
-            this.delSupButton.Size = new System.Drawing.Size(80, 38);
-            this.delSupButton.TabIndex = 5;
-            this.delSupButton.Text = "删除";
-            this.delSupButton.UseVisualStyleBackColor = true;
-            this.delSupButton.Click += new System.EventHandler(this.delSupButton_Click);
-            // 
-            // changeButton
-            // 
-            this.changeButton.Location = new System.Drawing.Point(306, 496);
-            this.changeButton.Name = "changeButton";
-            this.changeButton.Size = new System.Drawing.Size(80, 38);
-            this.changeButton.TabIndex = 6;
-            this.changeButton.Text = "修改";
-            this.changeButton.UseVisualStyleBackColor = true;
-            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
-            // 
             // supplieridDataGridViewTextBoxColumn
             // 
             this.supplieridDataGridViewTextBoxColumn.DataPropertyName = "supplier_id";
@@ -230,60 +189,70 @@
             this.suppliernameDataGridViewTextBoxColumn.DataPropertyName = "supplier_name";
             this.suppliernameDataGridViewTextBoxColumn.HeaderText = "供应商";
             this.suppliernameDataGridViewTextBoxColumn.Name = "suppliernameDataGridViewTextBoxColumn";
+            this.suppliernameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // addressDataGridViewTextBoxColumn
             // 
             this.addressDataGridViewTextBoxColumn.DataPropertyName = "address";
             this.addressDataGridViewTextBoxColumn.HeaderText = "地址";
             this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            this.addressDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // codeDataGridViewTextBoxColumn
             // 
             this.codeDataGridViewTextBoxColumn.DataPropertyName = "code";
             this.codeDataGridViewTextBoxColumn.HeaderText = "邮政编码";
             this.codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
+            this.codeDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // linkmanDataGridViewTextBoxColumn
             // 
             this.linkmanDataGridViewTextBoxColumn.DataPropertyName = "linkman";
             this.linkmanDataGridViewTextBoxColumn.HeaderText = "联系人";
             this.linkmanDataGridViewTextBoxColumn.Name = "linkmanDataGridViewTextBoxColumn";
+            this.linkmanDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // phone1DataGridViewTextBoxColumn
             // 
             this.phone1DataGridViewTextBoxColumn.DataPropertyName = "phone1";
             this.phone1DataGridViewTextBoxColumn.HeaderText = "联系电话1";
             this.phone1DataGridViewTextBoxColumn.Name = "phone1DataGridViewTextBoxColumn";
+            this.phone1DataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // faxDataGridViewTextBoxColumn
             // 
             this.faxDataGridViewTextBoxColumn.DataPropertyName = "fax";
             this.faxDataGridViewTextBoxColumn.HeaderText = "传真";
             this.faxDataGridViewTextBoxColumn.Name = "faxDataGridViewTextBoxColumn";
+            this.faxDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // urlDataGridViewTextBoxColumn
             // 
             this.urlDataGridViewTextBoxColumn.DataPropertyName = "url";
             this.urlDataGridViewTextBoxColumn.HeaderText = "网址";
             this.urlDataGridViewTextBoxColumn.Name = "urlDataGridViewTextBoxColumn";
+            this.urlDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // emailDataGridViewTextBoxColumn
             // 
             this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
             this.emailDataGridViewTextBoxColumn.HeaderText = "邮箱";
             this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // openingbankDataGridViewTextBoxColumn
             // 
             this.openingbankDataGridViewTextBoxColumn.DataPropertyName = "opening_bank";
             this.openingbankDataGridViewTextBoxColumn.HeaderText = "开户行";
             this.openingbankDataGridViewTextBoxColumn.Name = "openingbankDataGridViewTextBoxColumn";
+            this.openingbankDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // bankaccountDataGridViewTextBoxColumn
             // 
             this.bankaccountDataGridViewTextBoxColumn.DataPropertyName = "bank_account";
             this.bankaccountDataGridViewTextBoxColumn.HeaderText = "银行账号";
             this.bankaccountDataGridViewTextBoxColumn.Name = "bankaccountDataGridViewTextBoxColumn";
+            this.bankaccountDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // supplierBindingSource
             // 
@@ -295,9 +264,123 @@
             this.dataDataSet.DataSetName = "dataDataSet";
             this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
+            // refreshButton
+            // 
+            this.refreshButton.Location = new System.Drawing.Point(1247, 506);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(87, 38);
+            this.refreshButton.TabIndex = 2;
+            this.refreshButton.Text = "刷新列表";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
+            // addSupButton
+            // 
+            this.addSupButton.Location = new System.Drawing.Point(220, 506);
+            this.addSupButton.Name = "addSupButton";
+            this.addSupButton.Size = new System.Drawing.Size(80, 38);
+            this.addSupButton.TabIndex = 3;
+            this.addSupButton.Text = "新增";
+            this.addSupButton.UseVisualStyleBackColor = true;
+            this.addSupButton.Click += new System.EventHandler(this.addSupButton_Click);
+            // 
+            // delSupButton
+            // 
+            this.delSupButton.Location = new System.Drawing.Point(392, 506);
+            this.delSupButton.Name = "delSupButton";
+            this.delSupButton.Size = new System.Drawing.Size(80, 38);
+            this.delSupButton.TabIndex = 5;
+            this.delSupButton.Text = "删除";
+            this.delSupButton.UseVisualStyleBackColor = true;
+            this.delSupButton.Click += new System.EventHandler(this.delSupButton_Click);
+            // 
+            // changeButton
+            // 
+            this.changeButton.Location = new System.Drawing.Point(306, 506);
+            this.changeButton.Name = "changeButton";
+            this.changeButton.Size = new System.Drawing.Size(80, 38);
+            this.changeButton.TabIndex = 6;
+            this.changeButton.Text = "修改";
+            this.changeButton.UseVisualStyleBackColor = true;
+            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
+            // 
             // supplierTableAdapter
             // 
             this.supplierTableAdapter.ClearBeforeFill = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.searchButton);
+            this.groupBox2.Controls.Add(this.linkmanBox);
+            this.groupBox2.Controls.Add(this.addrBox);
+            this.groupBox2.Controls.Add(this.supBox);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Location = new System.Drawing.Point(488, 496);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBox2.Size = new System.Drawing.Size(753, 54);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            // 
+            // linkmanBox
+            // 
+            this.linkmanBox.Location = new System.Drawing.Point(539, 20);
+            this.linkmanBox.Name = "linkmanBox";
+            this.linkmanBox.Size = new System.Drawing.Size(100, 21);
+            this.linkmanBox.TabIndex = 10;
+            // 
+            // addrBox
+            // 
+            this.addrBox.Location = new System.Drawing.Point(263, 20);
+            this.addrBox.Name = "addrBox";
+            this.addrBox.Size = new System.Drawing.Size(211, 21);
+            this.addrBox.TabIndex = 9;
+            // 
+            // supBox
+            // 
+            this.supBox.Location = new System.Drawing.Point(104, 20);
+            this.supBox.Name = "supBox";
+            this.supBox.Size = new System.Drawing.Size(106, 21);
+            this.supBox.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(480, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "联系人：";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(216, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "地址：";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(21, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "供应商名称：";
+            // 
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(667, 10);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(80, 38);
+            this.searchButton.TabIndex = 8;
+            this.searchButton.Text = "查询";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.search);
             // 
             // SupplierForm
             // 
@@ -305,9 +388,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1362, 578);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.delSupButton);
-            this.Controls.Add(this.searchButton);
             this.Controls.Add(this.addSupButton);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
@@ -320,6 +403,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -350,8 +435,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn bankaccountDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button addSupButton;
-        private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button delSupButton;
         private System.Windows.Forms.Button changeButton;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox linkmanBox;
+        private System.Windows.Forms.TextBox addrBox;
+        private System.Windows.Forms.TextBox supBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button searchButton;
     }
 }

@@ -23,7 +23,6 @@ namespace KuGuan.MForm
         {
             // TODO:  这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
             
-            this.supplierTableAdapter.Fill(this.dataDataSet.supplier);
             suptypeTable = suptypeAdapter.GetData();
             foreach (DataRow r in suptypeTable.Rows)
             {
@@ -90,7 +89,26 @@ namespace KuGuan.MForm
                         this.suptypeAdapter.DeleteByParent(id);
                         this.suptypeAdapter.DeleteById(id);
                         treeView.Nodes.Remove(node);
-                        this.supplierTableAdapter.Fill(this.dataDataSet.supplier);
+                        if (treeView.Nodes.Count != 0)
+                            treeView.SelectedNode = treeView.Nodes[0];
+                        else
+                            this.supplierTableAdapter.Fill(this.dataDataSet.supplier);
+                    }
+                }
+                else
+                {
+                    DialogResult r = MessageBox.Show(
+                        "确定删除此类别及此类别中的所有供应商？",
+                        "删除 '" + node.Text + "' 类别",
+                        MessageBoxButtons.OKCancel,
+                        MessageBoxIcon.Question);
+                    if (r == DialogResult.OK)
+                    {
+                        this.suptypeAdapter.DeleteByParent(id);
+                        this.suptypeAdapter.DeleteById(id);
+                        treeView.SelectedNode = node.Parent;
+                        treeView.Nodes.Remove(node);
+
                     }
                 }
                 if (treeView.Nodes.Count == 0) 
@@ -98,6 +116,7 @@ namespace KuGuan.MForm
                     addNextButton.Enabled = false;
                     tLabel.Text = "";
                 }
+
 
             }
 
@@ -200,6 +219,14 @@ namespace KuGuan.MForm
                 this.supplierTableAdapter.Update(this.dataDataSet);
 
             }
+        }
+
+        private void search(object sender, EventArgs e)
+        {
+            String sup = supBox.Text.Trim();
+            String addr = addrBox.Text.Trim();
+            String linkman = linkmanBox.Text.Trim();
+            this.supplierTableAdapter.FillByCondition(this.dataDataSet.supplier, sup, addr, linkman);
         }
 
     }

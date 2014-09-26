@@ -75,18 +75,18 @@
             supplier_nameLabel.AutoSize = true;
             supplier_nameLabel.Location = new System.Drawing.Point(23, 13);
             supplier_nameLabel.Name = "supplier_nameLabel";
-            supplier_nameLabel.Size = new System.Drawing.Size(89, 12);
+            supplier_nameLabel.Size = new System.Drawing.Size(47, 12);
             supplier_nameLabel.TabIndex = 3;
-            supplier_nameLabel.Text = "supplier name:";
+            supplier_nameLabel.Text = "供应商:";
             // 
             // addressLabel
             // 
             addressLabel.AutoSize = true;
             addressLabel.Location = new System.Drawing.Point(23, 46);
             addressLabel.Name = "addressLabel";
-            addressLabel.Size = new System.Drawing.Size(53, 12);
+            addressLabel.Size = new System.Drawing.Size(35, 12);
             addressLabel.TabIndex = 7;
-            addressLabel.Text = "address:";
+            addressLabel.Text = "地址:";
             // 
             // codeLabel
             // 
@@ -95,70 +95,70 @@
             codeLabel.Name = "codeLabel";
             codeLabel.Size = new System.Drawing.Size(35, 12);
             codeLabel.TabIndex = 9;
-            codeLabel.Text = "code:";
+            codeLabel.Text = "邮编:";
             // 
             // linkmanLabel
             // 
             linkmanLabel.AutoSize = true;
             linkmanLabel.Location = new System.Drawing.Point(23, 112);
             linkmanLabel.Name = "linkmanLabel";
-            linkmanLabel.Size = new System.Drawing.Size(53, 12);
+            linkmanLabel.Size = new System.Drawing.Size(47, 12);
             linkmanLabel.TabIndex = 11;
-            linkmanLabel.Text = "linkman:";
+            linkmanLabel.Text = "联系人:";
             // 
             // phone1Label
             // 
             phone1Label.AutoSize = true;
             phone1Label.Location = new System.Drawing.Point(23, 145);
             phone1Label.Name = "phone1Label";
-            phone1Label.Size = new System.Drawing.Size(47, 12);
+            phone1Label.Size = new System.Drawing.Size(59, 12);
             phone1Label.TabIndex = 13;
-            phone1Label.Text = "phone1:";
+            phone1Label.Text = "联系电话:";
             // 
             // faxLabel
             // 
             faxLabel.AutoSize = true;
             faxLabel.Location = new System.Drawing.Point(23, 178);
             faxLabel.Name = "faxLabel";
-            faxLabel.Size = new System.Drawing.Size(29, 12);
+            faxLabel.Size = new System.Drawing.Size(35, 12);
             faxLabel.TabIndex = 15;
-            faxLabel.Text = "fax:";
+            faxLabel.Text = "传真:";
             // 
             // urlLabel
             // 
             urlLabel.AutoSize = true;
             urlLabel.Location = new System.Drawing.Point(23, 211);
             urlLabel.Name = "urlLabel";
-            urlLabel.Size = new System.Drawing.Size(29, 12);
+            urlLabel.Size = new System.Drawing.Size(35, 12);
             urlLabel.TabIndex = 17;
-            urlLabel.Text = "url:";
+            urlLabel.Text = "网址:";
             // 
             // emailLabel
             // 
             emailLabel.AutoSize = true;
             emailLabel.Location = new System.Drawing.Point(23, 244);
             emailLabel.Name = "emailLabel";
-            emailLabel.Size = new System.Drawing.Size(41, 12);
+            emailLabel.Size = new System.Drawing.Size(35, 12);
             emailLabel.TabIndex = 19;
-            emailLabel.Text = "email:";
+            emailLabel.Text = "邮箱:";
             // 
             // opening_bankLabel
             // 
             opening_bankLabel.AutoSize = true;
             opening_bankLabel.Location = new System.Drawing.Point(23, 277);
             opening_bankLabel.Name = "opening_bankLabel";
-            opening_bankLabel.Size = new System.Drawing.Size(83, 12);
+            opening_bankLabel.Size = new System.Drawing.Size(47, 12);
             opening_bankLabel.TabIndex = 21;
-            opening_bankLabel.Text = "opening bank:";
+            opening_bankLabel.Text = "开户行:";
             // 
             // bank_accountLabel
             // 
             bank_accountLabel.AutoSize = true;
             bank_accountLabel.Location = new System.Drawing.Point(23, 310);
             bank_accountLabel.Name = "bank_accountLabel";
-            bank_accountLabel.Size = new System.Drawing.Size(83, 12);
+            bank_accountLabel.Size = new System.Drawing.Size(59, 12);
             bank_accountLabel.TabIndex = 23;
-            bank_accountLabel.Text = "bank account:";
+            bank_accountLabel.Text = "银行账户:";
             // 
             // dataDataSet
             // 
