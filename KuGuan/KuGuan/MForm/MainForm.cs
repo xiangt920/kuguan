@@ -24,16 +24,16 @@ namespace KuGuan.MForm
         {
             InitializeComponent();
             this.Visible = false;
-            FormInit();
-            //DialogResult result = this.loginForm.ShowDialog(this);
-            //if (result == DialogResult.OK)
-            //{
-            //    FormInit();
-            //}
-            //else
-            //{
-            //    ExitSys();
-            //}
+            //FormInit();
+            DialogResult result = this.loginForm.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                FormInit();
+            }
+            else
+            {
+                ExitSys();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -82,6 +82,11 @@ namespace KuGuan.MForm
             sup.MdiParent = this;
             sup.WindowState = FormWindowState.Maximized;
             sup.Show();
+        }
+
+        private void 计量单位设置UToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
