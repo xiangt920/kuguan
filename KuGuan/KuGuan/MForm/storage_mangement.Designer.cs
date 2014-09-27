@@ -185,7 +185,7 @@
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            this.tableAdapterManager.userTableAdapter = null;
+            //this.tableAdapterManager.userTableAdapter = null;
             // 
             // storage_managementBindingSource
             // 

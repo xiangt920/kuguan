@@ -56,6 +56,7 @@
             this.cfmButton = new System.Windows.Forms.Button();
             this.cnlButton = new System.Windows.Forms.Button();
             this.typeBox = new System.Windows.Forms.TextBox();
+            this.idBox = new System.Windows.Forms.TextBox();
             supplier_nameLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             codeLabel = new System.Windows.Forms.Label();
@@ -78,6 +79,7 @@
             supplier_nameLabel.Size = new System.Drawing.Size(47, 12);
             supplier_nameLabel.TabIndex = 3;
             supplier_nameLabel.Text = "供应商:";
+            supplier_nameLabel.Click += new System.EventHandler(this.supplier_nameLabel_Click);
             // 
             // addressLabel
             // 
@@ -87,6 +89,7 @@
             addressLabel.Size = new System.Drawing.Size(35, 12);
             addressLabel.TabIndex = 7;
             addressLabel.Text = "地址:";
+            addressLabel.Click += new System.EventHandler(this.addressLabel_Click);
             // 
             // codeLabel
             // 
@@ -96,6 +99,7 @@
             codeLabel.Size = new System.Drawing.Size(35, 12);
             codeLabel.TabIndex = 9;
             codeLabel.Text = "邮编:";
+            codeLabel.Click += new System.EventHandler(this.codeLabel_Click);
             // 
             // linkmanLabel
             // 
@@ -105,6 +109,7 @@
             linkmanLabel.Size = new System.Drawing.Size(47, 12);
             linkmanLabel.TabIndex = 11;
             linkmanLabel.Text = "联系人:";
+            linkmanLabel.Click += new System.EventHandler(this.linkmanLabel_Click);
             // 
             // phone1Label
             // 
@@ -114,6 +119,7 @@
             phone1Label.Size = new System.Drawing.Size(59, 12);
             phone1Label.TabIndex = 13;
             phone1Label.Text = "联系电话:";
+            phone1Label.Click += new System.EventHandler(this.phone1Label_Click);
             // 
             // faxLabel
             // 
@@ -123,6 +129,7 @@
             faxLabel.Size = new System.Drawing.Size(35, 12);
             faxLabel.TabIndex = 15;
             faxLabel.Text = "传真:";
+            faxLabel.Click += new System.EventHandler(this.faxLabel_Click);
             // 
             // urlLabel
             // 
@@ -132,6 +139,7 @@
             urlLabel.Size = new System.Drawing.Size(35, 12);
             urlLabel.TabIndex = 17;
             urlLabel.Text = "网址:";
+            urlLabel.Click += new System.EventHandler(this.urlLabel_Click);
             // 
             // emailLabel
             // 
@@ -141,6 +149,7 @@
             emailLabel.Size = new System.Drawing.Size(35, 12);
             emailLabel.TabIndex = 19;
             emailLabel.Text = "邮箱:";
+            emailLabel.Click += new System.EventHandler(this.emailLabel_Click);
             // 
             // opening_bankLabel
             // 
@@ -150,6 +159,7 @@
             opening_bankLabel.Size = new System.Drawing.Size(47, 12);
             opening_bankLabel.TabIndex = 21;
             opening_bankLabel.Text = "开户行:";
+            opening_bankLabel.Click += new System.EventHandler(this.opening_bankLabel_Click);
             // 
             // bank_accountLabel
             // 
@@ -159,6 +169,7 @@
             bank_accountLabel.Size = new System.Drawing.Size(59, 12);
             bank_accountLabel.TabIndex = 23;
             bank_accountLabel.Text = "银行账户:";
+            bank_accountLabel.Click += new System.EventHandler(this.bank_accountLabel_Click);
             // 
             // dataDataSet
             // 
@@ -179,9 +190,10 @@
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = this.supplierTableAdapter;
+            this.tableAdapterManager.unitTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            this.tableAdapterManager.userTableAdapter = null;
             // 
             // supplier_nameTextBox
             // 
@@ -190,6 +202,7 @@
             this.supplier_nameTextBox.Name = "supplier_nameTextBox";
             this.supplier_nameTextBox.Size = new System.Drawing.Size(100, 21);
             this.supplier_nameTextBox.TabIndex = 4;
+            this.supplier_nameTextBox.TextChanged += new System.EventHandler(this.supplier_nameTextBox_TextChanged);
             // 
             // addressTextBox
             // 
@@ -198,6 +211,7 @@
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(100, 21);
             this.addressTextBox.TabIndex = 8;
+            this.addressTextBox.TextChanged += new System.EventHandler(this.addressTextBox_TextChanged);
             // 
             // codeTextBox
             // 
@@ -206,6 +220,7 @@
             this.codeTextBox.Name = "codeTextBox";
             this.codeTextBox.Size = new System.Drawing.Size(100, 21);
             this.codeTextBox.TabIndex = 10;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // linkmanTextBox
             // 
@@ -214,6 +229,7 @@
             this.linkmanTextBox.Name = "linkmanTextBox";
             this.linkmanTextBox.Size = new System.Drawing.Size(100, 21);
             this.linkmanTextBox.TabIndex = 12;
+            this.linkmanTextBox.TextChanged += new System.EventHandler(this.linkmanTextBox_TextChanged);
             // 
             // phone1TextBox
             // 
@@ -222,6 +238,7 @@
             this.phone1TextBox.Name = "phone1TextBox";
             this.phone1TextBox.Size = new System.Drawing.Size(100, 21);
             this.phone1TextBox.TabIndex = 14;
+            this.phone1TextBox.TextChanged += new System.EventHandler(this.phone1TextBox_TextChanged);
             // 
             // faxTextBox
             // 
@@ -230,6 +247,7 @@
             this.faxTextBox.Name = "faxTextBox";
             this.faxTextBox.Size = new System.Drawing.Size(100, 21);
             this.faxTextBox.TabIndex = 16;
+            this.faxTextBox.TextChanged += new System.EventHandler(this.faxTextBox_TextChanged);
             // 
             // urlTextBox
             // 
@@ -238,6 +256,7 @@
             this.urlTextBox.Name = "urlTextBox";
             this.urlTextBox.Size = new System.Drawing.Size(100, 21);
             this.urlTextBox.TabIndex = 18;
+            this.urlTextBox.TextChanged += new System.EventHandler(this.urlTextBox_TextChanged);
             // 
             // emailTextBox
             // 
@@ -246,6 +265,7 @@
             this.emailTextBox.Name = "emailTextBox";
             this.emailTextBox.Size = new System.Drawing.Size(100, 21);
             this.emailTextBox.TabIndex = 20;
+            this.emailTextBox.TextChanged += new System.EventHandler(this.emailTextBox_TextChanged);
             // 
             // opening_bankTextBox
             // 
@@ -254,6 +274,7 @@
             this.opening_bankTextBox.Name = "opening_bankTextBox";
             this.opening_bankTextBox.Size = new System.Drawing.Size(100, 21);
             this.opening_bankTextBox.TabIndex = 22;
+            this.opening_bankTextBox.TextChanged += new System.EventHandler(this.opening_bankTextBox_TextChanged);
             // 
             // bank_accountTextBox
             // 
@@ -262,6 +283,7 @@
             this.bank_accountTextBox.Name = "bank_accountTextBox";
             this.bank_accountTextBox.Size = new System.Drawing.Size(100, 21);
             this.bank_accountTextBox.TabIndex = 24;
+            this.bank_accountTextBox.TextChanged += new System.EventHandler(this.bank_accountTextBox_TextChanged);
             // 
             // cfmButton
             // 
@@ -291,11 +313,20 @@
             this.typeBox.Size = new System.Drawing.Size(100, 21);
             this.typeBox.TabIndex = 27;
             // 
+            // idBox
+            // 
+            this.idBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "supplier_id", true));
+            this.idBox.Location = new System.Drawing.Point(-7600, 186);
+            this.idBox.Name = "idBox";
+            this.idBox.Size = new System.Drawing.Size(100, 21);
+            this.idBox.TabIndex = 28;
+            // 
             // ChgSupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 393);
+            this.Controls.Add(this.idBox);
             this.Controls.Add(this.typeBox);
             this.Controls.Add(this.cnlButton);
             this.Controls.Add(this.cfmButton);
@@ -352,6 +383,7 @@
         private System.Windows.Forms.Button cfmButton;
         private System.Windows.Forms.Button cnlButton;
         private System.Windows.Forms.TextBox typeBox;
+        private System.Windows.Forms.TextBox idBox;
 
     }
 }

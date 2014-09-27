@@ -24,16 +24,16 @@ namespace KuGuan.MForm
         {
             InitializeComponent();
             this.Visible = false;
-            //FormInit();
-            DialogResult result = this.loginForm.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                FormInit();
-            }
-            else
-            {
-                ExitSys();
-            }
+            FormInit();
+            //DialogResult result = this.loginForm.ShowDialog(this);
+            //if (result == DialogResult.OK)
+            //{
+            //    FormInit();
+            //}
+            //else
+            //{
+            //    ExitSys();
+            //}
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -86,11 +86,34 @@ namespace KuGuan.MForm
 
         private void 计量单位设置UToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            unit sup = new unit();
-            sup.WindowState = FormWindowState.Normal;
-            sup.MdiParent = this;
-            sup.Show();
+            unit u = new unit();
+            u.WindowState = FormWindowState.Normal;
+            u.MdiParent = this;
+            u.Show();
+        }
 
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            CustomerForm cus = new CustomerForm();
+            cus.MdiParent = this;
+            cus.WindowState = FormWindowState.Maximized;
+            cus.Show();
+        }
+
+        private void 仓库设置CToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoreForm s = new StoreForm();
+            s.WindowState = FormWindowState.Normal;
+            s.MdiParent = this;
+            s.Show();
+        }
+
+        private void 货品设置HToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProductForm pro = new ProductForm();
+            pro.MdiParent = this;
+            pro.WindowState = FormWindowState.Maximized;
+            pro.Show();
         }
     }
 }

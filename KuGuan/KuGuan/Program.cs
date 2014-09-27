@@ -16,7 +16,7 @@ namespace KuGuan
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new storage_mangement());
+            Application.Run(new MainForm());
         }
     }
 }
