@@ -51,7 +51,7 @@ namespace KuGuan.MForm
                 MessageBox.Show("两次新密码输入不相同！");
                 return;
             }
-            int count = userTable.changePwd(user.UserId,newpwd);
+            int count = userTable.changePasswd(newpwd, user.UserId);
             if (count != 1)
             {
                 MessageBox.Show("密码修改失败！");

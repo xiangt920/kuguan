@@ -83,5 +83,14 @@ namespace KuGuan.MForm
             sup.WindowState = FormWindowState.Maximized;
             sup.Show();
         }
+
+        private void 计量单位设置UToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            unit sup = new unit();
+            sup.WindowState = FormWindowState.Normal;
+            sup.MdiParent = this;
+            sup.Show();
+
+        }
     }
 }
