@@ -30,8 +30,8 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.档案设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.销售商档案设置XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.供货商档案设置GToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.销售商档案设置XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.计量单位设置UToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.货品设置HToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,19 +52,20 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.unitLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.storeButton = new System.Windows.Forms.ToolStripButton();
+            this.供货商设置toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.销售商设置toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.仓库设置toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.storageButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.入库管理toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.出口管理toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.调库管理toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.库存查询toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.单据查询toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.logoutButton = new System.Windows.Forms.ToolStripButton();
-            this.exitButton = new System.Windows.Forms.ToolStripButton();
+            this.注销toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.退出toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -85,8 +86,8 @@
             // 档案设置ToolStripMenuItem
             // 
             this.档案设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.销售商档案设置XToolStripMenuItem,
             this.供货商档案设置GToolStripMenuItem,
+            this.销售商档案设置XToolStripMenuItem,
             this.toolStripSeparator1,
             this.计量单位设置UToolStripMenuItem,
             this.货品设置HToolStripMenuItem,
@@ -95,19 +96,19 @@
             this.档案设置ToolStripMenuItem.Size = new System.Drawing.Size(85, 21);
             this.档案设置ToolStripMenuItem.Text = "档案设置(&D)";
             // 
-            // 销售商档案设置XToolStripMenuItem
-            // 
-            this.销售商档案设置XToolStripMenuItem.Name = "销售商档案设置XToolStripMenuItem";
-            this.销售商档案设置XToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.销售商档案设置XToolStripMenuItem.Text = "销售商档案设置(&X)";
-            this.销售商档案设置XToolStripMenuItem.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
             // 供货商档案设置GToolStripMenuItem
             // 
             this.供货商档案设置GToolStripMenuItem.Name = "供货商档案设置GToolStripMenuItem";
             this.供货商档案设置GToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.供货商档案设置GToolStripMenuItem.Text = "供货商档案设置(&G)";
-            this.供货商档案设置GToolStripMenuItem.Click += new System.EventHandler(this.供货商档案设置GToolStripMenuItem_Click);
+            this.供货商档案设置GToolStripMenuItem.Text = "供应商档案设置(&G)";
+            this.供货商档案设置GToolStripMenuItem.Click += new System.EventHandler(this.供货商设置GToolStripMenuItem_Click);
+            // 
+            // 销售商档案设置XToolStripMenuItem
+            // 
+            this.销售商档案设置XToolStripMenuItem.Name = "销售商档案设置XToolStripMenuItem";
+            this.销售商档案设置XToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.销售商档案设置XToolStripMenuItem.Text = "客户档案设置(&X)";
+            this.销售商档案设置XToolStripMenuItem.Click += new System.EventHandler(this.销售商设置GToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -259,145 +260,156 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(48, 48);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.storeButton,
+            this.供货商设置toolStripButton,
+            this.销售商设置toolStripButton,
+            this.仓库设置toolStripButton,
             this.toolStripSeparator3,
-            this.storageButton,
-            this.toolStripButton5,
-            this.toolStripButton6,
+            this.入库管理toolStripButton,
+            this.出口管理toolStripButton,
+            this.调库管理toolStripButton,
             this.toolStripSeparator4,
-            this.toolStripButton7,
-            this.toolStripButton8,
+            this.库存查询toolStripButton,
+            this.单据查询toolStripButton,
             this.toolStripSeparator5,
-            this.logoutButton,
-            this.exitButton});
+            this.注销toolStripButton,
+            this.退出toolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1248, 55);
+            this.toolStrip1.Size = new System.Drawing.Size(1248, 72);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // 供货商设置toolStripButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::KuGuan.Properties.Resources._1_供货商;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton1.Text = "供应商设置";
-            this.toolStripButton1.Click += new System.EventHandler(this.供货商档案设置GToolStripMenuItem_Click);
+            this.供货商设置toolStripButton.Image = global::KuGuan.Properties.Resources._1_供货商;
+            this.供货商设置toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.供货商设置toolStripButton.Name = "供货商设置toolStripButton";
+            this.供货商设置toolStripButton.Size = new System.Drawing.Size(72, 69);
+            this.供货商设置toolStripButton.Text = "供应商设置";
+            this.供货商设置toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.供货商设置toolStripButton.Click += new System.EventHandler(this.供货商设置GToolStripMenuItem_Click);
             // 
-            // toolStripButton2
+            // 销售商设置toolStripButton
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::KuGuan.Properties.Resources._1_出货商;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton2.Text = "客户设置";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.销售商设置toolStripButton.Image = global::KuGuan.Properties.Resources._1_出货商;
+            this.销售商设置toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.销售商设置toolStripButton.Name = "销售商设置toolStripButton";
+            this.销售商设置toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.销售商设置toolStripButton.Text = "客户设置";
+            this.销售商设置toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.销售商设置toolStripButton.Click += new System.EventHandler(this.销售商设置GToolStripMenuItem_Click);
             // 
-            // storeButton
+            // 仓库设置toolStripButton
             // 
-            this.storeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.storeButton.Image = global::KuGuan.Properties.Resources._1_仓库设置;
-            this.storeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.storeButton.Name = "storeButton";
-            this.storeButton.Size = new System.Drawing.Size(52, 52);
-            this.storeButton.Text = "仓库设置";
-            this.storeButton.Click += new System.EventHandler(this.仓库设置CToolStripMenuItem_Click);
+            this.仓库设置toolStripButton.Image = global::KuGuan.Properties.Resources._1_仓库设置;
+            this.仓库设置toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.仓库设置toolStripButton.Name = "仓库设置toolStripButton";
+            this.仓库设置toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.仓库设置toolStripButton.Text = "仓库设置";
+            this.仓库设置toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.仓库设置toolStripButton.Click += new System.EventHandler(this.仓库设置CToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.AutoSize = false;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(16, 55);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(25, 55);
             // 
-            // storageButton
+            // 入库管理toolStripButton
             // 
-            this.storageButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.storageButton.Image = global::KuGuan.Properties.Resources._2_入库管理;
-            this.storageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.storageButton.Name = "storageButton";
-            this.storageButton.Size = new System.Drawing.Size(52, 52);
-            this.storageButton.Text = "入库管理";
-            this.storageButton.Click += new System.EventHandler(this.storageButton_Click);
+            this.入库管理toolStripButton.Image = global::KuGuan.Properties.Resources._2_入库管理;
+            this.入库管理toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.入库管理toolStripButton.Name = "入库管理toolStripButton";
+            this.入库管理toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.入库管理toolStripButton.Text = "入库管理";
+            this.入库管理toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.入库管理toolStripButton.Click += new System.EventHandler(this.入库管理Button_Click);
             // 
-            // toolStripButton5
+            // 出口管理toolStripButton
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = global::KuGuan.Properties.Resources._2_出库管理;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton5.Text = "出库管理";
-            this.toolStripButton5.Click += new System.EventHandler(this.出库管理OToolStripMenuItem_Click);
+            this.出口管理toolStripButton.Image = global::KuGuan.Properties.Resources._2_出库管理;
+            this.出口管理toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.出口管理toolStripButton.Name = "出口管理toolStripButton";
+            this.出口管理toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.出口管理toolStripButton.Text = "出库管理";
+            this.出口管理toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.出口管理toolStripButton.Click += new System.EventHandler(this.出库管理OToolStripMenuItem_Click);
             // 
-            // toolStripButton6
+            // 调库管理toolStripButton
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = global::KuGuan.Properties.Resources._2_调库管理;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton6.Text = "toolStripButton6";
+            this.调库管理toolStripButton.Image = global::KuGuan.Properties.Resources._2_调库管理;
+            this.调库管理toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.调库管理toolStripButton.Name = "调库管理toolStripButton";
+            this.调库管理toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.调库管理toolStripButton.Text = "调库管理";
+            this.调库管理toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.调库管理toolStripButton.Click += new System.EventHandler(this.调库管理toolStripButton_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.AutoSize = false;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(16, 55);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(25, 55);
             // 
-            // toolStripButton7
+            // 库存查询toolStripButton
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Image = global::KuGuan.Properties.Resources._3_仓库查询;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton7.Text = "toolStripButton7";
+            this.库存查询toolStripButton.Image = global::KuGuan.Properties.Resources._3_仓库查询;
+            this.库存查询toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.库存查询toolStripButton.Name = "库存查询toolStripButton";
+            this.库存查询toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.库存查询toolStripButton.Text = "库存查询";
+            this.库存查询toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // toolStripButton8
+            // 单据查询toolStripButton
             // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton8.Image = global::KuGuan.Properties.Resources._3_单据查询;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(52, 52);
-            this.toolStripButton8.Text = "toolStripButton8";
+            this.单据查询toolStripButton.Image = global::KuGuan.Properties.Resources._3_单据查询;
+            this.单据查询toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.单据查询toolStripButton.Name = "单据查询toolStripButton";
+            this.单据查询toolStripButton.Size = new System.Drawing.Size(60, 69);
+            this.单据查询toolStripButton.Text = "单据查询";
+            this.单据查询toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.AutoSize = false;
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(16, 55);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(25, 55);
             // 
-            // logoutButton
+            // 注销toolStripButton
             // 
-            this.logoutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.logoutButton.Image = global::KuGuan.Properties.Resources.注销;
-            this.logoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.logoutButton.Name = "logoutButton";
-            this.logoutButton.Size = new System.Drawing.Size(52, 52);
-            this.logoutButton.Text = "注销";
-            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
+            this.注销toolStripButton.Image = global::KuGuan.Properties.Resources.注销;
+            this.注销toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.注销toolStripButton.Name = "注销toolStripButton";
+            this.注销toolStripButton.Size = new System.Drawing.Size(52, 69);
+            this.注销toolStripButton.Text = "注销";
+            this.注销toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.注销toolStripButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
-            // exitButton
+            // 退出toolStripButton
             // 
-            this.exitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.exitButton.Image = global::KuGuan.Properties.Resources.退出;
-            this.exitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(52, 52);
-            this.exitButton.Text = "退出";
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.退出toolStripButton.Image = global::KuGuan.Properties.Resources.退出;
+            this.退出toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.退出toolStripButton.Name = "退出toolStripButton";
+            this.退出toolStripButton.Size = new System.Drawing.Size(52, 69);
+            this.退出toolStripButton.Text = "退出";
+            this.退出toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.退出toolStripButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
+            // dockPanel
+            // 
+            this.dockPanel.ActiveAutoHideContent = null;
+            this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockPanel.Location = new System.Drawing.Point(0, 97);
+            this.dockPanel.Name = "dockPanel";
+            this.dockPanel.Size = new System.Drawing.Size(1248, 447);
+            this.dockPanel.TabIndex = 4;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1248, 566);
+            this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -444,19 +456,20 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem 入库单据查询IToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton storeButton;
+        private System.Windows.Forms.ToolStripButton 供货商设置toolStripButton;
+        private System.Windows.Forms.ToolStripButton 销售商设置toolStripButton;
+        private System.Windows.Forms.ToolStripButton 仓库设置toolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton storageButton;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton 入库管理toolStripButton;
+        private System.Windows.Forms.ToolStripButton 出口管理toolStripButton;
+        private System.Windows.Forms.ToolStripButton 调库管理toolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
+        private System.Windows.Forms.ToolStripButton 库存查询toolStripButton;
+        private System.Windows.Forms.ToolStripButton 单据查询toolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripButton logoutButton;
-        private System.Windows.Forms.ToolStripButton exitButton;
+        private System.Windows.Forms.ToolStripButton 注销toolStripButton;
+        private System.Windows.Forms.ToolStripButton 退出toolStripButton;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
     }
 }
 

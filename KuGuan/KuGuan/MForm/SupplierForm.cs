@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace KuGuan.MForm
 {
-    public partial class SupplierForm : Form
+    public partial class SupplierForm : DockContent
     {
         private dataDataSetTableAdapters.supplier_typeTableAdapter suptypeAdapter = new dataDataSetTableAdapters.supplier_typeTableAdapter();
         private DataTable suptypeTable;

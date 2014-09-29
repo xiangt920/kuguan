@@ -302,10 +302,10 @@
             this.groupBox1.Controls.Add(this.treeView);
             this.groupBox1.Location = new System.Drawing.Point(21, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 688);
+            this.groupBox1.Size = new System.Drawing.Size(201, 568);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "客户类别结构图";
+            this.groupBox1.Text = "供应商商类别结构图";
             // 
             // productTableAdapter
             // 
@@ -315,7 +315,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 578);
+            this.ClientSize = new System.Drawing.Size(1354, 578);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.delSupButton);
@@ -323,10 +323,10 @@
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
+            this.HideOnClose = true;
             this.Name = "ProductForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.TabText = "货品设置";
             this.Text = "货品设置";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.ProductForm_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

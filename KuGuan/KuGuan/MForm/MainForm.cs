@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace KuGuan.MForm
 {
@@ -40,6 +41,34 @@ namespace KuGuan.MForm
         {
             
 
+        }
+
+        private DockContent FindDocument(string text)
+        {
+            if (dockPanel.DocumentStyle == DocumentStyle.SystemMdi)
+            {
+                foreach (Form form in MdiChildren)
+                {
+                    if (form.Text == text)
+                    {
+                        return form as DockContent;
+                    }
+                }
+
+                return null;
+            }
+            else
+            {
+                foreach (DockContent content in dockPanel.Documents)
+                {
+                    if (content.DockHandler.TabText == text)
+                    {
+                        return content;
+                    }
+                }
+
+                return null;
+            }
         }
 
         private void FormInit()
@@ -76,62 +105,84 @@ namespace KuGuan.MForm
             }
         }
 
-        private void 供货商档案设置GToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 供货商设置GToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SupplierForm sup = new SupplierForm();
-            sup.MdiParent = this;
-            sup.WindowState = FormWindowState.Maximized;
-            sup.Show();
+            DockContent frm = FindDocument("供应商设置");
+            if (frm == null)
+                frm = new SupplierForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 销售商设置GToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("客户设置");
+            if (frm == null)
+                frm = new CustomerForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
 
         private void 计量单位设置UToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            unit u = new unit();
-            u.WindowState = FormWindowState.Normal;
-            u.MdiParent = this;
-            u.Show();
-        }
+            DockContent frm = FindDocument("计量单位");
+            if (frm == null)
+                frm = new unit();
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            CustomerForm cus = new CustomerForm();
-            cus.MdiParent = this;
-            cus.WindowState = FormWindowState.Maximized;
-            cus.Show();
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
 
         private void 仓库设置CToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StoreForm s = new StoreForm();
-            s.WindowState = FormWindowState.Normal;
-            s.MdiParent = this;
-            s.Show();
+            DockContent frm = FindDocument("仓库设置");
+            if (frm == null)
+                frm = new StoreForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
 
         private void 货品设置HToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProductForm pro = new ProductForm();
-            pro.MdiParent = this;
-            pro.WindowState = FormWindowState.Maximized;
-            pro.Show();
+            DockContent frm = FindDocument("货品设置");
+            if (frm == null)
+                frm = new ProductForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
 
-        private void storageButton_Click(object sender, EventArgs e)
+        private void 入库管理Button_Click(object sender, EventArgs e)
         {
-            storage_management st = new storage_management();
+            DockContent frm = FindDocument("入库管理");
+            if (frm == null)
+                frm = new storage_management();
 
-            st.MdiParent = this;
-            st.WindowState = FormWindowState.Normal;
-            st.Show();
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
 
         private void 出库管理OToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            out_management st = new out_management();
+            DockContent frm = FindDocument("出库管理");
+            if (frm == null)
+                frm = new out_management();
 
-            st.MdiParent = this;
-            st.WindowState = FormWindowState.Normal;
-            st.Show();
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 调库管理toolStripButton_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("调库管理");
+            if(frm == null)
+                frm = new exchange_management();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
         }
     }
 }

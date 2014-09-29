@@ -115,9 +115,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(21, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 5;
-            this.label2.Text = "客户名称：";
+            this.label2.Text = "销售商名称：";
             // 
             // groupBox2
             // 
@@ -128,7 +128,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(481, 493);
+            this.groupBox2.Location = new System.Drawing.Point(495, 502);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.groupBox2.Size = new System.Drawing.Size(753, 54);
@@ -146,7 +146,7 @@
             // 
             // changeButton
             // 
-            this.changeButton.Location = new System.Drawing.Point(299, 503);
+            this.changeButton.Location = new System.Drawing.Point(313, 512);
             this.changeButton.Name = "changeButton";
             this.changeButton.Size = new System.Drawing.Size(80, 38);
             this.changeButton.TabIndex = 13;
@@ -156,7 +156,7 @@
             // 
             // delSupButton
             // 
-            this.delSupButton.Location = new System.Drawing.Point(385, 503);
+            this.delSupButton.Location = new System.Drawing.Point(399, 512);
             this.delSupButton.Name = "delSupButton";
             this.delSupButton.Size = new System.Drawing.Size(80, 38);
             this.delSupButton.TabIndex = 12;
@@ -166,7 +166,7 @@
             // 
             // addSupButton
             // 
-            this.addSupButton.Location = new System.Drawing.Point(213, 503);
+            this.addSupButton.Location = new System.Drawing.Point(228, 512);
             this.addSupButton.Name = "addSupButton";
             this.addSupButton.Size = new System.Drawing.Size(80, 38);
             this.addSupButton.TabIndex = 11;
@@ -176,7 +176,7 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(1240, 503);
+            this.refreshButton.Location = new System.Drawing.Point(1255, 512);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(87, 38);
             this.refreshButton.TabIndex = 10;
@@ -204,13 +204,13 @@
             this.openingbankDataGridViewTextBoxColumn,
             this.bankaccountDataGridViewTextBoxColumn});
             this.dataGridView.DataSource = this.customerBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(213, 30);
+            this.dataGridView.Location = new System.Drawing.Point(228, 29);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowTemplate.Height = 23;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(1114, 457);
+            this.dataGridView.Size = new System.Drawing.Size(1114, 448);
             this.dataGridView.TabIndex = 9;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             // 
@@ -220,6 +220,7 @@
             this.customeridDataGridViewTextBoxColumn.HeaderText = "编号";
             this.customeridDataGridViewTextBoxColumn.Name = "customeridDataGridViewTextBoxColumn";
             this.customeridDataGridViewTextBoxColumn.ReadOnly = true;
+            this.customeridDataGridViewTextBoxColumn.Width = 70;
             // 
             // customernameDataGridViewTextBoxColumn
             // 
@@ -303,7 +304,7 @@
             // 
             // addNextButton
             // 
-            this.addNextButton.Location = new System.Drawing.Point(70, 521);
+            this.addNextButton.Location = new System.Drawing.Point(70, 506);
             this.addNextButton.Name = "addNextButton";
             this.addNextButton.Size = new System.Drawing.Size(63, 35);
             this.addNextButton.TabIndex = 5;
@@ -313,7 +314,7 @@
             // 
             // delButton
             // 
-            this.delButton.Location = new System.Drawing.Point(135, 521);
+            this.delButton.Location = new System.Drawing.Point(135, 506);
             this.delButton.Name = "delButton";
             this.delButton.Size = new System.Drawing.Size(61, 35);
             this.delButton.TabIndex = 4;
@@ -323,7 +324,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(6, 521);
+            this.addButton.Location = new System.Drawing.Point(6, 506);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(62, 35);
             this.addButton.TabIndex = 3;
@@ -336,7 +337,7 @@
             this.tLabel.BackColor = System.Drawing.SystemColors.HighlightText;
             this.tLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tLabel.ForeColor = System.Drawing.Color.Red;
-            this.tLabel.Location = new System.Drawing.Point(66, 489);
+            this.tLabel.Location = new System.Drawing.Point(66, 474);
             this.tLabel.Name = "tLabel";
             this.tLabel.ReadOnly = true;
             this.tLabel.Size = new System.Drawing.Size(129, 21);
@@ -347,7 +348,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 493);
+            this.label1.Location = new System.Drawing.Point(7, 478);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
@@ -358,7 +359,7 @@
             this.treeView.LabelEdit = true;
             this.treeView.Location = new System.Drawing.Point(6, 20);
             this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(189, 457);
+            this.treeView.Size = new System.Drawing.Size(189, 448);
             this.treeView.TabIndex = 0;
             this.treeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_AfterLabelEdit);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
@@ -371,9 +372,9 @@
             this.groupBox1.Controls.Add(this.tLabel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.treeView);
-            this.groupBox1.Location = new System.Drawing.Point(6, 10);
+            this.groupBox1.Location = new System.Drawing.Point(21, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 688);
+            this.groupBox1.Size = new System.Drawing.Size(201, 549);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "客户类别结构图";
@@ -386,7 +387,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 578);
+            this.ClientSize = new System.Drawing.Size(1354, 578);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.delSupButton);
@@ -394,7 +395,9 @@
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
+            this.HideOnClose = true;
             this.Name = "CustomerForm";
+            this.TabText = "客户设置";
             this.Text = "客户设置";
             this.Load += new System.EventHandler(this.CustomerForm_Load);
             this.groupBox2.ResumeLayout(false);

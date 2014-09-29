@@ -34,12 +34,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button3 = new System.Windows.Forms.Button();
             this.unitDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataDataSet = new KuGuan.dataDataSet();
             this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unit_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.unitDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
@@ -81,31 +81,6 @@
             this.unitDataGridView.Size = new System.Drawing.Size(207, 217);
             this.unitDataGridView.TabIndex = 4;
             // 
-            // unitBindingSource
-            // 
-            this.unitBindingSource.DataMember = "unit";
-            this.unitBindingSource.DataSource = this.dataDataSet;
-            // 
-            // dataDataSet
-            // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // unitTableAdapter
-            // 
-            this.unitTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.customer_typeTableAdapter = null;
-            this.tableAdapterManager.customerTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
-            this.tableAdapterManager.supplier_typeTableAdapter = null;
-            this.tableAdapterManager.supplierTableAdapter = null;
-            this.tableAdapterManager.unitTableAdapter = this.unitTableAdapter;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.DataPropertyName = "unit";
@@ -126,6 +101,32 @@
             this.unit_id.Visible = false;
             this.unit_id.Width = 5;
             // 
+            // unitBindingSource
+            // 
+            this.unitBindingSource.DataMember = "unit";
+            this.unitBindingSource.DataSource = this.dataDataSet;
+            // 
+            // dataDataSet
+            // 
+            this.dataDataSet.DataSetName = "dataDataSet";
+            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // unitTableAdapter
+            // 
+            this.unitTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.customer_typeTableAdapter = null;
+            this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.supplier_typeTableAdapter = null;
+            this.tableAdapterManager.supplierTableAdapter = null;
+            this.tableAdapterManager.unitTableAdapter = this.unitTableAdapter;
+            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
             // unit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -133,8 +134,10 @@
             this.ClientSize = new System.Drawing.Size(232, 324);
             this.Controls.Add(this.unitDataGridView);
             this.Controls.Add(this.button3);
+            this.HideOnClose = true;
             this.Name = "unit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.TabText = "计量单位";
             this.Text = "计量单位";
             this.Load += new System.EventHandler(this.unit_Load);
             ((System.ComponentModel.ISupportInitialize)(this.unitDataGridView)).EndInit();

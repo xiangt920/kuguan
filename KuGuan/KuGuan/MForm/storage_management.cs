@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace KuGuan.MForm
 {
-    public partial class storage_management : Form
+    public partial class storage_management : DockContent
     {
         private choose_supplier C = new choose_supplier();
         private choose_product P = new choose_product();
@@ -70,32 +71,32 @@ namespace KuGuan.MForm
 
             if (sidBox.Text == "")
             {
-                System.Windows.Forms.MessageBox.Show("请您选择仓库");
+                MessageBox.Show("请您选择仓库");
                 return;
             }
             if (supNameBox.Text == "")
             {
-                System.Windows.Forms.MessageBox.Show("请您选择供应商");
+                MessageBox.Show("请您选择供应商");
                 return;
             }
             if (proNameBox.Text == "")
             {
-                System.Windows.Forms.MessageBox.Show("请您选择货品");
+                MessageBox.Show("请您选择货品");
                 return;
             }
             if (numUpDown.Value == 0)
             {
-                System.Windows.Forms.MessageBox.Show("请您填写货品数量");
+                MessageBox.Show("请您填写货品数量");
                 return;
             }
             if (!isPrice(priceBox.Text))
             {
-                System.Windows.Forms.MessageBox.Show("请您填写货品价格");
+                MessageBox.Show("请您填写货品价格");
                 return;
             }
             if (unitBox.Text == "")
             {
-                System.Windows.Forms.MessageBox.Show("请您填写货品单位");
+                MessageBox.Show("请您填写货品单位");
                 return;
             }
             try
@@ -256,6 +257,11 @@ namespace KuGuan.MForm
                 else
                     e.Cancel = true;
             }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }

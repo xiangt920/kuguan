@@ -65,6 +65,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,15 +76,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.2864.18696, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>I:\Workspaces\visual studio 2012\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dataDataSet.cs">
-      <DependentUpon>dataDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="dataDataSet.Designer.cs">
-      <DependentUpon>dataDataSet.cs</DependentUpon>
-    </Compile>
     <Compile Include="dataDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -185,6 +183,12 @@
     <Compile Include="MForm\unit.designer.cs">
       <DependentUpon>unit.cs</DependentUpon>
     </Compile>
+    <Compile Include="MForm\exchange_management.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\exchange_management.Designer.cs">
+      <DependentUpon>exchange_management.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -235,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MForm\unit.resx">
       <DependentUpon>unit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\exchange_management.resx">
+      <DependentUpon>exchange_management.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

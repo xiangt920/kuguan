@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace KuGuan.MForm
 {
-    public partial class ProductForm : Form
+    public partial class ProductForm : DockContent
     {
         private dataDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new dataDataSetTableAdapters.product_typeTableAdapter();
         private DataTable protypeTable;
