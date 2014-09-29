@@ -25,9 +25,21 @@ namespace KuGuan.MForm
 
         private void Save_Click(object sender, EventArgs e)
         {
+            int? new_id = unitTableAdapter.GetNewId();
+            foreach(DataGridViewRow row in unitDataGridView.Rows)
+            {
+                if (row.Cells[1].Value is DBNull)
+                {
+                    row.Cells[1].Value = new_id + "";
+                    new_id++;
+                }
+            }
             this.Validate();
             this.unitBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.dataDataSet);
+            int count = this.tableAdapterManager.UpdateAll(this.dataDataSet);
+            if (count >= 0) {
+                MessageBox.Show(this,"修改成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         }
     }

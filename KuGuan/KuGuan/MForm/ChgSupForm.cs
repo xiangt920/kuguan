@@ -41,6 +41,8 @@ namespace KuGuan.MForm
 
         private void cfmButton_Click(object sender, EventArgs e)
         {
+            if(id == -1)
+                idBox.Text = (supplierTableAdapter.GetMaxId() + 1).ToString();
             this.Validate();
             this.supplierBindingSource.EndEdit();
             int count = this.tableAdapterManager.UpdateAll(this.dataDataSet);
@@ -64,6 +66,106 @@ namespace KuGuan.MForm
         private void cnlButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void supplier_nameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void supplier_nameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addressLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addressTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void codeLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void codeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkmanLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkmanTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void phone1Label_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void phone1TextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void faxLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void faxTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void urlLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void urlTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emailLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emailTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void opening_bankLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void opening_bankTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bank_accountLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bank_accountTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
