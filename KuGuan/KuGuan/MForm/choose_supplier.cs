@@ -11,43 +11,86 @@ namespace KuGuan.MForm
 {
     public partial class choose_supplier : Form
     {
+        private dataDataSetTableAdapters.supplier_typeTableAdapter suptypeAdapter = new dataDataSetTableAdapters.supplier_typeTableAdapter();
+        private DataTable suptypeTable;
+        private Dictionary<String, int> node_index = new Dictionary<String,int>();
+
+        private int supplier_id = -1;
+        private string supplier_name = "";
+        public int Id { get { return this.supplier_id; } }
+        public string SupName { get { return this.supplier_name; } }
         public choose_supplier()
         {
             InitializeComponent();
+            suptypeTable = suptypeAdapter.GetData();
+            foreach (DataRow r in suptypeTable.Rows)
+            {
+                String type_id = (String)r["supplier_type_id"];
+                String parent_id = (String)r["parent_id"];
+                int type_class = (int)r["type_class"];
+                String type_name = (String)r["supplier_type"];
+
+                TreeNode parent_node = new TreeNode(type_name);
+
+                parent_node.Tag = type_id;
+                if (type_class == 1)
+                {
+                    treeView.Nodes.Add(parent_node);
+                    node_index.Add(type_id + "", parent_node.Index);
+                }
+                else
+                {
+                    treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
+                }
+            }
         }
-        public string supplier_id;
-        public string supplier_name;
-        private void supplierBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+
+        private void SupplierForm_Load(object sender, EventArgs e)
         {
-            this.Validate();
-            this.supplierBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.dataDataSet);
+            // TODO:  这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
+            
+            
 
         }
 
-        private void choose_supplier_Load(object sender, EventArgs e)
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            // TODO: 这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
-            this.supplierTableAdapter.Fill(this.dataDataSet.supplier);
-            int row_index = this.supplierDataGridView.SelectedCells[0].RowIndex;
-            this.supplierDataGridView.Rows[row_index].Selected = true;
-            supplier_id = this.supplierDataGridView.SelectedRows[0].Cells[0].Value.ToString();
-            supplier_name = this.supplierDataGridView.SelectedRows[0].Cells[1].Value.ToString();
-            this.label2.Text = supplier_name;
+            TreeNode node = ((TreeView)sender).SelectedNode;
+            tLabel.Text = node.Text;
+            if(((String)(node.Tag)) != "-1")
+                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void refreshButton_Click(object sender, EventArgs e)
         {
-
+            TreeNode node = treeView.SelectedNode;
+            this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
         }
 
-        private void supplierDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void search(object sender, EventArgs e)
         {
-            int row_index = this.supplierDataGridView.SelectedCells[0].RowIndex;
-            this.supplierDataGridView.Rows[row_index].Selected = true;
-            supplier_id = this.supplierDataGridView.SelectedRows[0].Cells[0].Value.ToString();
-            supplier_name = this.supplierDataGridView.SelectedRows[0].Cells[1].Value.ToString();
-            this.label2.Text = supplier_name;
+            String sup = supBox.Text.Trim();
+            String addr = addrBox.Text.Trim();
+            String linkman = linkmanBox.Text.Trim();
+            this.supplierTableAdapter.FillByCondition(this.dataDataSet.supplier, sup, addr, linkman);
         }
+
+        private void cnlButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (index >= 0)
+            {
+                KuGuan.dataDataSet.supplierRow row = (KuGuan.dataDataSet.supplierRow)this.dataDataSet.supplier.Rows[index];
+                this.supplier_id = row.supplier_id;
+                this.supplier_name = row.supplier_name;
+                this.DialogResult = DialogResult.OK;
+            }
+        }
+
     }
 }

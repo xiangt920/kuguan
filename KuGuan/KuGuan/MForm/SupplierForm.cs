@@ -229,5 +229,16 @@ namespace KuGuan.MForm
             this.supplierTableAdapter.FillByCondition(this.dataDataSet.supplier, sup, addr, linkman);
         }
 
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            TreeNode node = treeView.SelectedNode;
+            int id = (int)dataGridView.SelectedRows[0].Cells[0].Value;
+            ChgSupForm form = new ChgSupForm("修改供货商", id, "0");
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+            }
+        }
+
     }
 }

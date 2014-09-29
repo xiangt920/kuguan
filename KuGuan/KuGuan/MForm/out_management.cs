@@ -5,25 +5,33 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace KuGuan.MForm
 {
     public partial class out_management : Form
     {
+
+        private choose_product P = new choose_product();
+
+        private choose_customer C = new choose_customer();
+        private Dictionary<string, int> dateIdCount = new Dictionary<string, int>();
         public out_management()
         {
             InitializeComponent();
         }
         private void choose_product(object sender, EventArgs e)
         {
-            product P = new product();
             if (P.ShowDialog() == DialogResult.OK)
             {
-                textBox8.Text = P.product_id;
-                textBox6.Text = P.product_name;
-                comboBox3.Text = P.product_unit;
-                textBox7.Text = P.product_price;
+                proIdBox.Text = P.ID;
+                proNameBox.Text = P.ProName;
+                unitBox.Text = P.Unit;
+                priceBox.Text = P.OutPrice;
+                stockBox.Text = P.Count;
+                this.numUpDown.Focus();
+                this.numUpDown.Select(0, numUpDown.Value.ToString().Length);
             }
         }
         private static String[] b = new String[9];
@@ -31,192 +39,109 @@ namespace KuGuan.MForm
 
         private void out_management_Load(object sender, EventArgs e)
         {
+            // TODO:  这行代码将数据加载到表“dataDataSet.storehouse”中。您可以根据需要移动或删除它。
+            this.storehouseTableAdapter.Fill(this.dataDataSet.storehouse);
             // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
             this.unitTableAdapter.Fill(this.dataDataSet.unit);
-            // TODO: 这行代码将数据加载到表“dataDataSet.out_management”中。您可以根据需要移动或删除它。
-            this.out_managementTableAdapter.Fill(this.dataDataSet.out_management);
-            string date = dateTimePicker1.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-            for (int i = 1; ; i++)
-            {
-                int? j = this.out_managementTableAdapter.find(date + i.ToString());
-                if (j == 0)
-                {
-                    textBox1.Text = date + i.ToString();
-                    break;
-                }
-
-            }
+            string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
+            Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date));
+            new_id++;
+            oIdBox.Text = new_id.ToString();
+            dateIdCount.Add(date, 0);
         }
 
-        private bool isNumber(string s)
+        
+        private void show_on_list(object sender, EventArgs e)
         {
-            int Flag = 0;
+            if (cusIdBox.Text == "")
+            {
+                System.Windows.Forms.MessageBox.Show("请您选择仓库");
+                return;
+            }
+            if (cusNameBox.Text == "")
+            {
+                System.Windows.Forms.MessageBox.Show("请您选择供应商");
+                return;
+            }
+            if (proNameBox.Text == "")
+            {
+                System.Windows.Forms.MessageBox.Show("请您选择货品");
+                return;
+            }
+            if (numUpDown.Value == 0)
+            {
+                System.Windows.Forms.MessageBox.Show("请您填写货品数量");
+                return;
+            }
+            if (!isPrice(priceBox.Text))
+            {
+                System.Windows.Forms.MessageBox.Show("请您填写货品价格");
+                return;
+            }
+            if (unitBox.Text == "")
+            {
+                System.Windows.Forms.MessageBox.Show("请您填写货品单位");
+                return;
+            }
             try
             {
-
-                char[] str = s.ToCharArray();
-                for (int i = 0; i < str.Length; i++)
-                {
-                    if (Char.IsNumber(str[i]))
-                    {
-                        Flag++;
-                    }
-                    else
-                    {
-                        Flag = -1;
-                        break;
-                    }
-                }
+                KuGuan.dataDataSet.out_managementRow row = (dataDataSet.out_managementRow)this.dataDataSet.out_management.NewRow();
+                row.BeginEdit();
+                row.out_id = oIdBox.Text;
+                row.time = datePicker.Value;
+                row.storehouse_id = (int)storeBox.SelectedValue;
+                row.storehouse_name = storeBox.Text;
+                row.customer_id = Int32.Parse(cusIdBox.Text);
+                row.customer_name = cusNameBox.Text;
+                row.product_id = Int32.Parse(proIdBox.Text);
+                row.product_name = proNameBox.Text;
+                row.unit_id = (int)unitBox.SelectedValue;
+                row.unit = unitBox.Text;
+                row.storage_num = numUpDown.Value;
+                row.get_price = Decimal.Parse(priceBox.Text);
+                row.total_price = numUpDown.Value * Decimal.Parse(priceBox.Text);
+                row.EndEdit();
+                this.dataDataSet.out_management.Addout_managementRow(row);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
+            {
+            }
+            try
+            {
+                proNameBox.Text = "";
+                cusIdBox.Text = ""; priceBox.Text = ""; proIdBox.Text = "";
+                storeBox.Text = "";
+                cusNameBox.Text = "";
+                unitBox.Text = "";
+                numUpDown.Value = 0;
+                string date = datePicker.Value.ToString("yyyyMMdd");
+                dateIdCount[date]++;
+                Decimal new_id = Decimal.Parse(oIdBox.Text) + 1;
+                oIdBox.Text = new_id.ToString();
+            }
+            catch (System.Exception)
             {
 
-            }
-            if (Flag > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
 
         }
 
-        private void show_on_list(object sender, MouseEventArgs e)
+        private bool isPrice(string s)
         {
-            int add = 0;
-            b[0] = textBox1.Text.ToString();
-            b[1] = dateTimePicker1.Text.ToString();
-            b[2] = comboBox1.Text.ToString();
-            b[3] = comboBox2.Text.ToString();
-            b[4] = textBox6.Text.ToString();
-            b[5] = textBox7.Text.ToString();
-            b[6] = comboBox3.Text.ToString();
-            b[7] = numericUpDown2.Value.ToString();
-            if (b[0] == "" || b[1] == "" || b[2] == "" || b[3] == "" || b[4] == "" || b[5] == "" || b[6] == "" || b[7] == "")
-            {
-                add = 1;
-                if (b[2] == "")
-                    System.Windows.Forms.MessageBox.Show("请您选择仓库");
-                else if (b[3] == "")
-                    System.Windows.Forms.MessageBox.Show("请您选择供应商");
-                else if (b[4] == "")
-                    System.Windows.Forms.MessageBox.Show("请您选择货品");
-                else if (b[7] == "0")
-                    System.Windows.Forms.MessageBox.Show("请您填写货品数量");
-                else if (b[5] == "0")
-                    System.Windows.Forms.MessageBox.Show("请您填写货品价格");
-                else if (b[6] == "0")
-                    System.Windows.Forms.MessageBox.Show("请您填写货品单位");
-                else if (b[5] != "")
-                    if (!isNumber(b[5]))
-                        System.Windows.Forms.MessageBox.Show("请您填写正确货品价格");
-                    else if (b[7] != "")
-                        if (!isNumber(b[7]))
-                            System.Windows.Forms.MessageBox.Show("请您填写正确货品数量");
-                        else
-                            System.Windows.Forms.MessageBox.Show("对不起！请您审核后再提交");
-            }
-            if (add != 1)
-            {
-
-                if (b[5] != "")
-                    if (!isNumber(b[5]))
-                    {
-                        System.Windows.Forms.MessageBox.Show("请您填写正确货品价格");
-                        add = 2;
-                    }
-                    else if (b[7] != "")
-                        if (!isNumber(b[7]))
-                        {
-                            System.Windows.Forms.MessageBox.Show("请您填写正确货品数量");
-                            add = 2;
-                        }
-            }
-
-            if (add == 0)
-            {
-                int flag = 0;
-                try
-                {
-                    if (b[7] != "0" && b[5] != "")
-                    {
-                        b[8] = (int.Parse(b[7]) * int.Parse(b[5])).ToString();
-                    }
-                    else
-                    {
-                        b[8] = "";
-                    }
-                }
-                catch (System.Exception ex)
-                {
-
-                }
-                try
-                {
-                    dataGridView1.Rows.Add(b);
-                }
-                catch (System.Exception ex)
-                {
-
-                }
-                try
-                {
-                    textBox1.Text = ""; textBox3.Text = ""; textBox4.Text = ""; textBox5.Text = ""; textBox6.Text = "";
-                    textBox2.Text = ""; textBox7.Text = ""; textBox8.Text = "";
-                    comboBox1.Text = "";
-                    comboBox2.Text = "";
-                    comboBox3.Text = "";
-                    numericUpDown2.Value = 0;
-                    string date = dateTimePicker1.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-                    for (int i = 1; ; i++)
-                    {
-                        foreach (DataGridViewRow r in dataGridView1.Rows)
-                        {
-                            if (!r.IsNewRow)
-                            {
-                                //textBox2.Text = r.Cells[0].Value.ToString();
-                                if (r.Cells[0].Value.ToString().Equals(date + i.ToString()))
-                                {
-                                    flag = 1;
-                                }
-                                else
-                                {
-
-                                }
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            int? j = this.out_managementTableAdapter.find(date + i.ToString());
-                            if (j == 0)
-                            {
-                                textBox1.Text = date + i.ToString();
-                                break;
-                            }
-                        }
-                        flag = 0;
-                    }
-                    int row_index = this.dataGridView1.SelectedCells[0].RowIndex;
-                    this.dataGridView1.Rows[row_index].Selected = true;
-                }
-                catch (System.Exception ex)
-                {
-
-                }
-                add = 0;
-            }
-
+            Regex reg = new Regex("\\d+\\.\\d{11}");
+            return reg.IsMatch(s);
         }
 
-        private void choose_supplier(object sender, EventArgs e)
+
+        private void choose_customer(object sender, EventArgs e)
         {
-            choose_supplier C = new choose_supplier();
+            choose_customer C = new choose_customer();
             if (C.ShowDialog() == DialogResult.OK)
             {
-                textBox2.Text = C.supplier_id;
-                comboBox2.Text = C.supplier_name;
+                cusIdBox.Text = C.Id.ToString();
+                cusNameBox.Text = C.CusName; 
+                this.numUpDown.Focus();
+                this.numUpDown.Select(0, numUpDown.Value.ToString().Length);
             }
         }
 
@@ -238,20 +163,7 @@ namespace KuGuan.MForm
                 int row_index = this.dataGridView1.SelectedCells[0].RowIndex;
                 dataGridView1.Rows.RemoveAt(row_index);
             }
-            catch (System.Exception ex)
-            {
-
-            }
-        }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                int row_index = this.dataGridView1.SelectedCells[0].RowIndex;
-                this.dataGridView1.Rows[row_index].Selected = true;
-            }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
 
             }
@@ -259,42 +171,76 @@ namespace KuGuan.MForm
 
         private void dateTimePicker1_TabIndexChanged(object sender, EventArgs e)
         {
-            int flag = 0;
             try
             {
-                string date = dateTimePicker1.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-                for (int i = 1; ; i++)
+                string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
+                if (!dateIdCount.ContainsKey(date))
                 {
-                    foreach (DataGridViewRow r in dataGridView1.Rows)
-                    {
-                        if (!r.IsNewRow)
-                        {
-                            //textBox2.Text = r.Cells[0].Value.ToString();
-                            if (r.Cells[0].Value.ToString().Equals(date + i.ToString()))
-                            {
-                                flag = 1;
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                    }
-                    if (flag == 0)
-                    {
-                        int? j = this.out_managementTableAdapter.find(date + i.ToString());
-                        if (j == 0)
-                        {
-                            textBox1.Text = date + i.ToString();
-                            break;
-                        }
-                    }
-                    flag = 0;
+                    dateIdCount.Add(date, 0);
                 }
+                Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date)) + 1 + dateIdCount[date];
+                oIdBox.Text = new_id.ToString();
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
 
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int count = 0;
+            if (this.dataDataSet.out_management.Rows.Count == 0)
+                return;
+            List<KuGuan.dataDataSet.out_managementRow> failedRows = new List<dataDataSet.out_managementRow>();
+            foreach (KuGuan.dataDataSet.out_managementRow row in this.dataDataSet.out_management.Rows)
+            {
+                int c = this.out_managementTableAdapter.AddOut(
+                    row.out_id,
+                    row.time,
+                    row.customer_id,
+                    row.storehouse_id,
+                    row.product_id,
+                    row.storage_num);
+                if (c > 0)
+                {
+                    count += c;
+                }
+                else
+                    failedRows.Add(row);
+            }
+            if (count == this.dataDataSet.out_management.Rows.Count)
+            {
+                MessageBox.Show("成功入库所有信息！");
+                this.dataDataSet.out_management.Rows.Clear();
+
+            }
+            else
+            {
+                MessageBox.Show("提交入库信息条数:" + this.dataDataSet.out_management.Rows.Count
+                    + "\n成功入库信息条数:" + count);
+                foreach (KuGuan.dataDataSet.out_managementRow r in failedRows)
+                    this.dataDataSet.out_management.Rows.Remove(r);
+            }
+            dateIdCount.Clear();
+            string date = datePicker.Value.ToString("yyyyMMdd");
+            dateIdCount.Add(date, 0);
+            Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date)) + 1;
+            oIdBox.Text = new_id.ToString();
+        }
+
+        private void out_management_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.dataDataSet.out_management.Rows.Count > 0)
+            {
+                if (MessageBox.Show(
+                    "还有" + this.dataDataSet.out_management.Rows.Count + "入库信息尚未提交，确定放弃？",
+                    "提示",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question) == DialogResult.OK)
+                    e.Cancel = false;
+                else
+                    e.Cancel = true;
             }
         }
 
