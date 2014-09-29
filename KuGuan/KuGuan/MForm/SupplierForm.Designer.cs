@@ -56,13 +56,13 @@
             this.changeButton = new System.Windows.Forms.Button();
             this.supplierTableAdapter = new KuGuan.dataDataSetTableAdapters.supplierTableAdapter();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.searchButton = new System.Windows.Forms.Button();
             this.linkmanBox = new System.Windows.Forms.TextBox();
             this.addrBox = new System.Windows.Forms.TextBox();
             this.supBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.searchButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).BeginInit();
@@ -83,7 +83,7 @@
             this.groupBox1.Size = new System.Drawing.Size(201, 688);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "供应商类别结构图";
+            this.groupBox1.Text = "客户类别结构图";
             // 
             // addNextButton
             // 
@@ -324,16 +324,6 @@
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(667, 10);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(80, 38);
-            this.searchButton.TabIndex = 8;
-            this.searchButton.Text = "查询";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.search);
-            // 
             // linkmanBox
             // 
             this.linkmanBox.Location = new System.Drawing.Point(539, 20);
@@ -348,7 +338,7 @@
             this.addrBox.Size = new System.Drawing.Size(211, 21);
             this.addrBox.TabIndex = 9;
             // 
-            // cusBox
+            // supBox
             // 
             this.supBox.Location = new System.Drawing.Point(104, 20);
             this.supBox.Name = "supBox";
@@ -381,6 +371,16 @@
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 5;
             this.label2.Text = "供应商名称：";
+            // 
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(667, 10);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(80, 38);
+            this.searchButton.TabIndex = 8;
+            this.searchButton.Text = "查询";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.search);
             // 
             // SupplierForm
             // 
