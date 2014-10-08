@@ -57,6 +57,7 @@
             // 
             // unitDataGridView
             // 
+            this.unitDataGridView.AllowUserToDeleteRows = false;
             this.unitDataGridView.AutoGenerateColumns = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -71,6 +72,7 @@
             this.dataGridViewTextBoxColumn2,
             this.unit_id});
             this.unitDataGridView.DataSource = this.unitBindingSource;
+            this.unitDataGridView.ImeMode = System.Windows.Forms.ImeMode.Hangul;
             this.unitDataGridView.Location = new System.Drawing.Point(12, 28);
             this.unitDataGridView.Name = "unitDataGridView";
             this.unitDataGridView.RowHeadersVisible = false;
@@ -121,6 +123,7 @@
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.stockTableAdapter = null;
             this.tableAdapterManager.storehouseTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;

@@ -139,6 +139,7 @@
             // 
             // treeView
             // 
+            this.treeView.ImeMode = System.Windows.Forms.ImeMode.Hangul;
             this.treeView.LabelEdit = true;
             this.treeView.Location = new System.Drawing.Point(6, 20);
             this.treeView.Name = "treeView";

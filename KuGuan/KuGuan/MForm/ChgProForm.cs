@@ -13,18 +13,16 @@ namespace KuGuan.MForm
     {
 
         private int id;
-        private String type;
         public ChgProForm()
         {
             InitializeComponent();
         }
 
-        public ChgProForm(String title, int id, String type)
+        public ChgProForm(String title, int id)
         {
             InitializeComponent();
             this.Text = title;
             this.id = id;
-            this.type = type;
         }
 
         private void ChgProForm_Load(object sender, EventArgs e)
@@ -34,6 +32,11 @@ namespace KuGuan.MForm
             if (id == -1)
             {
                 this.productBindingSource.AddNew();
+                try
+                {
+                    unitBox.SelectedValue = this.dataDataSet.unit.Rows[0]["unit_id"];
+                }
+                catch (Exception) { }
             }
             else
             {
@@ -47,30 +50,37 @@ namespace KuGuan.MForm
             this.Validate();
             this.productBindingSource.EndEdit();
             int count = 0;
-            if (id == -1)
+            try
             {
-                count = this.productTableAdapter.AddProduct(
-                    System.Int32.Parse(productTableAdapter.GetNewId().ToString()),
-                    typeBox.Text,
-                    product_nameTextBox.Text,
-                    Decimal.Parse(get_priceTextBox.Text),
-                    Decimal.Parse(out_priceTextBox.Text),
-                    (int)unitBox.SelectedValue,
-                    introBox.Text,
-                    remarkTextBox.Text
-                    );
+                if (id == -1)
+                {
+                    count = this.productTableAdapter.AddProduct(
+                        product_nameTextBox.Text,
+                        Decimal.Parse(get_priceTextBox.Text),
+                        Decimal.Parse(out_priceTextBox.Text),
+                        (int)unitBox.SelectedValue,
+                        introBox.Text,
+                        remarkTextBox.Text,
+                        specBox.Text
+                        );
+                }
+                else
+                {
+                    count = this.productTableAdapter.UpdateById(
+                        product_nameTextBox.Text,
+                        remarkTextBox.Text,
+                        introBox.Text,
+                        (int)unitBox.SelectedValue,
+                        Decimal.Parse(get_priceTextBox.Text),
+                        Decimal.Parse(out_priceTextBox.Text),
+                        specBox.Text,
+                        Int32.Parse(idBox.Text)
+                        );
+                }
             }
-            else
+            catch (FormatException)
             {
-                count = this.productTableAdapter.UpdateById(
-                    product_nameTextBox.Text,
-                    remarkTextBox.Text,
-                    introBox.Text,
-                    (int)unitBox.SelectedValue,
-                    Decimal.Parse(get_priceTextBox.Text),
-                    Decimal.Parse(out_priceTextBox.Text),
-                    Int32.Parse(idBox.Text)
-                    );
+                MessageBox.Show("价格输入错误!");
             }
             if (count > 0)
             {
@@ -83,10 +93,6 @@ namespace KuGuan.MForm
 
         private void ChgProForm_Shown(object sender, EventArgs e)
         {
-            if (id == -1)
-            {
-                typeBox.Text = type;
-            }
         }
 
         private void cnlButton_Click(object sender, EventArgs e)

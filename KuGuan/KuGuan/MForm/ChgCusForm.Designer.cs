@@ -55,7 +55,6 @@
             this.bank_accountTextBox = new System.Windows.Forms.TextBox();
             this.customerTableAdapter = new KuGuan.dataDataSetTableAdapters.customerTableAdapter();
             this.typeBox = new System.Windows.Forms.TextBox();
-            this.idBox = new System.Windows.Forms.TextBox();
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
             supplier_nameLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
@@ -283,20 +282,13 @@
             this.typeBox.Size = new System.Drawing.Size(100, 21);
             this.typeBox.TabIndex = 49;
             // 
-            // idBox
-            // 
-            this.idBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.customerBindingSource, "customer_id", true));
-            this.idBox.Location = new System.Drawing.Point(85, 2300);
-            this.idBox.Name = "idBox";
-            this.idBox.Size = new System.Drawing.Size(10, 21);
-            this.idBox.TabIndex = 50;
-            // 
             // tableAdapterManager
             // 
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = this.customerTableAdapter;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.stockTableAdapter = null;
             this.tableAdapterManager.storehouseTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
@@ -308,7 +300,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 393);
-            this.Controls.Add(this.idBox);
             this.Controls.Add(this.typeBox);
             this.Controls.Add(this.cnlButton);
             this.Controls.Add(this.cfmButton);
@@ -362,7 +353,6 @@
         private System.Windows.Forms.BindingSource customerBindingSource;
         private dataDataSetTableAdapters.customerTableAdapter customerTableAdapter;
         private System.Windows.Forms.TextBox typeBox;
-        private System.Windows.Forms.TextBox idBox;
         private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
     }
 }

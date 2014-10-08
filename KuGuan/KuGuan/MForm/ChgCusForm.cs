@@ -12,12 +12,12 @@ namespace KuGuan.MForm
     public partial class ChgCusForm : Form
     {
         private int id;
-        private String type;
+        private int type;
         public ChgCusForm()
         {
             InitializeComponent();
         }
-        public ChgCusForm(String title,int id,String type)
+        public ChgCusForm(String title,int id,int type)
         {
             InitializeComponent();
             this.Text = title;
@@ -39,8 +39,6 @@ namespace KuGuan.MForm
 
         private void cfmButton_Click(object sender, EventArgs e)
         {
-            if(id == -1)
-                idBox.Text = customerTableAdapter.GetNewId().ToString();
             this.Validate();
             this.customerBindingSource.EndEdit();
             int count = this.tableAdapterManager.UpdateAll(this.dataDataSet);
@@ -56,7 +54,7 @@ namespace KuGuan.MForm
         {
             if (id == -1)
             {
-                typeBox.Text = type;
+                typeBox.Text = type+"";
             }
         }
 

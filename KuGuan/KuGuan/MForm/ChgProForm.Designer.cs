@@ -35,6 +35,7 @@
             System.Windows.Forms.Label product_introduceLabel;
             System.Windows.Forms.Label unitLabel;
             System.Windows.Forms.Label remarkLabel;
+            System.Windows.Forms.Label label1;
             this.dataDataSet = new KuGuan.dataDataSet();
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
@@ -50,13 +51,14 @@
             this.introBox = new System.Windows.Forms.RichTextBox();
             this.unitBox = new System.Windows.Forms.ComboBox();
             this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.typeBox = new System.Windows.Forms.TextBox();
+            this.specBox = new System.Windows.Forms.TextBox();
             product_nameLabel = new System.Windows.Forms.Label();
             get_priceLabel = new System.Windows.Forms.Label();
             out_priceLabel = new System.Windows.Forms.Label();
             product_introduceLabel = new System.Windows.Forms.Label();
             unitLabel = new System.Windows.Forms.Label();
             remarkLabel = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
@@ -74,7 +76,7 @@
             // get_priceLabel
             // 
             get_priceLabel.AutoSize = true;
-            get_priceLabel.Location = new System.Drawing.Point(20, 43);
+            get_priceLabel.Location = new System.Drawing.Point(20, 72);
             get_priceLabel.Name = "get_priceLabel";
             get_priceLabel.Size = new System.Drawing.Size(47, 12);
             get_priceLabel.TabIndex = 5;
@@ -83,7 +85,7 @@
             // out_priceLabel
             // 
             out_priceLabel.AutoSize = true;
-            out_priceLabel.Location = new System.Drawing.Point(20, 74);
+            out_priceLabel.Location = new System.Drawing.Point(20, 102);
             out_priceLabel.Name = "out_priceLabel";
             out_priceLabel.Size = new System.Drawing.Size(47, 12);
             out_priceLabel.TabIndex = 7;
@@ -92,7 +94,7 @@
             // product_introduceLabel
             // 
             product_introduceLabel.AutoSize = true;
-            product_introduceLabel.Location = new System.Drawing.Point(20, 136);
+            product_introduceLabel.Location = new System.Drawing.Point(20, 161);
             product_introduceLabel.Name = "product_introduceLabel";
             product_introduceLabel.Size = new System.Drawing.Size(59, 12);
             product_introduceLabel.TabIndex = 9;
@@ -101,7 +103,7 @@
             // unitLabel
             // 
             unitLabel.AutoSize = true;
-            unitLabel.Location = new System.Drawing.Point(20, 105);
+            unitLabel.Location = new System.Drawing.Point(20, 132);
             unitLabel.Name = "unitLabel";
             unitLabel.Size = new System.Drawing.Size(59, 12);
             unitLabel.TabIndex = 11;
@@ -110,7 +112,7 @@
             // remarkLabel
             // 
             remarkLabel.AutoSize = true;
-            remarkLabel.Location = new System.Drawing.Point(20, 256);
+            remarkLabel.Location = new System.Drawing.Point(20, 280);
             remarkLabel.Name = "remarkLabel";
             remarkLabel.Size = new System.Drawing.Size(35, 12);
             remarkLabel.TabIndex = 13;
@@ -136,6 +138,7 @@
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.stockTableAdapter = null;
             this.tableAdapterManager.storehouseTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
@@ -165,7 +168,7 @@
             // get_priceTextBox
             // 
             this.get_priceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "get_price", true));
-            this.get_priceTextBox.Location = new System.Drawing.Point(85, 40);
+            this.get_priceTextBox.Location = new System.Drawing.Point(85, 69);
             this.get_priceTextBox.Name = "get_priceTextBox";
             this.get_priceTextBox.Size = new System.Drawing.Size(266, 21);
             this.get_priceTextBox.TabIndex = 6;
@@ -173,7 +176,7 @@
             // out_priceTextBox
             // 
             this.out_priceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "out_price", true));
-            this.out_priceTextBox.Location = new System.Drawing.Point(85, 71);
+            this.out_priceTextBox.Location = new System.Drawing.Point(85, 99);
             this.out_priceTextBox.Name = "out_priceTextBox";
             this.out_priceTextBox.Size = new System.Drawing.Size(266, 21);
             this.out_priceTextBox.TabIndex = 8;
@@ -181,14 +184,14 @@
             // remarkTextBox
             // 
             this.remarkTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "remark", true));
-            this.remarkTextBox.Location = new System.Drawing.Point(85, 253);
+            this.remarkTextBox.Location = new System.Drawing.Point(85, 277);
             this.remarkTextBox.Name = "remarkTextBox";
             this.remarkTextBox.Size = new System.Drawing.Size(266, 21);
             this.remarkTextBox.TabIndex = 14;
             // 
             // cnlButton
             // 
-            this.cnlButton.Location = new System.Drawing.Point(176, 291);
+            this.cnlButton.Location = new System.Drawing.Point(176, 316);
             this.cnlButton.Name = "cnlButton";
             this.cnlButton.Size = new System.Drawing.Size(75, 34);
             this.cnlButton.TabIndex = 50;
@@ -198,7 +201,7 @@
             // 
             // cfmButton
             // 
-            this.cfmButton.Location = new System.Drawing.Point(85, 291);
+            this.cfmButton.Location = new System.Drawing.Point(85, 316);
             this.cfmButton.Name = "cfmButton";
             this.cfmButton.Size = new System.Drawing.Size(75, 34);
             this.cfmButton.TabIndex = 49;
@@ -209,7 +212,7 @@
             // introBox
             // 
             this.introBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "product_introduce", true));
-            this.introBox.Location = new System.Drawing.Point(85, 133);
+            this.introBox.Location = new System.Drawing.Point(85, 158);
             this.introBox.Name = "introBox";
             this.introBox.Size = new System.Drawing.Size(266, 110);
             this.introBox.TabIndex = 51;
@@ -222,7 +225,7 @@
             this.unitBox.DisplayMember = "unit";
             this.unitBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.unitBox.FormattingEnabled = true;
-            this.unitBox.Location = new System.Drawing.Point(85, 102);
+            this.unitBox.Location = new System.Drawing.Point(85, 129);
             this.unitBox.Name = "unitBox";
             this.unitBox.Size = new System.Drawing.Size(266, 20);
             this.unitBox.TabIndex = 52;
@@ -233,20 +236,30 @@
             this.unitBindingSource.DataMember = "unit";
             this.unitBindingSource.DataSource = this.dataDataSet;
             // 
-            // typeBox
+            // label1
             // 
-            this.typeBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "product_type_id", true));
-            this.typeBox.Location = new System.Drawing.Point(48, 3276);
-            this.typeBox.Name = "typeBox";
-            this.typeBox.Size = new System.Drawing.Size(73, 21);
-            this.typeBox.TabIndex = 53;
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(20, 42);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(35, 12);
+            label1.TabIndex = 53;
+            label1.Text = "规格:";
+            // 
+            // specBox
+            // 
+            this.specBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "spec", true));
+            this.specBox.Location = new System.Drawing.Point(85, 39);
+            this.specBox.Name = "specBox";
+            this.specBox.Size = new System.Drawing.Size(266, 21);
+            this.specBox.TabIndex = 54;
             // 
             // ChgProForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 333);
-            this.Controls.Add(this.typeBox);
+            this.ClientSize = new System.Drawing.Size(372, 382);
+            this.Controls.Add(label1);
+            this.Controls.Add(this.specBox);
             this.Controls.Add(this.unitBox);
             this.Controls.Add(this.introBox);
             this.Controls.Add(this.cnlButton);
@@ -292,6 +305,6 @@
         private System.Windows.Forms.RichTextBox introBox;
         private System.Windows.Forms.ComboBox unitBox;
         private System.Windows.Forms.BindingSource unitBindingSource;
-        private System.Windows.Forms.TextBox typeBox;
+        private System.Windows.Forms.TextBox specBox;
     }
 }

@@ -30,19 +30,25 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(storage_management));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.sidBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.storeBox = new System.Windows.Forms.ComboBox();
-            this.storehouseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.producttypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataDataSet = new KuGuan.dataDataSet();
             this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ProIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pronameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.get_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unitnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.storage_managementBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,21 +56,25 @@
             this.storage_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.storage_managementTableAdapter();
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
             this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
-            this.storehouseTableAdapter = new KuGuan.dataDataSetTableAdapters.storehouseTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.engBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.storeBox = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.supIdBox = new System.Windows.Forms.TextBox();
             this.supNameBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.proIdBox = new System.Windows.Forms.TextBox();
             this.unitBox = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.stockBox = new System.Windows.Forms.TextBox();
+            this.specBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.priceBox = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -73,21 +83,15 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.proNameBox = new System.Windows.Forms.TextBox();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.storehouseBindingSource)).BeginInit();
+            this.product_typeTableAdapter = new KuGuan.dataDataSetTableAdapters.product_typeTableAdapter();
+            this.stockTableAdapter = new KuGuan.dataDataSetTableAdapters.stockTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storage_managementBindingSource)).BeginInit();
             this.panel2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).BeginInit();
@@ -124,20 +128,10 @@
             this.datePicker.TabIndexChanged += new System.EventHandler(this.dateTimePicker1_TabIndexChanged);
             this.datePicker.TabStopChanged += new System.EventHandler(this.dateTimePicker1_TabIndexChanged);
             // 
-            // storeBox
+            // producttypeBindingSource
             // 
-            this.storeBox.DataSource = this.storehouseBindingSource;
-            this.storeBox.DisplayMember = "storehouse_name";
-            this.storeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.storeBox.FormattingEnabled = true;
-            resources.ApplyResources(this.storeBox, "storeBox");
-            this.storeBox.Name = "storeBox";
-            this.storeBox.ValueMember = "storehouse_id";
-            // 
-            // storehouseBindingSource
-            // 
-            this.storehouseBindingSource.DataMember = "storehouse";
-            this.storehouseBindingSource.DataSource = this.dataDataSet;
+            this.producttypeBindingSource.DataMember = "product_type";
+            this.producttypeBindingSource.DataSource = this.dataDataSet;
             // 
             // dataDataSet
             // 
@@ -155,50 +149,97 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column7,
-            this.Column8,
-            this.Column9});
+            this.ProIdCol,
+            this.pronameDataGridViewTextBoxColumn,
+            this.spec,
+            this.get_price,
+            this.numDataGridViewTextBoxColumn,
+            this.unitnameDataGridViewTextBoxColumn,
+            this.totalpriceDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.storage_managementBindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
             resources.ApplyResources(this.dataGridView1, "dataGridView1");
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            // 
+            // ProIdCol
+            // 
+            this.ProIdCol.DataPropertyName = "product_id";
+            resources.ApplyResources(this.ProIdCol, "ProIdCol");
+            this.ProIdCol.Name = "ProIdCol";
+            this.ProIdCol.ReadOnly = true;
+            // 
+            // pronameDataGridViewTextBoxColumn
+            // 
+            this.pronameDataGridViewTextBoxColumn.DataPropertyName = "pro_name";
+            resources.ApplyResources(this.pronameDataGridViewTextBoxColumn, "pronameDataGridViewTextBoxColumn");
+            this.pronameDataGridViewTextBoxColumn.Name = "pronameDataGridViewTextBoxColumn";
+            this.pronameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // spec
+            // 
+            this.spec.DataPropertyName = "spec";
+            resources.ApplyResources(this.spec, "spec");
+            this.spec.Name = "spec";
+            this.spec.ReadOnly = true;
+            // 
+            // get_price
+            // 
+            this.get_price.DataPropertyName = "get_price";
+            resources.ApplyResources(this.get_price, "get_price");
+            this.get_price.Name = "get_price";
+            this.get_price.ReadOnly = true;
+            // 
+            // numDataGridViewTextBoxColumn
+            // 
+            this.numDataGridViewTextBoxColumn.DataPropertyName = "num";
+            resources.ApplyResources(this.numDataGridViewTextBoxColumn, "numDataGridViewTextBoxColumn");
+            this.numDataGridViewTextBoxColumn.Name = "numDataGridViewTextBoxColumn";
+            this.numDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // unitnameDataGridViewTextBoxColumn
+            // 
+            this.unitnameDataGridViewTextBoxColumn.DataPropertyName = "unit_name";
+            resources.ApplyResources(this.unitnameDataGridViewTextBoxColumn, "unitnameDataGridViewTextBoxColumn");
+            this.unitnameDataGridViewTextBoxColumn.Name = "unitnameDataGridViewTextBoxColumn";
+            this.unitnameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // totalpriceDataGridViewTextBoxColumn
+            // 
+            this.totalpriceDataGridViewTextBoxColumn.DataPropertyName = "total_price";
+            resources.ApplyResources(this.totalpriceDataGridViewTextBoxColumn, "totalpriceDataGridViewTextBoxColumn");
+            this.totalpriceDataGridViewTextBoxColumn.Name = "totalpriceDataGridViewTextBoxColumn";
+            this.totalpriceDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // storage_managementBindingSource
             // 
@@ -240,6 +281,7 @@
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.stockTableAdapter = null;
             this.tableAdapterManager.storehouseTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
@@ -250,22 +292,54 @@
             // 
             this.unitTableAdapter.ClearBeforeFill = true;
             // 
-            // storehouseTableAdapter
-            // 
-            this.storehouseTableAdapter.ClearBeforeFill = true;
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.HighlightText;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.groupBox3);
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.groupBox1);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.label7.Name = "label7";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.engBox);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.storeBox);
+            this.groupBox3.Controls.Add(this.label5);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // engBox
+            // 
+            resources.ApplyResources(this.engBox, "engBox");
+            this.engBox.Name = "engBox";
+            this.engBox.ReadOnly = true;
+            this.engBox.Click += new System.EventHandler(this.storeBox_Click);
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // storeBox
+            // 
+            resources.ApplyResources(this.storeBox, "storeBox");
+            this.storeBox.Name = "storeBox";
+            this.storeBox.ReadOnly = true;
+            this.storeBox.Click += new System.EventHandler(this.storeBox_Click);
+            this.storeBox.TextChanged += new System.EventHandler(this.storeBox_TextChanged);
             // 
             // label17
             // 
@@ -307,12 +381,6 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
-            // button1
-            // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // label6
             // 
             resources.ApplyResources(this.label6, "label6");
@@ -324,7 +392,8 @@
             this.groupBox1.Controls.Add(this.proIdBox);
             this.groupBox1.Controls.Add(this.unitBox);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.stockBox);
+            this.groupBox1.Controls.Add(this.specBox);
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.priceBox);
             this.groupBox1.Controls.Add(this.label18);
             this.groupBox1.Controls.Add(this.label14);
@@ -348,9 +417,9 @@
             // 
             this.unitBox.DataSource = this.unitBindingSource;
             this.unitBox.DisplayMember = "unit";
-            this.unitBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.unitBox.FormattingEnabled = true;
+            this.unitBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             resources.ApplyResources(this.unitBox, "unitBox");
+            this.unitBox.FormattingEnabled = true;
             this.unitBox.Name = "unitBox";
             this.unitBox.ValueMember = "unit_id";
             // 
@@ -359,11 +428,18 @@
             resources.ApplyResources(this.label15, "label15");
             this.label15.Name = "label15";
             // 
-            // stockBox
+            // specBox
             // 
-            resources.ApplyResources(this.stockBox, "stockBox");
-            this.stockBox.Name = "stockBox";
-            this.stockBox.ReadOnly = true;
+            resources.ApplyResources(this.specBox, "specBox");
+            this.specBox.Name = "specBox";
+            this.specBox.ReadOnly = true;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.show_on_list);
             // 
             // priceBox
             // 
@@ -414,68 +490,13 @@
             this.proNameBox.ReadOnly = true;
             this.proNameBox.Click += new System.EventHandler(this.choose_product);
             // 
-            // Column1
+            // product_typeTableAdapter
             // 
-            this.Column1.DataPropertyName = "s_id";
-            resources.ApplyResources(this.Column1, "Column1");
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.product_typeTableAdapter.ClearBeforeFill = true;
             // 
-            // Column2
+            // stockTableAdapter
             // 
-            this.Column2.DataPropertyName = "t";
-            resources.ApplyResources(this.Column2, "Column2");
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.DataPropertyName = "store_name";
-            resources.ApplyResources(this.Column3, "Column3");
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.DataPropertyName = "cust_name";
-            resources.ApplyResources(this.Column4, "Column4");
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            this.Column5.DataPropertyName = "pro_name";
-            resources.ApplyResources(this.Column5, "Column5");
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.DataPropertyName = "out";
-            resources.ApplyResources(this.Column6, "Column6");
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.DataPropertyName = "unit_name";
-            resources.ApplyResources(this.Column7, "Column7");
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.DataPropertyName = "num";
-            resources.ApplyResources(this.Column8, "Column8");
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.DataPropertyName = "total_price";
-            resources.ApplyResources(this.Column9, "Column9");
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
+            this.stockTableAdapter.ClearBeforeFill = true;
             // 
             // storage_management
             // 
@@ -486,9 +507,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.storeBox);
             this.Controls.Add(this.datePicker);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sidBox);
@@ -497,13 +516,15 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.storage_management_FormClosing);
             this.Load += new System.EventHandler(this.storage_management_Load);
             this.Shown += new System.EventHandler(this.storage_management_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.storehouseBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storage_managementBindingSource)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -521,7 +542,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker datePicker;
-        private System.Windows.Forms.ComboBox storeBox;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -531,8 +551,6 @@
         private dataDataSetTableAdapters.storage_managementTableAdapter storage_managementTableAdapter;
         private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private dataDataSetTableAdapters.unitTableAdapter unitTableAdapter;
-        private System.Windows.Forms.BindingSource storehouseBindingSource;
-        private dataDataSetTableAdapters.storehouseTableAdapter storehouseTableAdapter;
         private System.Windows.Forms.BindingSource unitBindingSource;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label17;
@@ -547,7 +565,7 @@
         private System.Windows.Forms.TextBox proIdBox;
         private System.Windows.Forms.ComboBox unitBox;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox stockBox;
+        private System.Windows.Forms.TextBox specBox;
         private System.Windows.Forms.TextBox priceBox;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label14;
@@ -556,14 +574,21 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox proNameBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.BindingSource producttypeBindingSource;
+        private dataDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox engBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox storeBox;
+        private dataDataSetTableAdapters.stockTableAdapter stockTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn outDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProIdCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pronameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn spec;
+        private System.Windows.Forms.DataGridViewTextBoxColumn get_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unitnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
     }
 }

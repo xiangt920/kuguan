@@ -14,25 +14,33 @@ namespace KuGuan.MForm
     public partial class exchange_management : DockContent
     {
 
-        private choose_product P = new choose_product();
-
+        private choose_stock P = new choose_stock(true);
+        private StoreForm S = new StoreForm(true);
+        private bool CellValueTrue = true;
+        private DataGridViewCell ErrorCell = null;
         private choose_customer C = new choose_customer();
         private Dictionary<string, int> dateIdCount = new Dictionary<string, int>();
         public exchange_management()
         {
             InitializeComponent();
         }
-        private void choose_product(object sender, EventArgs e)
+        private void choose_product()
         {
             if (P.ShowDialog() == DialogResult.OK)
             {
-                proIdBox.Text = P.ID;
-                proNameBox.Text = P.ProName;
-                unitBox.Text = P.Unit;
-                priceBox.Text = P.OutPrice;
-                stockBox.Text = P.Count;
-                this.numUpDown.Focus();
-                this.numUpDown.Select(0, numUpDown.Value.ToString().Length);
+                outstoreBox.Text = P.Store;
+                proView.Rows.Clear();
+                String t = "";
+                foreach (dataDataSet.product_stockRow row in P.SelectedRows)
+                {
+                    DataGridViewRow r = new DataGridViewRow();
+                    r.CreateCells(proView, new object[] {row.product_id,row.product_name,row.stock_num,row.stock_num });
+                    if (!t.Contains(row.product_type))
+                        t += row.product_type + ";";
+
+                    proView.Rows.Add(r);
+                }
+                outengBox.Text = t;
             }
         }
         private static String[] b = new String[9];
@@ -40,8 +48,6 @@ namespace KuGuan.MForm
 
         private void exchange_management_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.storehouse”中。您可以根据需要移动或删除它。
-            this.storehouseTableAdapter.Fill(this.dataDataSet.storehouse);
             // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
             this.unitTableAdapter.Fill(this.dataDataSet.unit);
             string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
@@ -54,55 +60,53 @@ namespace KuGuan.MForm
         
         private void show_on_list(object sender, EventArgs e)
         {
-            if (fromHouseBox.SelectedIndex == toHouseBox.SelectedIndex)
+            if (proView.Rows.Count == 0)
             {
-                MessageBox.Show("请您选择不同仓库进行调库！");
+                MessageBox.Show("请您选择需要调整的货品！");
                 return;
             }
-            if (proNameBox.Text == "")
+            if (instoreBox.Text == "")
             {
-                MessageBox.Show("请您选择货品");
+                MessageBox.Show("请您选择调入仓库！");
                 return;
             }
-            if (numUpDown.Value == 0)
+            foreach (dataDataSet.product_stockRow r in P.SelectedRows)
             {
-                MessageBox.Show("请您填写货品数量");
-                return;
-            }
-            if (!isPrice(priceBox.Text))
-            {
-                MessageBox.Show("请您填写货品价格");
-                return;
-            }
-            if (unitBox.Text == "")
-            {
-                MessageBox.Show("请您填写货品单位");
-                return;
+                if (r.product_type_id == S.Id)
+                {
+                    MessageBox.Show("编号为" + r.product_id + "的产品调出仓库与调入仓库冲突");
+                    return;
+                }
             }
             try
             {
-                KuGuan.dataDataSet.exchange_managementRow row = (dataDataSet.exchange_managementRow)this.dataDataSet.exchange_management.NewRow();
-                row.BeginEdit();
-                row.exchange_id = oIdBox.Text;
-                row.time = datePicker.Value;
-                row.from_house_id = (int)fromHouseBox.SelectedValue;
-                row.to_house_id = (int)toHouseBox.SelectedValue;
-                row.from_house = fromHouseBox.Text;
-                row.to_house = toHouseBox.Text;
-                row.product_id = Int32.Parse(proIdBox.Text);
-                row.product_name = proNameBox.Text;
-                row.unit_id = (int)unitBox.SelectedValue;
-                row.unit = unitBox.Text;
-                row.exchange_num = numUpDown.Value;
-                row.get_price = Decimal.Parse(priceBox.Text);
-                row.total_price = numUpDown.Value * Decimal.Parse(priceBox.Text);
-                row.EndEdit();
-                this.dataDataSet.exchange_management.Addexchange_managementRow(row);
-            
-                proNameBox.Text = "";
-                fromHouseBox.Text = "";
-                unitBox.Text = "";
-                numUpDown.Value = 0;
+                
+                foreach (dataDataSet.product_stockRow r in P.SelectedRows)
+                {
+                    KuGuan.dataDataSet.exchange_managementRow row = (dataDataSet.exchange_managementRow)this.dataDataSet.exchange_management.NewRow();
+                    row.BeginEdit();
+                    row.exchange_id = oIdBox.Text;
+                    row.time = datePicker.Value;
+                    row.from_house_id = r.product_type_id;
+                    row.to_house_id = S.Id;
+                    row.from_house = r.product_type;
+                    row.to_house = S.SName;
+                    row.product_id = r.product_id;
+                    row.product_name = r.product_name;
+                    row.unit_id = r.unit_id;
+                    row.unit = r.unit;
+                    row.spec = r.spec;
+                    var num = from DataGridViewRow r0 in proView.Rows
+                              where (int)r0.Cells["ProIdCol"].Value == r.product_id
+                              select Decimal.Parse(r0.Cells["NumCol"].Value+"");
+                    row.exchange_num = num.ElementAt(0);
+                    row.get_price = r.get_price;
+                    row.total_price = r.get_price * num.ElementAt(0);
+                    row.EndEdit();
+
+                    this.dataDataSet.exchange_management.Addexchange_managementRow(row);
+                }
+                
                 string date = datePicker.Value.ToString("yyyyMMdd");
                 dateIdCount[date]++;
                 Decimal new_id = Decimal.Parse(oIdBox.Text) + 1;
@@ -115,21 +119,10 @@ namespace KuGuan.MForm
 
         }
 
-        private bool isPrice(string s)
-        {
-            Regex reg = new Regex("\\d+\\.\\d{11}");
-            return reg.IsMatch(s);
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow r in dataGridView1.Rows)
-            {
-                if (!r.IsNewRow)
-                {
-                    dataGridView1.Rows.Remove(r);
-                }
-            }
+
+            this.dataDataSet.exchange_management.Rows.Clear();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -218,6 +211,84 @@ namespace KuGuan.MForm
                 else
                     e.Cancel = true;
             }
+        }
+
+        private void instoreBox_Click(object sender, EventArgs e)
+        {
+            if (S.ShowDialog() == DialogResult.OK)
+            {
+                instoreBox.Text = S.ParentName;
+                inengBox.Text = S.SName;
+            }
+        }
+
+        private void proView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == NumCol.Index)
+            {
+                DataGridViewCell c = proView.CurrentCell;
+                string s = c.Value+"";
+                if (!isNum(s))
+                {
+                    CellValueTrue = false;
+                    MessageBox.Show("数量格式不正确，请输入小数点位数为5位一下的正确数字！");
+                    foreach (DataGridViewRow r in proView.Rows)
+                        r.Selected = false;
+                    c.Selected = true;
+                    proView.CurrentCell = c;
+                    ErrorCell = c;
+                    c.Value = c.OwningRow.Cells["StockCol"].Value;
+                }
+                else
+                {
+                    CellValueTrue = true;
+                    ErrorCell = null;
+                }
+            }
+        }
+
+        private bool isNum(string s)
+        {
+            Regex reg = new Regex("^\\d+(\\.\\d{1,5})?$");
+            return reg.IsMatch(s);
+        }
+
+        private void proView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (!CellValueTrue)
+            {
+                if (proView.CurrentCell != ErrorCell)
+                {
+                    e.Cancel = true;
+                    proView.CurrentCell = ErrorCell;
+                    proView.BeginEdit(true);
+                }
+            }
+        }
+
+        private void proView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex != NumCol.Index)
+                choose_product();
+        }
+
+        private void proView_MouseClick(object sender, MouseEventArgs e)
+        {
+            int width = 0;
+            int height = proView.ColumnHeadersHeight;
+            foreach(DataGridViewColumn col in proView.Columns)
+                width += col.Width;
+            foreach(DataGridViewRow row in proView.Rows)
+                height += row.Height;
+
+            if (e.X < width && e.Y < height)
+                return;
+            choose_product();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            choose_product();
         }
 
     }

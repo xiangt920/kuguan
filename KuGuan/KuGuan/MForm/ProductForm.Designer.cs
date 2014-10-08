@@ -44,17 +44,18 @@
             this.addProButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.get_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.out_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataDataSet = new KuGuan.dataDataSet();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
+            this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.get_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.out_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
@@ -211,9 +212,10 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.productidDataGridViewTextBoxColumn,
+            this.productnameDataGridViewTextBoxColumn,
+            this.spec,
             this.get_price,
             this.out_price,
-            this.productnameDataGridViewTextBoxColumn,
             this.unitDataGridViewTextBoxColumn,
             this.productintroduceDataGridViewTextBoxColumn,
             this.remarkDataGridViewTextBoxColumn});
@@ -227,60 +229,6 @@
             this.dataGridView.Size = new System.Drawing.Size(1114, 457);
             this.dataGridView.TabIndex = 16;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
-            // 
-            // productidDataGridViewTextBoxColumn
-            // 
-            this.productidDataGridViewTextBoxColumn.DataPropertyName = "product_id";
-            this.productidDataGridViewTextBoxColumn.HeaderText = "编号";
-            this.productidDataGridViewTextBoxColumn.Name = "productidDataGridViewTextBoxColumn";
-            this.productidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.productidDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // get_price
-            // 
-            this.get_price.DataPropertyName = "get_price";
-            this.get_price.HeaderText = "进货价";
-            this.get_price.Name = "get_price";
-            this.get_price.ReadOnly = true;
-            this.get_price.Width = 150;
-            // 
-            // out_price
-            // 
-            this.out_price.DataPropertyName = "out_price";
-            this.out_price.HeaderText = "出货价";
-            this.out_price.Name = "out_price";
-            this.out_price.ReadOnly = true;
-            this.out_price.Width = 150;
-            // 
-            // productnameDataGridViewTextBoxColumn
-            // 
-            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
-            this.productnameDataGridViewTextBoxColumn.HeaderText = "产品名称";
-            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
-            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // unitDataGridViewTextBoxColumn
-            // 
-            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
-            this.unitDataGridViewTextBoxColumn.HeaderText = "计量单位";
-            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
-            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
-            this.unitDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // productintroduceDataGridViewTextBoxColumn
-            // 
-            this.productintroduceDataGridViewTextBoxColumn.DataPropertyName = "product_introduce";
-            this.productintroduceDataGridViewTextBoxColumn.HeaderText = "产品描述";
-            this.productintroduceDataGridViewTextBoxColumn.Name = "productintroduceDataGridViewTextBoxColumn";
-            this.productintroduceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.productintroduceDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // remarkDataGridViewTextBoxColumn
-            // 
-            this.remarkDataGridViewTextBoxColumn.DataPropertyName = "remark";
-            this.remarkDataGridViewTextBoxColumn.HeaderText = "备注";
-            this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
-            this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // productBindingSource
             // 
@@ -305,11 +253,72 @@
             this.groupBox1.Size = new System.Drawing.Size(201, 568);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "供应商商类别结构图";
+            this.groupBox1.Text = "产品类别结构图";
             // 
             // productTableAdapter
             // 
             this.productTableAdapter.ClearBeforeFill = true;
+            // 
+            // productidDataGridViewTextBoxColumn
+            // 
+            this.productidDataGridViewTextBoxColumn.DataPropertyName = "product_id";
+            this.productidDataGridViewTextBoxColumn.HeaderText = "编号";
+            this.productidDataGridViewTextBoxColumn.Name = "productidDataGridViewTextBoxColumn";
+            this.productidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.productidDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // productnameDataGridViewTextBoxColumn
+            // 
+            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
+            this.productnameDataGridViewTextBoxColumn.HeaderText = "产品名称";
+            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
+            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // spec
+            // 
+            this.spec.DataPropertyName = "spec";
+            this.spec.HeaderText = "规格";
+            this.spec.Name = "spec";
+            this.spec.ReadOnly = true;
+            // 
+            // get_price
+            // 
+            this.get_price.DataPropertyName = "get_price";
+            this.get_price.HeaderText = "进货价";
+            this.get_price.Name = "get_price";
+            this.get_price.ReadOnly = true;
+            this.get_price.Width = 150;
+            // 
+            // out_price
+            // 
+            this.out_price.DataPropertyName = "out_price";
+            this.out_price.HeaderText = "出货价";
+            this.out_price.Name = "out_price";
+            this.out_price.ReadOnly = true;
+            this.out_price.Width = 150;
+            // 
+            // unitDataGridViewTextBoxColumn
+            // 
+            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
+            this.unitDataGridViewTextBoxColumn.HeaderText = "计量单位";
+            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
+            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.unitDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // productintroduceDataGridViewTextBoxColumn
+            // 
+            this.productintroduceDataGridViewTextBoxColumn.DataPropertyName = "product_introduce";
+            this.productintroduceDataGridViewTextBoxColumn.HeaderText = "产品描述";
+            this.productintroduceDataGridViewTextBoxColumn.Name = "productintroduceDataGridViewTextBoxColumn";
+            this.productintroduceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.productintroduceDataGridViewTextBoxColumn.Width = 200;
+            // 
+            // remarkDataGridViewTextBoxColumn
+            // 
+            this.remarkDataGridViewTextBoxColumn.DataPropertyName = "remark";
+            this.remarkDataGridViewTextBoxColumn.HeaderText = "备注";
+            this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
+            this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // ProductForm
             // 
@@ -361,9 +370,10 @@
         private System.Windows.Forms.BindingSource productBindingSource;
         private dataDataSet dataDataSet;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn spec;
         private System.Windows.Forms.DataGridViewTextBoxColumn get_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn out_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productintroduceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn remarkDataGridViewTextBoxColumn;

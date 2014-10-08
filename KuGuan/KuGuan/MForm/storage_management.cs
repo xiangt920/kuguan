@@ -13,9 +13,10 @@ namespace KuGuan.MForm
 {
     public partial class storage_management : DockContent
     {
-        private choose_supplier C = new choose_supplier();
+        private SupplierForm C = new SupplierForm(true);
+        private StoreForm S = new StoreForm(true);
         private choose_product P = new choose_product();
-        private Dictionary<string, int> dateIdCount = new Dictionary<string, int>();
+        private int engId;
         public storage_management()
         {
             InitializeComponent();
@@ -31,20 +32,20 @@ namespace KuGuan.MForm
                 priceBox.Text = P.InPrice;
                 this.numUpDown.Focus();
                 this.numUpDown.Select(0, numUpDown.Value.ToString().Length);
+
             }
         }
         private List<String> to = new List<String>();
         private void storage_management_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.storehouse”中。您可以根据需要移动或删除它。
-            this.storehouseTableAdapter.Fill(this.dataDataSet.storehouse);
+            // TODO:  这行代码将数据加载到表“dataDataSet.product_type”中。您可以根据需要移动或删除它。
+            this.product_typeTableAdapter.Fill0(this.dataDataSet.product_type);
             // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
             this.unitTableAdapter.Fill(this.dataDataSet.unit);
             string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
             Decimal new_id = Decimal.Parse((String)this.storage_managementTableAdapter.find(date));
             new_id++;
             sidBox.Text = new_id.ToString();
-            dateIdCount.Add(date, 0);
         }
 
 
@@ -69,16 +70,6 @@ namespace KuGuan.MForm
         private void show_on_list(object sender, EventArgs e)
         {
 
-            if (sidBox.Text == "")
-            {
-                MessageBox.Show("请您选择仓库");
-                return;
-            }
-            if (supNameBox.Text == "")
-            {
-                MessageBox.Show("请您选择供应商");
-                return;
-            }
             if (proNameBox.Text == "")
             {
                 MessageBox.Show("请您选择货品");
@@ -103,41 +94,18 @@ namespace KuGuan.MForm
             {
                 KuGuan.dataDataSet.storage_managementRow row = (dataDataSet.storage_managementRow)this.dataDataSet.storage_management.NewRow();
                 row.BeginEdit();
-                row.s_id = sidBox.Text;
-                row.t = datePicker.Value;
-                row.storehouse_id = (int)storeBox.SelectedValue;
-                row.store_name = storeBox.Text;
-                row.supplier_id = Int32.Parse(supIdBox.Text);
-                row.cust_name = supNameBox.Text;
                 row.product_id = Int32.Parse(proIdBox.Text);
                 row.pro_name = proNameBox.Text;
                 row.unit_id = (int)unitBox.SelectedValue;
                 row.unit_name = unitBox.Text;
                 row.num = numUpDown.Value;
-                row._out = Decimal.Parse(priceBox.Text);
+                row.get_price = Decimal.Parse(priceBox.Text);
                 row.total_price = numUpDown.Value * Decimal.Parse(priceBox.Text);
                 row.EndEdit();
                 this.dataDataSet.storage_management.Addstorage_managementRow(row);
             }
             catch (System.Exception)
             {
-            }
-            try
-            {
-                proNameBox.Text = "";
-                supIdBox.Text = ""; priceBox.Text = ""; proIdBox.Text = "";
-                storeBox.Text = "";
-                supNameBox.Text = "";
-                unitBox.Text = "";
-                numUpDown.Value = 0;
-                string date = datePicker.Value.ToString("yyyyMMdd");
-                dateIdCount[date]++;
-                Decimal new_id = Decimal.Parse(sidBox.Text) + 1;
-                sidBox.Text = new_id.ToString();
-            }
-            catch (System.Exception)
-            {
-                
             }
             
             
@@ -157,13 +125,7 @@ namespace KuGuan.MForm
 
         private void button4_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow r in dataGridView1.Rows)
-            {
-                if (!r.IsNewRow)
-                {
-                    dataGridView1.Rows.Remove(r);
-                }
-            }
+            this.dataDataSet.storage_management.Rows.Clear();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -184,11 +146,7 @@ namespace KuGuan.MForm
             try
             {
                 string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-                if (!dateIdCount.ContainsKey(date))
-                {
-                    dateIdCount.Add(date, 0);
-                }
-                Decimal new_id = Decimal.Parse((String)this.storage_managementTableAdapter.find(date)) + 1 + dateIdCount[date];
+                Decimal new_id = Decimal.Parse((String)this.storage_managementTableAdapter.find(date)) + 1;
                 sidBox.Text = new_id.ToString();
             }
             catch (System.Exception)
@@ -199,25 +157,36 @@ namespace KuGuan.MForm
 
         private void storage_management_Shown(object sender, EventArgs e)
         {
-            storeBox.SelectedIndex = 1;
             unitBox.SelectedIndex = 1;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (supNameBox.Text == "")
+            {
+                MessageBox.Show("请您选择供应商");
+                return;
+            }
+
+            if (storeBox.Text.Trim() == "" || engBox.Text.Trim() == "")
+            {
+                MessageBox.Show("请您选择仓库");
+                return;
+            }
             int count = 0;
             if (this.dataDataSet.storage_management.Rows.Count == 0)
                 return;
             List<KuGuan.dataDataSet.storage_managementRow> failedRows = new List<dataDataSet.storage_managementRow>();
+
             foreach (KuGuan.dataDataSet.storage_managementRow row in this.dataDataSet.storage_management.Rows)
             {
                 int c = this.storage_managementTableAdapter.AddStorage(
-                    row.s_id, 
-                    row.t, 
-                    row.supplier_id, 
-                    row.storehouse_id, 
+                    sidBox.Text,
+                    datePicker.Value,
+                    Int32.Parse(supIdBox.Text),  
                     row.product_id, 
-                    row.num);
+                    row.num,
+                    this.engId);
                 if(c > 0){
                     count+=c;
                 }
@@ -237,9 +206,8 @@ namespace KuGuan.MForm
                 foreach (KuGuan.dataDataSet.storage_managementRow r in failedRows)
                     this.dataDataSet.storage_management.Rows.Remove(r);
             }
-            dateIdCount.Clear();
+
             string date = datePicker.Value.ToString("yyyyMMdd");
-            dateIdCount.Add(date, 0);
             Decimal new_id = Decimal.Parse((String)this.storage_managementTableAdapter.find(date)) + 1;
             sidBox.Text = new_id.ToString();
         }
@@ -259,7 +227,18 @@ namespace KuGuan.MForm
             }
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+
+        private void storeBox_Click(object sender, EventArgs e)
+        {
+            if (S.ShowDialog() == DialogResult.OK)
+            {
+                this.engId = S.Id;
+                storeBox.Text = S.ParentName;
+                engBox.Text = S.SName;
+            }
+        }
+
+        private void storeBox_TextChanged(object sender, EventArgs e)
         {
 
         }

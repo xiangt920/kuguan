@@ -29,135 +29,174 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.storeDataGridView = new System.Windows.Forms.DataGridView();
-            this.storehousenameDataGridViewImageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.storehouseidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.storehouseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StoreForm));
             this.dataDataSet = new KuGuan.dataDataSet();
-            this.button3 = new System.Windows.Forms.Button();
-            this.storehouseTableAdapter = new KuGuan.dataDataSetTableAdapters.storehouseTableAdapter();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.addNextButton = new System.Windows.Forms.Button();
+            this.delButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
+            this.tLabel = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.treeView = new System.Windows.Forms.TreeView();
+            this.product_typeTableAdapter = new KuGuan.dataDataSetTableAdapters.product_typeTableAdapter();
+            this.producttypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            ((System.ComponentModel.ISupportInitialize)(this.storeDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.storehouseBindingSource)).BeginInit();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // storeDataGridView
-            // 
-            this.storeDataGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.storeDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.storeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.storeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.storehousenameDataGridViewImageColumn,
-            this.storehouseidDataGridViewTextBoxColumn});
-            this.storeDataGridView.DataSource = this.storehouseBindingSource;
-            this.storeDataGridView.Location = new System.Drawing.Point(540, 146);
-            this.storeDataGridView.Name = "storeDataGridView";
-            this.storeDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            this.storeDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.storeDataGridView.RowTemplate.Height = 23;
-            this.storeDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.storeDataGridView.Size = new System.Drawing.Size(207, 217);
-            this.storeDataGridView.TabIndex = 6;
-            // 
-            // storehousenameDataGridViewImageColumn
-            // 
-            this.storehousenameDataGridViewImageColumn.DataPropertyName = "storehouse_name";
-            dataGridViewCellStyle2.NullValue = "(点击添加仓库)";
-            this.storehousenameDataGridViewImageColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.storehousenameDataGridViewImageColumn.HeaderText = "仓库名称";
-            this.storehousenameDataGridViewImageColumn.Name = "storehousenameDataGridViewImageColumn";
-            this.storehousenameDataGridViewImageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.storehousenameDataGridViewImageColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.storehousenameDataGridViewImageColumn.Width = 220;
-            // 
-            // storehouseidDataGridViewTextBoxColumn
-            // 
-            this.storehouseidDataGridViewTextBoxColumn.DataPropertyName = "storehouse_id";
-            this.storehouseidDataGridViewTextBoxColumn.FillWeight = 5F;
-            this.storehouseidDataGridViewTextBoxColumn.HeaderText = "id";
-            this.storehouseidDataGridViewTextBoxColumn.Name = "storehouseidDataGridViewTextBoxColumn";
-            this.storehouseidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.storehouseidDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.storehouseidDataGridViewTextBoxColumn.Visible = false;
-            this.storehouseidDataGridViewTextBoxColumn.Width = 5;
-            // 
-            // storehouseBindingSource
-            // 
-            this.storehouseBindingSource.DataMember = "storehouse";
-            this.storehouseBindingSource.DataSource = this.dataDataSet;
             // 
             // dataDataSet
             // 
             this.dataDataSet.DataSetName = "dataDataSet";
             this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // button3
+            // groupBox1
             // 
-            this.button3.Location = new System.Drawing.Point(540, 388);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(207, 42);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "确认修改";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.groupBox1.Controls.Add(this.addNextButton);
+            this.groupBox1.Controls.Add(this.delButton);
+            this.groupBox1.Controls.Add(this.addButton);
+            this.groupBox1.Controls.Add(this.tLabel);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.treeView);
+            this.groupBox1.Location = new System.Drawing.Point(294, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(201, 568);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "仓库";
             // 
-            // storehouseTableAdapter
+            // addNextButton
             // 
-            this.storehouseTableAdapter.ClearBeforeFill = true;
+            this.addNextButton.Location = new System.Drawing.Point(70, 525);
+            this.addNextButton.Name = "addNextButton";
+            this.addNextButton.Size = new System.Drawing.Size(63, 35);
+            this.addNextButton.TabIndex = 5;
+            this.addNextButton.Text = "增加下层";
+            this.addNextButton.UseVisualStyleBackColor = true;
+            this.addNextButton.Click += new System.EventHandler(this.addNextButton_Click);
+            // 
+            // delButton
+            // 
+            this.delButton.Location = new System.Drawing.Point(135, 525);
+            this.delButton.Name = "delButton";
+            this.delButton.Size = new System.Drawing.Size(61, 35);
+            this.delButton.TabIndex = 4;
+            this.delButton.Text = "删除类别";
+            this.delButton.UseVisualStyleBackColor = true;
+            this.delButton.Click += new System.EventHandler(this.delButton_Click);
+            // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(6, 525);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(62, 35);
+            this.addButton.TabIndex = 3;
+            this.addButton.Text = "增加同层";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // tLabel
+            // 
+            this.tLabel.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.tLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tLabel.ForeColor = System.Drawing.Color.Red;
+            this.tLabel.Location = new System.Drawing.Point(66, 493);
+            this.tLabel.Name = "tLabel";
+            this.tLabel.ReadOnly = true;
+            this.tLabel.Size = new System.Drawing.Size(129, 21);
+            this.tLabel.TabIndex = 2;
+            this.tLabel.TabStop = false;
+            this.tLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 497);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "当前类别";
+            // 
+            // treeView
+            // 
+            this.treeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
+            this.treeView.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.treeView.ImeMode = System.Windows.Forms.ImeMode.Hangul;
+            this.treeView.LabelEdit = true;
+            this.treeView.Location = new System.Drawing.Point(6, 20);
+            this.treeView.Name = "treeView";
+            this.treeView.Size = new System.Drawing.Size(189, 457);
+            this.treeView.TabIndex = 0;
+            this.treeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_AfterLabelEdit);
+            this.treeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView_DrawNode);
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
+            // 
+            // product_typeTableAdapter
+            // 
+            this.product_typeTableAdapter.ClearBeforeFill = true;
+            // 
+            // producttypeBindingSource
+            // 
+            this.producttypeBindingSource.DataMember = "product_type";
+            this.producttypeBindingSource.DataSource = this.dataDataSet;
             // 
             // tableAdapterManager
             // 
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
-            this.tableAdapterManager.product_typeTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = this.storehouseTableAdapter;
+            this.tableAdapterManager.product_typeTableAdapter = this.product_typeTableAdapter;
+            this.tableAdapterManager.stockTableAdapter = null;
+            this.tableAdapterManager.storehouseTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "1.jpg");
+            this.imageList.Images.SetKeyName(1, "2.jpg");
+            // 
             // StoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1354, 578);
-            this.Controls.Add(this.storeDataGridView);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.groupBox1);
             this.HideOnClose = true;
             this.Name = "StoreForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TabText = "仓库设置";
             this.Text = "仓库设置";
             this.Load += new System.EventHandler(this.StoreForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.storeDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.storehouseBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView storeDataGridView;
-        private System.Windows.Forms.Button button3;
         private dataDataSet dataDataSet;
-        private System.Windows.Forms.BindingSource storehouseBindingSource;
-        private dataDataSetTableAdapters.storehouseTableAdapter storehouseTableAdapter;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button addNextButton;
+        private System.Windows.Forms.Button delButton;
+        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.TextBox tLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TreeView treeView;
+        private dataDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
+        private System.Windows.Forms.BindingSource producttypeBindingSource;
         private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
-        private System.Windows.Forms.DataGridViewTextBoxColumn storehousenameDataGridViewImageColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn storehouseidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ImageList imageList;
     }
 }

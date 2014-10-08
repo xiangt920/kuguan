@@ -184,5 +184,15 @@ namespace KuGuan.MForm
             frm.Show(this.dockPanel);
             frm.BringToFront();
         }
+
+        private void 库存查询toolStripButton_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("库存查询");
+            if (frm == null)
+                frm = new StockForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
     }
 }

@@ -14,10 +14,9 @@ namespace KuGuan.MForm
     public partial class out_management : DockContent
     {
 
-        private choose_product P = new choose_product();
+        private choose_stock P = new choose_stock();
 
-        private choose_customer C = new choose_customer();
-        private Dictionary<string, int> dateIdCount = new Dictionary<string, int>();
+        private CustomerForm C = new CustomerForm(true);
         public out_management()
         {
             InitializeComponent();
@@ -30,7 +29,10 @@ namespace KuGuan.MForm
                 proNameBox.Text = P.ProName;
                 unitBox.Text = P.Unit;
                 priceBox.Text = P.OutPrice;
-                stockBox.Text = P.Count;
+                storeBox.Text = P.Store;
+                engBox.Text = P.Type;
+                unitBox.Text = P.Unit;
+                stockBox.Text = P.Stock+"";
                 this.numUpDown.Focus();
                 this.numUpDown.Select(0, numUpDown.Value.ToString().Length);
             }
@@ -40,30 +42,17 @@ namespace KuGuan.MForm
 
         private void out_management_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.storehouse”中。您可以根据需要移动或删除它。
-            this.storehouseTableAdapter.Fill(this.dataDataSet.storehouse);
             // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
             this.unitTableAdapter.Fill(this.dataDataSet.unit);
             string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
             Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date));
             new_id++;
             oIdBox.Text = new_id.ToString();
-            dateIdCount.Add(date, 0);
         }
 
         
         private void show_on_list(object sender, EventArgs e)
         {
-            if (cusIdBox.Text == "")
-            {
-                MessageBox.Show("请您选择仓库");
-                return;
-            }
-            if (cusNameBox.Text == "")
-            {
-                MessageBox.Show("请您选择供应商");
-                return;
-            }
             if (proNameBox.Text == "")
             {
                 MessageBox.Show("请您选择货品");
@@ -88,13 +77,8 @@ namespace KuGuan.MForm
             {
                 KuGuan.dataDataSet.out_managementRow row = (dataDataSet.out_managementRow)this.dataDataSet.out_management.NewRow();
                 row.BeginEdit();
-                row.out_id = oIdBox.Text;
-                row.time = datePicker.Value;
-                row.storehouse_id = (int)storeBox.SelectedValue;
-                row.storehouse_name = storeBox.Text;
-                row.customer_id = Int32.Parse(cusIdBox.Text);
-                row.customer_name = cusNameBox.Text;
                 row.product_id = Int32.Parse(proIdBox.Text);
+                row.product_type_id = P.TypeId;
                 row.product_name = proNameBox.Text;
                 row.unit_id = (int)unitBox.SelectedValue;
                 row.unit = unitBox.Text;
@@ -106,23 +90,6 @@ namespace KuGuan.MForm
             }
             catch (System.Exception)
             {
-            }
-            try
-            {
-                proNameBox.Text = "";
-                cusIdBox.Text = ""; priceBox.Text = ""; proIdBox.Text = "";
-                storeBox.Text = "";
-                cusNameBox.Text = "";
-                unitBox.Text = "";
-                numUpDown.Value = 0;
-                string date = datePicker.Value.ToString("yyyyMMdd");
-                dateIdCount[date]++;
-                Decimal new_id = Decimal.Parse(oIdBox.Text) + 1;
-                oIdBox.Text = new_id.ToString();
-            }
-            catch (System.Exception)
-            {
-
             }
 
         }
@@ -136,7 +103,6 @@ namespace KuGuan.MForm
 
         private void choose_customer(object sender, EventArgs e)
         {
-            choose_customer C = new choose_customer();
             if (C.ShowDialog() == DialogResult.OK)
             {
                 cusIdBox.Text = C.Id.ToString();
@@ -148,13 +114,7 @@ namespace KuGuan.MForm
 
         private void button4_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow r in dataGridView1.Rows)
-            {
-                if (!r.IsNewRow)
-                {
-                    dataGridView1.Rows.Remove(r);
-                }
-            }
+            this.dataDataSet.out_management.Rows.Clear();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -175,11 +135,7 @@ namespace KuGuan.MForm
             try
             {
                 string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-                if (!dateIdCount.ContainsKey(date))
-                {
-                    dateIdCount.Add(date, 0);
-                }
-                Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date)) + 1 + dateIdCount[date];
+                Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date)) + 1;
                 oIdBox.Text = new_id.ToString();
             }
             catch (System.Exception)
@@ -191,16 +147,36 @@ namespace KuGuan.MForm
         private void button2_Click(object sender, EventArgs e)
         {
             int count = 0;
+            string reason = "";
             if (this.dataDataSet.out_management.Rows.Count == 0)
                 return;
             List<KuGuan.dataDataSet.out_managementRow> failedRows = new List<dataDataSet.out_managementRow>();
+
+            int cus_id = -1;
+            if (cusNameBox.Text.Trim() != "")
+            {
+
+                cus_id = Int32.Parse(cusIdBox.Text);
+            }
+            int typeId = -1;
             foreach (KuGuan.dataDataSet.out_managementRow row in this.dataDataSet.out_management.Rows)
             {
+                if (typeId == -1)
+                    typeId = row.product_type_id;
+                else
+                {
+                    if (typeId != row.product_type_id)
+                    {
+                        reason += "多条记录所在仓库不一致；";
+                        failedRows.Add(row);
+                        continue;
+                    }
+                }
                 int c = this.out_managementTableAdapter.AddOut(
-                    row.out_id,
-                    row.time,
-                    row.customer_id,
-                    row.storehouse_id,
+                    oIdBox.Text,
+                    datePicker.Value,
+                    cus_id,
+                    P.TypeId,
                     row.product_id,
                     row.storage_num);
                 if (c > 0)
@@ -208,7 +184,10 @@ namespace KuGuan.MForm
                     count += c;
                 }
                 else
+                {
+                    reason += "存入数据库失败;";
                     failedRows.Add(row);
+                }
             }
             if (count == this.dataDataSet.out_management.Rows.Count)
             {
@@ -219,13 +198,11 @@ namespace KuGuan.MForm
             else
             {
                 MessageBox.Show("提交入库信息条数:" + this.dataDataSet.out_management.Rows.Count
-                    + "\n成功入库信息条数:" + count);
+                    + "\n成功入库信息条数:" + count+"\n其他信息："+reason);
                 foreach (KuGuan.dataDataSet.out_managementRow r in failedRows)
                     this.dataDataSet.out_management.Rows.Remove(r);
             }
-            dateIdCount.Clear();
             string date = datePicker.Value.ToString("yyyyMMdd");
-            dateIdCount.Add(date, 0);
             Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date)) + 1;
             oIdBox.Text = new_id.ToString();
         }

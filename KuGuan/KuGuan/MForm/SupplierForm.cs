@@ -13,41 +13,80 @@ namespace KuGuan.MForm
     public partial class SupplierForm : DockContent
     {
         private dataDataSetTableAdapters.supplier_typeTableAdapter suptypeAdapter = new dataDataSetTableAdapters.supplier_typeTableAdapter();
+        private dataDataSetTableAdapters.QueriesTableAdapter procAdapter = new dataDataSetTableAdapters.QueriesTableAdapter();
         private DataTable suptypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String,int>();
+        private bool isChoose = false;
+        private int supplier_id = -1;
+        private string supplier_name = "";
+        public int Id { get { return this.supplier_id; } }
+        public string SupName { get { return this.supplier_name; } }
         public SupplierForm()
         {
             InitializeComponent();
         }
-
-        private void SupplierForm_Load(object sender, EventArgs e)
+        public SupplierForm(bool isChoose)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
-            
+            InitializeComponent();
+            this.isChoose = isChoose;
+            this.Text = "选择供货商";
             suptypeTable = suptypeAdapter.GetData();
             foreach (DataRow r in suptypeTable.Rows)
             {
-                String type_id = (String)r["supplier_type_id"];
-                String parent_id = (String)r["parent_id"];
+                int type_id = (int)r["supplier_type_id"];
+                int parent_id = (int)r["parent_id"];
                 int type_class = (int)r["type_class"];
                 String type_name = (String)r["supplier_type"];
-                
+
                 TreeNode parent_node = new TreeNode(type_name);
-                
+
                 parent_node.Tag = type_id;
                 if (type_class == 1)
                 {
                     treeView.Nodes.Add(parent_node);
-                    node_index.Add(type_id+"", parent_node.Index);
+                    node_index.Add(type_id + "", parent_node.Index);
                 }
-                else 
+                else
                 {
-                    treeView.Nodes[node_index[parent_id+""]].Nodes.Add(parent_node);
+                    treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
                 }
             }
             addNextButton.Enabled = false;
             addSupButton.Enabled = false;
             addButton.Enabled = false;
+        }
+
+        private void SupplierForm_Load(object sender, EventArgs e)
+        {
+            // TODO:  这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
+            if (!isChoose)
+            {
+                suptypeTable = suptypeAdapter.GetData();
+                foreach (DataRow r in suptypeTable.Rows)
+                {
+                    int type_id = (int)r["supplier_type_id"];
+                    int parent_id = (int)r["parent_id"];
+                    int type_class = (int)r["type_class"];
+                    String type_name = (String)r["supplier_type"];
+
+                    TreeNode parent_node = new TreeNode(type_name);
+
+                    parent_node.Tag = type_id;
+                    if (type_class == 1)
+                    {
+                        treeView.Nodes.Add(parent_node);
+                        node_index.Add(type_id + "", parent_node.Index);
+                    }
+                    else
+                    {
+                        treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
+                    }
+                }
+                addNextButton.Enabled = false;
+                addSupButton.Enabled = false;
+                addButton.Enabled = false;
+            }
+            
 
         }
 
@@ -56,7 +95,7 @@ namespace KuGuan.MForm
             TreeNode node = treeView.SelectedNode;
 
             TreeNode newNode = new TreeNode("【新类别】");
-            newNode.Tag = "-1";
+            newNode.Tag = -1;
             if (node == null ||node.Level == 0)
             {
                 treeView.Nodes.Add(newNode);
@@ -73,7 +112,7 @@ namespace KuGuan.MForm
         private void delButton_Click(object sender, EventArgs e)
         {
             TreeNode node = treeView.SelectedNode;
-            String id = (String)node.Tag;
+            int id = (int)node.Tag;
             
             if (node != null)
             {
@@ -105,6 +144,7 @@ namespace KuGuan.MForm
                         MessageBoxIcon.Question);
                     if (r == DialogResult.OK)
                     {
+                        this.supplierTableAdapter.DeleteBy1(id);
                         this.suptypeAdapter.DeleteByParent(id);
                         this.suptypeAdapter.DeleteById(id);
                         treeView.SelectedNode = node.Parent;
@@ -138,26 +178,27 @@ namespace KuGuan.MForm
                 addSupButton.Enabled = false;
             }
             tLabel.Text = node.Text;
-            if(((String)(node.Tag)) != "-1")
-                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+            if(((int)(node.Tag)) != -1)
+                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (int)node.Tag, (int)node.Tag);
         }
 
         private void treeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            String id = (String)e.Node.Tag;
-            string name = (string)e.Label;
-            if (id != "-1")
+            int id = (int)e.Node.Tag;
+            string name = e.Label;
+            if (id != -1 && name != "" && name != e.Node.Text)
             {
+                MessageBox.Show(id+"");
                 this.suptypeAdapter.UpdateTypeById(name, id);
             }
             else
             {
-                String new_id = DateTime.Now.ToFileTime().ToString();
+                int? new_id = -1;
                 if (e.Node.Level == 0)
-                    this.suptypeAdapter.AddType(new_id, name, (int?)(e.Node.Level + 1), "0");
+                    this.procAdapter.AddSupType(ref new_id, name, 1, 0);
                 else
                 {
-                    this.suptypeAdapter.AddType(new_id, name, (int?)(e.Node.Level + 1), (String)e.Node.Parent.Tag);
+                    this.procAdapter.AddSupType(ref new_id, name, 2, (int)e.Node.Parent.Tag);
                 }
                 e.Node.Tag = new_id;
             }
@@ -168,7 +209,7 @@ namespace KuGuan.MForm
             TreeNode node = treeView.SelectedNode;
 
             TreeNode newNode = new TreeNode("【新类别】");
-            newNode.Tag = "-1";
+            newNode.Tag = -1;
             node.Nodes.Add(newNode);
             treeView.SelectedNode = newNode;
             newNode.BeginEdit();
@@ -183,10 +224,10 @@ namespace KuGuan.MForm
             }
             else
             {
-                ChgSupForm form = new ChgSupForm("新增供货商", -1, (String)node.Tag);
+                ChgSupForm form = new ChgSupForm("新增供货商", -1, (int)node.Tag);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+                    this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (int)node.Tag, (int)node.Tag);
                 }
             }
             
@@ -196,17 +237,17 @@ namespace KuGuan.MForm
         {
             TreeNode node = treeView.SelectedNode;
             int id = (int)dataGridView.SelectedRows[0].Cells[0].Value;
-            ChgSupForm form = new ChgSupForm("修改供货商", id, "0");
+            ChgSupForm form = new ChgSupForm("修改供货商", id, 0);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (int)node.Tag, (int)node.Tag);
             }
         }
 
         private void refreshButton_Click(object sender, EventArgs e)
         {
             TreeNode node = treeView.SelectedNode;
-            this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+            this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (int)node.Tag, (int)node.Tag);
         }
 
         private void delSupButton_Click(object sender, EventArgs e)
@@ -217,7 +258,7 @@ namespace KuGuan.MForm
                 DataRowView SelectedRowView = (DataRowView)this.supplierBindingSource.Current;
                 dataDataSet.supplierRow selectedRow = (dataDataSet.supplierRow)SelectedRowView.Row;
                 selectedRow.Delete();
-                this.supplierTableAdapter.Update(this.dataDataSet);
+                //this.supplierTableAdapter.Update(this.dataDataSet);
 
             }
         }
@@ -234,10 +275,26 @@ namespace KuGuan.MForm
         {
             TreeNode node = treeView.SelectedNode;
             int id = (int)dataGridView.SelectedRows[0].Cells[0].Value;
-            ChgSupForm form = new ChgSupForm("修改供货商", id, "0");
+            if (isChoose)
+            {
+                int index = e.RowIndex;
+                if (index >= 0)
+                {
+                    foreach(KuGuan.dataDataSet.supplierRow row in this.dataDataSet.supplier.Rows)
+                    {
+
+                        this.supplier_id = row.supplier_id;
+                        this.supplier_name = row.supplier_name;
+                        this.DialogResult = DialogResult.OK;
+                        return;
+                    }
+                }
+                return;
+            }
+            ChgSupForm form = new ChgSupForm("修改供货商", id, 0);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (String)node.Tag, (String)node.Tag);
+                this.supplierTableAdapter.FillByParent(this.dataDataSet.supplier, (int)node.Tag, (int)node.Tag);
             }
         }
 

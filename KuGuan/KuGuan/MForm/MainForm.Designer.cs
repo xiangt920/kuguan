@@ -149,21 +149,23 @@
             // 入库管理IToolStripMenuItem
             // 
             this.入库管理IToolStripMenuItem.Name = "入库管理IToolStripMenuItem";
-            this.入库管理IToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.入库管理IToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.入库管理IToolStripMenuItem.Text = "入库管理(&I)";
+            this.入库管理IToolStripMenuItem.Click += new System.EventHandler(this.入库管理Button_Click);
             // 
             // 出库管理OToolStripMenuItem
             // 
             this.出库管理OToolStripMenuItem.Name = "出库管理OToolStripMenuItem";
-            this.出库管理OToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.出库管理OToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.出库管理OToolStripMenuItem.Text = "出库管理(&O)";
             this.出库管理OToolStripMenuItem.Click += new System.EventHandler(this.出库管理OToolStripMenuItem_Click);
             // 
             // 调库管理CToolStripMenuItem
             // 
             this.调库管理CToolStripMenuItem.Name = "调库管理CToolStripMenuItem";
-            this.调库管理CToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.调库管理CToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.调库管理CToolStripMenuItem.Text = "调库管理(&C)";
+            this.调库管理CToolStripMenuItem.Click += new System.EventHandler(this.调库管理toolStripButton_Click);
             // 
             // 查询与统计SToolStripMenuItem
             // 
@@ -178,8 +180,9 @@
             // 库存查询KToolStripMenuItem
             // 
             this.库存查询KToolStripMenuItem.Name = "库存查询KToolStripMenuItem";
-            this.库存查询KToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.库存查询KToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.库存查询KToolStripMenuItem.Text = "库存查询(&K)";
+            this.库存查询KToolStripMenuItem.Click += new System.EventHandler(this.库存查询toolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -359,6 +362,7 @@
             this.库存查询toolStripButton.Size = new System.Drawing.Size(60, 69);
             this.库存查询toolStripButton.Text = "库存查询";
             this.库存查询toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.库存查询toolStripButton.Click += new System.EventHandler(this.库存查询toolStripButton_Click);
             // 
             // 单据查询toolStripButton
             // 
@@ -401,6 +405,7 @@
             this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel.Location = new System.Drawing.Point(0, 97);
             this.dockPanel.Name = "dockPanel";
+            this.dockPanel.ShowPadIcon = false;
             this.dockPanel.Size = new System.Drawing.Size(1248, 447);
             this.dockPanel.TabIndex = 4;
             // 

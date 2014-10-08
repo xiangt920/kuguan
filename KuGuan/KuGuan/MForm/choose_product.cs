@@ -11,62 +11,32 @@ namespace KuGuan.MForm
 {
     public partial class choose_product : Form
     {
-        private dataDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new dataDataSetTableAdapters.product_typeTableAdapter();
-        private DataTable protypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
 
         private string product_id;
         private string product_name;
+        private string product_spec;
         private string product_in_price;
         private string product_out_price;
         private string product_unit;
-        private string product_count;
 
         public string ID { get { return this.product_id; } }
         public string ProName { get { return this.product_name; } }
+        public string ProSpec { get { return this.product_spec; } }
         public string InPrice { get { return this.product_in_price; } }
         public string OutPrice { get { return this.product_out_price; } }
         public string Unit { get { return this.product_unit; } }
-        public string Count { get { return this.product_count; } }
         public choose_product()
         {
             InitializeComponent();
-            protypeTable = protypeAdapter.GetData();
-            foreach (DataRow r in protypeTable.Rows)
-            {
-                String type_id = (String)r["product_type_id"];
-                String parent_id = (String)r["parent_id"];
-                int type_class = (int)r["type_class"];
-                String type_name = (String)r["product_type"];
-
-                TreeNode parent_node = new TreeNode(type_name);
-
-                parent_node.Tag = type_id;
-                if (type_class == 1)
-                {
-                    treeView.Nodes.Add(parent_node);
-                    node_index.Add(type_id + "", parent_node.Index);
-                }
-                else
-                {
-                    treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
-                }
-            }
+            this.productTableAdapter.Fill(this.dataDataSet.product);
         }
 
         private void ProductForm_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.product”中。您可以根据需要移动或删除它。
             
         }
 
-        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            TreeNode node = ((TreeView)sender).SelectedNode;
-            tLabel.Text = node.Text;
-            if (((String)(node.Tag)) != "-1")
-                this.productTableAdapter.FillByParent(this.dataDataSet.product, (String)node.Tag, (String)node.Tag);
-        }
 
         private void searchButton_Click(object sender, EventArgs e)
         {
@@ -76,8 +46,7 @@ namespace KuGuan.MForm
 
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            TreeNode node = treeView.SelectedNode;
-            this.productTableAdapter.FillByParent(this.dataDataSet.product, (String)node.Tag, (String)node.Tag);
+            this.productTableAdapter.Fill(this.dataDataSet.product);
         }
         private void cnlButton_Click(object sender, EventArgs e)
         {
@@ -89,14 +58,41 @@ namespace KuGuan.MForm
             int index = e.RowIndex;
             if (index >= 0)
             {
-                KuGuan.dataDataSet.productRow row = (KuGuan.dataDataSet.productRow)this.dataDataSet.product.Rows[index];
-                this.product_id = row.product_id.ToString();
-                this.product_name = row.product_name;
-                this.product_in_price = row.get_price.ToString();
-                this.product_out_price = row.out_price.ToString();
-                this.product_unit = row.unit;
-                this.product_count = row.count.ToString();
-                this.DialogResult = DialogResult.OK;
+                int id = (int)dataGridView.Rows[index].Cells[0].Value;
+                foreach (KuGuan.dataDataSet.productRow row in this.dataDataSet.product.Rows)
+                {
+                    if (row.product_id == id) 
+                    {
+
+                        this.product_id = row.product_id.ToString();
+                        this.product_name = row.product_name;
+                        this.product_in_price = row.get_price.ToString();
+                        this.product_out_price = row.out_price.ToString();
+                        this.product_unit = row.unit;
+                        this.product_spec = row.spec;
+                        this.DialogResult = DialogResult.OK;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void addProButton_Click(object sender, EventArgs e)
+        {
+            ChgProForm form = new ChgProForm("新增产品", -1);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.productTableAdapter.Fill(this.dataDataSet.product);
+            }
+        }
+
+        private void changeButton_Click(object sender, EventArgs e)
+        {
+            int id = (int)dataGridView.SelectedRows[0].Cells[0].Value;
+            ChgProForm form = new ChgProForm("修改产品", id);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.productTableAdapter.Fill(this.dataDataSet.product);
             }
         }
     }

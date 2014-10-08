@@ -55,7 +55,7 @@ namespace KuGuan.MForm
             TreeNode node = ((TreeView)sender).SelectedNode;
             tLabel.Text = node.Text;
             if (((String)(node.Tag)) != "-1")
-                this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (String)node.Tag, (String)node.Tag);
+                this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (long)node.Tag, (long)node.Tag);
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace KuGuan.MForm
         private void refreshButton_Click(object sender, EventArgs e)
         {
             TreeNode node = treeView.SelectedNode;
-            this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (String)node.Tag, (String)node.Tag);
+            this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (long)node.Tag, (long)node.Tag);
         }
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {

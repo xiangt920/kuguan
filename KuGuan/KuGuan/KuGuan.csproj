@@ -28,7 +28,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -64,6 +64,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MB_0008_touch.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -76,12 +82,16 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.2864.18696, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL">
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.10065.33, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>I:\Workspaces\visual studio 2012\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>FakesAssemblies\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dataDataSet.cs">
+      <DependentUpon>dataDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dataDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,11 +157,23 @@
     <Compile Include="MForm\choose_product.Designer.cs">
       <DependentUpon>choose_product.cs</DependentUpon>
     </Compile>
+    <Compile Include="MForm\choose_stock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\choose_stock.Designer.cs">
+      <DependentUpon>choose_stock.cs</DependentUpon>
+    </Compile>
     <Compile Include="MForm\ProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MForm\ProductForm.Designer.cs">
       <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MForm\StockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\StockForm.Designer.cs">
+      <DependentUpon>StockForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MForm\storage_management.cs">
       <SubType>Form</SubType>
@@ -164,12 +186,6 @@
     </Compile>
     <Compile Include="MForm\StoreForm.Designer.cs">
       <DependentUpon>StoreForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MForm\choose_supplier.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MForm\choose_supplier.Designer.cs">
-      <DependentUpon>choose_supplier.cs</DependentUpon>
     </Compile>
     <Compile Include="MForm\SupplierForm.cs">
       <SubType>Form</SubType>
@@ -222,17 +238,20 @@
     <EmbeddedResource Include="MForm\choose_product.resx">
       <DependentUpon>choose_product.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MForm\choose_stock.resx">
+      <DependentUpon>choose_stock.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MForm\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\StockForm.resx">
+      <DependentUpon>StockForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MForm\storage_management.resx">
       <DependentUpon>storage_management.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MForm\StoreForm.resx">
       <DependentUpon>StoreForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MForm\choose_supplier.resx">
-      <DependentUpon>choose_supplier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MForm\SupplierForm.resx">
       <DependentUpon>SupplierForm.cs</DependentUpon>
@@ -300,9 +319,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FakesAssemblies\WeifenLuo.WinFormsUI.Docking.dll" />
     <Content Include="ico\1.仓库设置.png" />
     <Content Include="ico\1.供货商.png" />
     <Content Include="ico\1.出货商.png" />
+    <Content Include="img\1.jpg" />
+    <Content Include="img\2.jpg" />
+    <Content Include="MB_0008_touch.ico" />
     <None Include="ico\13[2007522133019]_conew1.png" />
     <Content Include="ico\2.入库管理.png" />
     <Content Include="ico\2.出库管理.png" />
