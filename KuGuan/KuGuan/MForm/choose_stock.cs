@@ -24,6 +24,7 @@ namespace KuGuan.MForm
         private string product_in_price;
         private string product_out_price;
         private string product_unit;
+        private int product_unit_id;
         private string type;
         private string pro_spec;
         private string store;
@@ -35,6 +36,7 @@ namespace KuGuan.MForm
         public string InPrice { get { return this.product_in_price; } }
         public string OutPrice { get { return this.product_out_price; } }
         public string Unit { get { return this.product_unit; } }
+        public int UnitId { get { return this.product_unit_id; } }
         public string Type { get { return this.type; } }
         public string Store { get { return this.store; } }
 
@@ -133,12 +135,18 @@ namespace KuGuan.MForm
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
+            
             if (index >= 0)
             {
-                dataDataSet.product_stockRow row = (dataDataSet.product_stockRow)this.dataDataSet.product_stock.Rows[index];
+
+                var select_rows = from dataDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
+                                  where r2.product_id == (int)dataGridView.Rows[index].Cells["productidDataGridViewTextBoxColumn"].Value
+                                  select r2;
+                dataDataSet.product_stockRow row = select_rows.ElementAt(0);
                 this.product_id = row.product_id+"";
                 this.type_id = row.product_type_id;
                 this.product_unit = row.unit;
+                this.product_unit_id = row.unit_id;
                 this.product_name = row.product_name;
                 this.product_in_price = row.get_price+"";
                 this.product_out_price = row.out_price+"";
@@ -239,7 +247,10 @@ namespace KuGuan.MForm
                     int index = dataGridView.SelectedRows[0].Index;
                     if (index >= 0)
                     {
-                        dataDataSet.product_stockRow row = (dataDataSet.product_stockRow)this.dataDataSet.product_stock.Rows[index];
+                        var select_rows = from dataDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
+                                          where r2.product_id == (int)dataGridView.Rows[index].Cells["productidDataGridViewTextBoxColumn"].Value
+                                          select r2;
+                        dataDataSet.product_stockRow row = select_rows.ElementAt(0);
                         this.product_id = row.product_id + "";
                         this.type_id = row.product_type_id;
                         this.product_unit = row.unit;
@@ -247,6 +258,7 @@ namespace KuGuan.MForm
                         this.product_in_price = row.get_price + "";
                         this.product_out_price = row.out_price + "";
                         this.stock = row.stock_num;
+                        this.product_unit_id = row.unit_id;
                         this.type = row.product_type;
                         this.pro_spec = row.spec;
                         TreeNode n = treeView.SelectedNode;

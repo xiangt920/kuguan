@@ -19,6 +19,7 @@ namespace KuGuan.MForm
         private string product_in_price;
         private string product_out_price;
         private string product_unit;
+        private int product_unit_id;
 
         public string ID { get { return this.product_id; } }
         public string ProName { get { return this.product_name; } }
@@ -26,6 +27,7 @@ namespace KuGuan.MForm
         public string InPrice { get { return this.product_in_price; } }
         public string OutPrice { get { return this.product_out_price; } }
         public string Unit { get { return this.product_unit; } }
+        public int UnitId { get { return this.product_unit_id; } }
         public choose_product()
         {
             InitializeComponent();
@@ -70,6 +72,7 @@ namespace KuGuan.MForm
                         this.product_out_price = row.out_price.ToString();
                         this.product_unit = row.unit;
                         this.product_spec = row.spec;
+                        this.product_unit_id = row.unit_id;
                         this.DialogResult = DialogResult.OK;
                         return;
                     }

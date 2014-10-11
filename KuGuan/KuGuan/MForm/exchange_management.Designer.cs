@@ -29,10 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.exchangeDocView = new System.Windows.Forms.DataGridView();
+            this.ProductIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.specCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.exchangenumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.exchange_managementBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataDataSet = new KuGuan.dataDataSet();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,85 +66,146 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.addButton = new System.Windows.Forms.Button();
-            this.exchange_managementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
             this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.exchange_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.exchange_managementTableAdapter();
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
             this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.getPriceButton = new System.Windows.Forms.RadioButton();
+            this.outpriceButton = new System.Windows.Forms.RadioButton();
             this.ProIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.specCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.getpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.exchangenumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exchangeDocView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exchange_managementBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.proView)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.exchange_managementBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // exchangeDocView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.exchangeDocView.AllowUserToAddRows = false;
+            this.exchangeDocView.AllowUserToDeleteRows = false;
+            this.exchangeDocView.AllowUserToResizeRows = false;
+            this.exchangeDocView.AutoGenerateColumns = false;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.exchangeDocView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.exchangeDocView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.exchangeDocView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductIdCol,
             this.productnameDataGridViewTextBoxColumn,
             this.specCol,
-            this.getpriceDataGridViewTextBoxColumn,
+            this.price,
             this.exchangenumDataGridViewTextBoxColumn,
             this.unitDataGridViewTextBoxColumn,
             this.totalpriceDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.exchange_managementBindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.Location = new System.Drawing.Point(204, 307);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(945, 189);
-            this.dataGridView1.TabIndex = 29;
+            this.exchangeDocView.DataSource = this.exchange_managementBindingSource;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.exchangeDocView.DefaultCellStyle = dataGridViewCellStyle5;
+            this.exchangeDocView.Location = new System.Drawing.Point(204, 307);
+            this.exchangeDocView.Name = "exchangeDocView";
+            this.exchangeDocView.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.exchangeDocView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.exchangeDocView.RowHeadersVisible = false;
+            this.exchangeDocView.RowTemplate.Height = 23;
+            this.exchangeDocView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.exchangeDocView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.exchangeDocView.Size = new System.Drawing.Size(945, 189);
+            this.exchangeDocView.TabIndex = 29;
+            // 
+            // ProductIdCol
+            // 
+            this.ProductIdCol.DataPropertyName = "product_id";
+            this.ProductIdCol.HeaderText = "货品编号";
+            this.ProductIdCol.Name = "ProductIdCol";
+            this.ProductIdCol.ReadOnly = true;
+            // 
+            // productnameDataGridViewTextBoxColumn
+            // 
+            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
+            this.productnameDataGridViewTextBoxColumn.HeaderText = "货品名称";
+            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
+            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.productnameDataGridViewTextBoxColumn.Width = 160;
+            // 
+            // specCol
+            // 
+            this.specCol.DataPropertyName = "spec";
+            this.specCol.HeaderText = "规格";
+            this.specCol.Name = "specCol";
+            this.specCol.ReadOnly = true;
+            // 
+            // price
+            // 
+            this.price.DataPropertyName = "price";
+            this.price.HeaderText = "单价";
+            this.price.Name = "price";
+            this.price.ReadOnly = true;
+            this.price.Width = 180;
+            // 
+            // exchangenumDataGridViewTextBoxColumn
+            // 
+            this.exchangenumDataGridViewTextBoxColumn.DataPropertyName = "exchange_num";
+            this.exchangenumDataGridViewTextBoxColumn.HeaderText = "数量";
+            this.exchangenumDataGridViewTextBoxColumn.Name = "exchangenumDataGridViewTextBoxColumn";
+            this.exchangenumDataGridViewTextBoxColumn.ReadOnly = true;
+            this.exchangenumDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // unitDataGridViewTextBoxColumn
+            // 
+            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
+            this.unitDataGridViewTextBoxColumn.HeaderText = "单位";
+            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
+            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.unitDataGridViewTextBoxColumn.Width = 72;
+            // 
+            // totalpriceDataGridViewTextBoxColumn
+            // 
+            this.totalpriceDataGridViewTextBoxColumn.DataPropertyName = "total_price";
+            this.totalpriceDataGridViewTextBoxColumn.HeaderText = "总价";
+            this.totalpriceDataGridViewTextBoxColumn.Name = "totalpriceDataGridViewTextBoxColumn";
+            this.totalpriceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.totalpriceDataGridViewTextBoxColumn.Width = 180;
+            // 
+            // exchange_managementBindingSource
+            // 
+            this.exchange_managementBindingSource.DataMember = "exchange_management";
+            this.exchange_managementBindingSource.DataSource = this.dataDataSet;
+            // 
+            // dataDataSet
+            // 
+            this.dataDataSet.DataSetName = "dataDataSet";
+            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // datePicker
             // 
-            this.datePicker.Location = new System.Drawing.Point(505, 30);
+            this.datePicker.Location = new System.Drawing.Point(562, 31);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(200, 21);
             this.datePicker.TabIndex = 26;
@@ -144,7 +214,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(458, 33);
+            this.label2.Location = new System.Drawing.Point(515, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 23;
@@ -154,7 +224,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(155, 33);
+            this.label1.Location = new System.Drawing.Point(212, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 22;
@@ -163,7 +233,7 @@
             // oIdBox
             // 
             this.oIdBox.BackColor = System.Drawing.SystemColors.Control;
-            this.oIdBox.Location = new System.Drawing.Point(214, 30);
+            this.oIdBox.Location = new System.Drawing.Point(271, 31);
             this.oIdBox.Name = "oIdBox";
             this.oIdBox.ReadOnly = true;
             this.oIdBox.Size = new System.Drawing.Size(200, 21);
@@ -404,16 +474,6 @@
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.show_on_list);
             // 
-            // exchange_managementBindingSource
-            // 
-            this.exchange_managementBindingSource.DataMember = "exchange_management";
-            this.exchange_managementBindingSource.DataSource = this.dataDataSet;
-            // 
-            // dataDataSet
-            // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // unitBindingSource
             // 
             this.unitBindingSource.DataMember = "unit";
@@ -441,19 +501,52 @@
             // 
             this.unitTableAdapter.ClearBeforeFill = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.panel1.Controls.Add(this.getPriceButton);
+            this.panel1.Controls.Add(this.outpriceButton);
+            this.panel1.Location = new System.Drawing.Point(888, 23);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(261, 36);
+            this.panel1.TabIndex = 33;
+            // 
+            // getPriceButton
+            // 
+            this.getPriceButton.AutoSize = true;
+            this.getPriceButton.Checked = true;
+            this.getPriceButton.Location = new System.Drawing.Point(15, 9);
+            this.getPriceButton.Name = "getPriceButton";
+            this.getPriceButton.Size = new System.Drawing.Size(95, 16);
+            this.getPriceButton.TabIndex = 5;
+            this.getPriceButton.TabStop = true;
+            this.getPriceButton.Text = "按进货价核算";
+            this.getPriceButton.UseVisualStyleBackColor = true;
+            this.getPriceButton.CheckedChanged += new System.EventHandler(this.getPriceButton_CheckedChanged);
+            // 
+            // outpriceButton
+            // 
+            this.outpriceButton.AutoSize = true;
+            this.outpriceButton.Location = new System.Drawing.Point(116, 9);
+            this.outpriceButton.Name = "outpriceButton";
+            this.outpriceButton.Size = new System.Drawing.Size(95, 16);
+            this.outpriceButton.TabIndex = 6;
+            this.outpriceButton.Text = "按出货价核算";
+            this.outpriceButton.UseVisualStyleBackColor = true;
+            this.outpriceButton.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            // 
             // ProIdCol
             // 
             this.ProIdCol.HeaderText = "编号";
             this.ProIdCol.Name = "ProIdCol";
             this.ProIdCol.ReadOnly = true;
-            this.ProIdCol.Width = 60;
+            this.ProIdCol.Width = 70;
             // 
             // ProNameCol
             // 
             this.ProNameCol.HeaderText = "产品名称";
             this.ProNameCol.Name = "ProNameCol";
             this.ProNameCol.ReadOnly = true;
-            this.ProNameCol.Width = 80;
             // 
             // StockCol
             // 
@@ -466,71 +559,18 @@
             // 
             this.NumCol.HeaderText = "数量";
             this.NumCol.Name = "NumCol";
-            this.NumCol.Width = 110;
-            // 
-            // ProductIdCol
-            // 
-            this.ProductIdCol.DataPropertyName = "product_id";
-            this.ProductIdCol.HeaderText = "货品编号";
-            this.ProductIdCol.Name = "ProductIdCol";
-            this.ProductIdCol.ReadOnly = true;
-            // 
-            // productnameDataGridViewTextBoxColumn
-            // 
-            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
-            this.productnameDataGridViewTextBoxColumn.HeaderText = "货品名称";
-            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
-            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.productnameDataGridViewTextBoxColumn.Width = 160;
-            // 
-            // specCol
-            // 
-            this.specCol.DataPropertyName = "spec";
-            this.specCol.HeaderText = "规格";
-            this.specCol.Name = "specCol";
-            this.specCol.ReadOnly = true;
-            // 
-            // getpriceDataGridViewTextBoxColumn
-            // 
-            this.getpriceDataGridViewTextBoxColumn.DataPropertyName = "get_price";
-            this.getpriceDataGridViewTextBoxColumn.HeaderText = "单价";
-            this.getpriceDataGridViewTextBoxColumn.Name = "getpriceDataGridViewTextBoxColumn";
-            this.getpriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.getpriceDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // exchangenumDataGridViewTextBoxColumn
-            // 
-            this.exchangenumDataGridViewTextBoxColumn.DataPropertyName = "exchange_num";
-            this.exchangenumDataGridViewTextBoxColumn.HeaderText = "数量";
-            this.exchangenumDataGridViewTextBoxColumn.Name = "exchangenumDataGridViewTextBoxColumn";
-            this.exchangenumDataGridViewTextBoxColumn.ReadOnly = true;
-            this.exchangenumDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // unitDataGridViewTextBoxColumn
-            // 
-            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
-            this.unitDataGridViewTextBoxColumn.HeaderText = "单位";
-            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
-            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
-            this.unitDataGridViewTextBoxColumn.Width = 72;
-            // 
-            // totalpriceDataGridViewTextBoxColumn
-            // 
-            this.totalpriceDataGridViewTextBoxColumn.DataPropertyName = "total_price";
-            this.totalpriceDataGridViewTextBoxColumn.HeaderText = "总价";
-            this.totalpriceDataGridViewTextBoxColumn.Name = "totalpriceDataGridViewTextBoxColumn";
-            this.totalpriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.totalpriceDataGridViewTextBoxColumn.Width = 180;
+            this.NumCol.Width = 120;
             // 
             // exchange_management
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 579);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.exchangeDocView);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.datePicker);
             this.Controls.Add(this.label2);
@@ -542,7 +582,9 @@
             this.Text = "调库管理";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.exchange_management_FormClosing);
             this.Load += new System.EventHandler(this.exchange_management_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exchangeDocView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exchange_managementBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.proView)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -551,9 +593,9 @@
             this.groupBox2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.exchange_managementBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -564,7 +606,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView exchangeDocView;
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -592,16 +634,19 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton getPriceButton;
+        private System.Windows.Forms.RadioButton outpriceButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductIdCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn specCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn exchangenumDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProIdCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProNameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductIdCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn specCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn getpriceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn exchangenumDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
     }
 }

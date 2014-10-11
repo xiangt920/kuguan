@@ -58,6 +58,7 @@
             // unitDataGridView
             // 
             this.unitDataGridView.AllowUserToDeleteRows = false;
+            this.unitDataGridView.AllowUserToResizeRows = false;
             this.unitDataGridView.AutoGenerateColumns = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;

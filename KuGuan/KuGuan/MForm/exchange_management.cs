@@ -19,7 +19,7 @@ namespace KuGuan.MForm
         private bool CellValueTrue = true;
         private DataGridViewCell ErrorCell = null;
         private choose_customer C = new choose_customer();
-        private Dictionary<string, int> dateIdCount = new Dictionary<string, int>();
+        private List<dataDataSet.product_stockRow> willRows = new List<dataDataSet.product_stockRow>();
         public exchange_management()
         {
             InitializeComponent();
@@ -54,7 +54,6 @@ namespace KuGuan.MForm
             Decimal new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(date));
             new_id++;
             oIdBox.Text = new_id.ToString();
-            dateIdCount.Add(date, 0);
         }
 
         
@@ -85,12 +84,11 @@ namespace KuGuan.MForm
                 {
                     KuGuan.dataDataSet.exchange_managementRow row = (dataDataSet.exchange_managementRow)this.dataDataSet.exchange_management.NewRow();
                     row.BeginEdit();
-                    row.exchange_id = oIdBox.Text;
                     row.time = datePicker.Value;
                     row.from_house_id = r.product_type_id;
                     row.to_house_id = S.Id;
-                    row.from_house = r.product_type;
-                    row.to_house = S.SName;
+                    row.from_eng = r.product_type;
+                    row.to_eng = S.SName;
                     row.product_id = r.product_id;
                     row.product_name = r.product_name;
                     row.unit_id = r.unit_id;
@@ -100,15 +98,23 @@ namespace KuGuan.MForm
                               where (int)r0.Cells["ProIdCol"].Value == r.product_id
                               select Decimal.Parse(r0.Cells["NumCol"].Value+"");
                     row.exchange_num = num.ElementAt(0);
-                    row.get_price = r.get_price;
-                    row.total_price = r.get_price * num.ElementAt(0);
+                    if (getPriceButton.Checked)
+                    {
+                        row.price = r.get_price;
+                        row.total_price = r.get_price * num.ElementAt(0);
+                    }
+                    else
+                    {
+                        row.price = r.out_price;
+                        row.total_price = r.out_price * num.ElementAt(0);
+                    }
                     row.EndEdit();
-
+                    if(!willRows.Contains(r))
+                        willRows.Add(r);
                     this.dataDataSet.exchange_management.Addexchange_managementRow(row);
                 }
                 
                 string date = datePicker.Value.ToString("yyyyMMdd");
-                dateIdCount[date]++;
                 Decimal new_id = Decimal.Parse(oIdBox.Text) + 1;
                 oIdBox.Text = new_id.ToString();
             }
@@ -123,14 +129,15 @@ namespace KuGuan.MForm
         {
 
             this.dataDataSet.exchange_management.Rows.Clear();
+            willRows.Clear();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                int row_index = this.dataGridView1.SelectedCells[0].RowIndex;
-                dataGridView1.Rows.RemoveAt(row_index);
+                int row_index = this.exchangeDocView.SelectedCells[0].RowIndex;
+                exchangeDocView.Rows.RemoveAt(row_index);
             }
             catch (System.Exception)
             {
@@ -143,11 +150,7 @@ namespace KuGuan.MForm
             try
             {
                 string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
-                if (!dateIdCount.ContainsKey(date))
-                {
-                    dateIdCount.Add(date, 0);
-                }
-                Decimal new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(date)) + 1 + dateIdCount[date];
+                Decimal new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(date)) + 1;
                 oIdBox.Text = new_id.ToString();
             }
             catch (System.Exception)
@@ -161,39 +164,65 @@ namespace KuGuan.MForm
             int count = 0;
             if (this.dataDataSet.exchange_management.Rows.Count == 0)
                 return;
-            List<KuGuan.dataDataSet.exchange_managementRow> failedRows = new List<dataDataSet.exchange_managementRow>();
+            List<KuGuan.dataDataSet.exchange_managementRow> successedRows = new List<dataDataSet.exchange_managementRow>();
+            Dictionary<int,string> fromIdList = new Dictionary<int,string>();
+            string exchangeId = "";
+            ISet<int> failedIdList = new SortedSet<int>();
             foreach (KuGuan.dataDataSet.exchange_managementRow row in this.dataDataSet.exchange_management.Rows)
             {
+                if (fromIdList.Count == 0)
+                {
+                    exchangeId = oIdBox.Text;
+                    fromIdList.Add(row.from_house_id, exchangeId);
+                }
+                else if (fromIdList.ContainsKey(row.from_house_id))
+                {
+                    exchangeId = fromIdList[row.from_house_id];
+                }
+                else
+                {
+                    string tmp_date = datePicker.Value.ToString("yyyyMMdd");
+                    Decimal tmp_new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(tmp_date)) + 1;
+                    exchangeId = tmp_new_id + "";
+                    fromIdList.Add(row.from_house_id, exchangeId);
+                }
                 int c = this.exchange_managementTableAdapter.AddExchange(
-                    row.exchange_id,
+                    exchangeId,
                     row.time,
                     row.product_id,
                     row.exchange_num,
                     row.from_house_id,
-                    row.to_house_id);
+                    row.to_house_id,
+                    outpriceButton.Checked);
                 if (c > 0)
                 {
                     count += c;
+                    successedRows.Add(row);
                 }
                 else
-                    failedRows.Add(row);
+                {
+                    if(!failedIdList.Contains(row.product_id))
+                        failedIdList.Add(row.product_id);
+                }
             }
             if (count == this.dataDataSet.exchange_management.Rows.Count)
             {
                 MessageBox.Show("成功入库所有信息！");
                 this.dataDataSet.exchange_management.Rows.Clear();
-
+                willRows.Clear();
             }
             else
             {
                 MessageBox.Show("提交入库信息条数:" + this.dataDataSet.exchange_management.Rows.Count
                     + "\n成功入库信息条数:" + count);
-                foreach (KuGuan.dataDataSet.exchange_managementRow r in failedRows)
+                foreach (KuGuan.dataDataSet.exchange_managementRow r in successedRows)
+                {
                     this.dataDataSet.exchange_management.Rows.Remove(r);
+                }
+
+                willRows.RemoveAll(r0 => !failedIdList.Contains(r0.product_id));
             }
-            dateIdCount.Clear();
             string date = datePicker.Value.ToString("yyyyMMdd");
-            dateIdCount.Add(date, 0);
             Decimal new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(date)) + 1;
             oIdBox.Text = new_id.ToString();
         }
@@ -289,6 +318,33 @@ namespace KuGuan.MForm
         private void label6_Click(object sender, EventArgs e)
         {
             choose_product();
+        }
+
+        private void getPriceButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+            foreach (dataDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+            {
+                var rs = from dataDataSet.product_stockRow r0 in willRows
+                         where row.product_id == r0.product_id
+                         select r0.get_price;
+                decimal price = rs.ElementAt(0);
+                row.price = price;
+                row.total_price = row.exchange_num * price;
+            }
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (dataDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+            {
+                var rs = from dataDataSet.product_stockRow r0 in willRows
+                         where row.product_id == r0.product_id
+                         select r0.out_price;
+                decimal price = rs.ElementAt(0);
+                row.price = price;
+                row.total_price = row.exchange_num * price;
+            }
         }
 
     }

@@ -39,12 +39,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cnlButton = new System.Windows.Forms.Button();
-            this.cfmButton = new System.Windows.Forms.Button();
-            this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
-            this.productStockAdapter = new KuGuan.dataDataSetTableAdapters.ProductStockAdapter();
             this.ChooseColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,11 +49,17 @@
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataDataSet = new KuGuan.dataDataSet();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cnlButton = new System.Windows.Forms.Button();
+            this.cfmButton = new System.Windows.Forms.Button();
+            this.productStockAdapter = new KuGuan.dataDataSetTableAdapters.ProductStockAdapter();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productstockBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tLabel
@@ -145,6 +145,7 @@
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -164,57 +165,12 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowTemplate.Height = 23;
+            this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(1114, 457);
             this.dataGridView.TabIndex = 16;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tLabel);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.treeView);
-            this.groupBox1.Location = new System.Drawing.Point(21, 9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 537);
-            this.groupBox1.TabIndex = 15;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "仓库";
-            // 
-            // cnlButton
-            // 
-            this.cnlButton.Location = new System.Drawing.Point(1255, 503);
-            this.cnlButton.Name = "cnlButton";
-            this.cnlButton.Size = new System.Drawing.Size(87, 38);
-            this.cnlButton.TabIndex = 22;
-            this.cnlButton.Text = "取消";
-            this.cnlButton.UseVisualStyleBackColor = true;
-            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
-            // 
-            // cfmButton
-            // 
-            this.cfmButton.Location = new System.Drawing.Point(1162, 503);
-            this.cfmButton.Name = "cfmButton";
-            this.cfmButton.Size = new System.Drawing.Size(87, 38);
-            this.cfmButton.TabIndex = 23;
-            this.cfmButton.Text = "选择";
-            this.cfmButton.UseVisualStyleBackColor = true;
-            this.cfmButton.Click += new System.EventHandler(this.cfmButton_Click);
-            // 
-            // productstockBindingSource
-            // 
-            this.productstockBindingSource.DataMember = "product_stock";
-            this.productstockBindingSource.DataSource = this.dataDataSet;
-            // 
-            // dataDataSet
-            // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // productStockAdapter
-            // 
-            this.productStockAdapter.ClearBeforeFill = true;
             // 
             // ChooseColumn
             // 
@@ -294,6 +250,52 @@
             this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
             this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // productstockBindingSource
+            // 
+            this.productstockBindingSource.DataMember = "product_stock";
+            this.productstockBindingSource.DataSource = this.dataDataSet;
+            // 
+            // dataDataSet
+            // 
+            this.dataDataSet.DataSetName = "dataDataSet";
+            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tLabel);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.treeView);
+            this.groupBox1.Location = new System.Drawing.Point(21, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(201, 537);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "仓库";
+            // 
+            // cnlButton
+            // 
+            this.cnlButton.Location = new System.Drawing.Point(1255, 503);
+            this.cnlButton.Name = "cnlButton";
+            this.cnlButton.Size = new System.Drawing.Size(87, 38);
+            this.cnlButton.TabIndex = 22;
+            this.cnlButton.Text = "取消";
+            this.cnlButton.UseVisualStyleBackColor = true;
+            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
+            // 
+            // cfmButton
+            // 
+            this.cfmButton.Location = new System.Drawing.Point(1162, 503);
+            this.cfmButton.Name = "cfmButton";
+            this.cfmButton.Size = new System.Drawing.Size(87, 38);
+            this.cfmButton.TabIndex = 23;
+            this.cfmButton.Text = "选择";
+            this.cfmButton.UseVisualStyleBackColor = true;
+            this.cfmButton.Click += new System.EventHandler(this.cfmButton_Click);
+            // 
+            // productStockAdapter
+            // 
+            this.productStockAdapter.ClearBeforeFill = true;
+            // 
             // choose_stock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -314,10 +316,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productstockBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -194,5 +194,45 @@ namespace KuGuan.MForm
             frm.Show(this.dockPanel);
             frm.BringToFront();
         }
+
+        private void 入库单据查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("入库单据查询");
+            if (frm == null)
+                frm = new StorageDocForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 出库单据查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("出库单据查询");
+            if (frm == null)
+                frm = new OutDocForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 调库单据查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("调库单据查询");
+            if (frm == null)
+                frm = new ExchangeDocForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 单据查询toolStripButton_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("单据综合查询");
+            if (frm == null)
+                frm = new CompositeForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
     }
 }

@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(storage_management));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.sidBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,7 +40,6 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.producttypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataDataSet = new KuGuan.dataDataSet();
-            this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ProIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pronameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +54,6 @@
             this.button4 = new System.Windows.Forms.Button();
             this.storage_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.storage_managementTableAdapter();
             this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -71,7 +69,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.proIdBox = new System.Windows.Forms.TextBox();
-            this.unitBox = new System.Windows.Forms.ComboBox();
+            this.unitBox = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.specBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -85,9 +83,14 @@
             this.proNameBox = new System.Windows.Forms.TextBox();
             this.product_typeTableAdapter = new KuGuan.dataDataSetTableAdapters.product_typeTableAdapter();
             this.stockTableAdapter = new KuGuan.dataDataSetTableAdapters.stockTableAdapter();
+            this.button6 = new System.Windows.Forms.Button();
+            this.amountBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.sumBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storage_managementBindingSource)).BeginInit();
             this.panel2.SuspendLayout();
@@ -95,6 +98,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // sidBox
@@ -138,25 +142,20 @@
             this.dataDataSet.DataSetName = "dataDataSet";
             this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // unitBindingSource
-            // 
-            this.unitBindingSource.DataMember = "unit";
-            this.unitBindingSource.DataSource = this.dataDataSet;
-            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProIdCol,
@@ -167,26 +166,26 @@
             this.unitnameDataGridViewTextBoxColumn,
             this.totalpriceDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.storage_managementBindingSource;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
             resources.ApplyResources(this.dataGridView1, "dataGridView1");
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -288,10 +287,6 @@
             this.tableAdapterManager.unitTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
-            // unitTableAdapter
-            // 
-            this.unitTableAdapter.ClearBeforeFill = true;
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.HighlightText;
@@ -339,7 +334,6 @@
             this.storeBox.Name = "storeBox";
             this.storeBox.ReadOnly = true;
             this.storeBox.Click += new System.EventHandler(this.storeBox_Click);
-            this.storeBox.TextChanged += new System.EventHandler(this.storeBox_TextChanged);
             // 
             // label17
             // 
@@ -415,13 +409,9 @@
             // 
             // unitBox
             // 
-            this.unitBox.DataSource = this.unitBindingSource;
-            this.unitBox.DisplayMember = "unit";
-            this.unitBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             resources.ApplyResources(this.unitBox, "unitBox");
-            this.unitBox.FormattingEnabled = true;
             this.unitBox.Name = "unitBox";
-            this.unitBox.ValueMember = "unit_id";
+            this.unitBox.ReadOnly = true;
             // 
             // label15
             // 
@@ -498,10 +488,52 @@
             // 
             this.stockTableAdapter.ClearBeforeFill = true;
             // 
+            // button6
+            // 
+            this.button6.Image = global::KuGuan.Properties.Resources.ok;
+            resources.ApplyResources(this.button6, "button6");
+            this.button6.Name = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // amountBox
+            // 
+            resources.ApplyResources(this.amountBox, "amountBox");
+            this.amountBox.Name = "amountBox";
+            this.amountBox.ReadOnly = true;
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.sumBox);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.amountBox);
+            this.panel1.Controls.Add(this.label9);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // sumBox
+            // 
+            resources.ApplyResources(this.sumBox, "sumBox");
+            this.sumBox.Name = "sumBox";
+            this.sumBox.ReadOnly = true;
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
             // storage_management
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -515,10 +547,8 @@
             this.Name = "storage_management";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.storage_management_FormClosing);
             this.Load += new System.EventHandler(this.storage_management_Load);
-            this.Shown += new System.EventHandler(this.storage_management_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.producttypeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storage_managementBindingSource)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -530,6 +560,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -550,8 +582,6 @@
         private System.Windows.Forms.BindingSource storage_managementBindingSource;
         private dataDataSetTableAdapters.storage_managementTableAdapter storage_managementTableAdapter;
         private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
-        private dataDataSetTableAdapters.unitTableAdapter unitTableAdapter;
-        private System.Windows.Forms.BindingSource unitBindingSource;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -563,7 +593,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox proIdBox;
-        private System.Windows.Forms.ComboBox unitBox;
+        private System.Windows.Forms.TextBox unitBox;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox specBox;
         private System.Windows.Forms.TextBox priceBox;
@@ -582,7 +612,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox storeBox;
         private dataDataSetTableAdapters.stockTableAdapter stockTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn outDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProIdCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn pronameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn spec;
@@ -590,5 +619,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn numDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox amountBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox sumBox;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -58,7 +58,7 @@ namespace KuGuan.MForm
 
         private void SupplierForm_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.supplier”中。您可以根据需要移动或删除它。
+            // TODO:  这行代码将数据加载到表“dataDataSet.customer”中。您可以根据需要移动或删除它。
             if (!isChoose)
             {
                 suptypeTable = suptypeAdapter.GetData();
@@ -280,14 +280,14 @@ namespace KuGuan.MForm
                 int index = e.RowIndex;
                 if (index >= 0)
                 {
-                    foreach(KuGuan.dataDataSet.supplierRow row in this.dataDataSet.supplier.Rows)
-                    {
-
-                        this.supplier_id = row.supplier_id;
-                        this.supplier_name = row.supplier_name;
-                        this.DialogResult = DialogResult.OK;
-                        return;
-                    }
+                    var rows = from KuGuan.dataDataSet.supplierRow row in this.dataDataSet.supplier.Rows
+                              where row.supplier_id == id
+                              select row;
+                    
+                    this.supplier_id = rows.ElementAt(0).supplier_id;
+                    this.supplier_name = rows.ElementAt(0).supplier_name;
+                    this.DialogResult = DialogResult.OK;
+                    return;
                 }
                 return;
             }

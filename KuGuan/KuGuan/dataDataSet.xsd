@@ -747,13 +747,14 @@ WHERE   (product_id = @id)</CommandText>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT   S.storage_id AS s_id, S.time AS t, S.supplier_id, C.supplier_name AS cust_name, S.product_type_id, S.product_id, 
-                P.product_name AS pro_name, P.get_price AS get_price, P.unit_id, S.storage_num AS num, unit.unit AS unit_name, 
-                S.storage_num * P.get_price AS total_price, T.product_type AS store_name, P.spec
+                P.product_name AS pro_name, P.get_price AS get_price, P.unit_id, S.storage_num AS num, unit.unit AS unit_name, ST.product_type as store_name,
+                cast(S.storage_num * P.get_price as numeric(18,11)) AS total_price, T.product_type AS eng_name, P.spec
 FROM      storage_management AS S INNER JOIN
                 product AS P ON S.product_id = P.product_id INNER JOIN
                 supplier AS C ON S.supplier_id = C.supplier_id INNER JOIN
                 unit ON P.unit_id = unit.unit_id INNER JOIN
-                product_type AS T ON S.product_type_id = T.product_type_id</CommandText>
+                product_type AS T ON S.product_type_id = T.product_type_id inner join
+                product_type AS ST on T.parent_id = ST.product_type_id</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -774,6 +775,7 @@ FROM      storage_management AS S INNER JOIN
               <Mapping SourceColumn="product_type_id" DataSetColumn="product_type_id" />
               <Mapping SourceColumn="spec" DataSetColumn="spec" />
               <Mapping SourceColumn="get_price" DataSetColumn="get_price" />
+              <Mapping SourceColumn="eng_name" DataSetColumn="eng_name" />
             </Mappings>
             <Sources>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="AddStorage" Modifier="Public" Name="AddStorage" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="AddStorage">
@@ -793,6 +795,65 @@ VALUES   (@id,@time,@sup_id,@pro_id,@num,@type_id)</CommandText>
                   </DbCommand>
                 </InsertCommand>
               </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.storage_id AS s_id, S.time AS t, S.supplier_id, C.supplier_name AS cust_name, S.product_type_id, S.product_id, 
+                P.product_name AS pro_name, P.get_price AS get_price, P.unit_id, S.storage_num AS num, unit.unit AS unit_name, ST.product_type as store_name,
+                cast(S.storage_num * P.get_price as numeric(18,11)) AS total_price, T.product_type AS eng_name, P.spec
+FROM      storage_management AS S INNER JOIN
+                product AS P ON S.product_id = P.product_id INNER JOIN
+                supplier AS C ON S.supplier_id = C.supplier_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type AS T ON S.product_type_id = T.product_type_id inner join
+                product_type AS ST on T.parent_id = ST.product_type_id
+where ((S.time &gt;= @from_time and S.time &lt;= @to_time) or (@from_time &gt;= @to_time)) and
+          (S.storage_id like '%'+@id+'%') and
+          (S.supplier_id = @s_id or @s_id = -1) and
+          (S.product_type_id = @eng_id or @eng_id = -1) and
+           (S.product_id =@pro_id or  @pro_id = -1) and
+          ((P.get_price &gt;= @min_price and P.get_price &lt;= @max_price and @max_price &gt; 0) or
+            (P.get_price &gt;= @min_price  and @max_price &lt;= 0)) and
+          ((S.storage_num &gt;= @min_num and S.storage_num &lt;= @max_num and @max_num &gt; 0) or
+            (S.storage_num &gt;= @min_num and @max_num &lt;= 0)) and
+          ((S.storage_num * P.get_price &gt;= @min_amount and S.storage_num * P.get_price &lt;= @max_amount and @max_amount &gt; 0) or
+            (S.storage_num * P.get_price &gt;= @min_amount  and @max_amount &lt;= 0))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="from_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@from_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="t" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="to_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@to_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="t" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="storage_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="s_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="s_id" ColumnName="supplier_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@s_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="supplier_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="eng_id" ColumnName="product_type_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@eng_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="product_type_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="pro_id" ColumnName="product_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@pro_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="product_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="min_price" ColumnName="get_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@min_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="get_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="max_price" ColumnName="get_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@max_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="get_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="min_num" ColumnName="storage_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@min_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="max_num" ColumnName="storage_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@max_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="min_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@min_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="max_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@max_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataById" GeneratorSourceName="FillById" GetMethodModifier="Public" GetMethodName="GetDataById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataById" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.storage_id AS s_id, S.time AS t, S.supplier_id, C.supplier_name AS cust_name, S.product_type_id, S.product_id, ST.product_type as store_name,
+                P.product_name AS pro_name, P.get_price AS get_price, P.unit_id, S.storage_num AS num, unit.unit AS unit_name, 
+                cast(S.storage_num * P.get_price as numeric(18,11)) AS total_price, T.product_type AS eng_name, P.spec
+FROM      storage_management AS S INNER JOIN
+                product AS P ON S.product_id = P.product_id INNER JOIN
+                supplier AS C ON S.supplier_id = C.supplier_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type AS T ON S.product_type_id = T.product_type_id inner join
+                product_type AS ST ON ST.product_type_id = T.parent_id
+where S.storage_id = @id</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="storage_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="s_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="find" Modifier="Public" Name="find" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="find">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
@@ -801,6 +862,18 @@ FROM      storage_management
 WHERE   (storage_id LIKE @date + '%')</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="true" AutogeneratedName="date" ColumnName="storage_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@date" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="storage_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="GetCountById" Modifier="Public" Name="GetCountById" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="GetCountById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   COUNT(*) AS Expr1
+FROM      storage_management AS s
+WHERE   (storage_id = @s_id)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="s_id" ColumnName="storage_id" DataSourceName="[D:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@s_id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="storage_id" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </SelectCommand>
@@ -1044,15 +1117,16 @@ WHERE   (product_type_id = @id)</CommandText>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT   out_management.out_id, out_management.time, out_management.product_id, out_management.storage_num, product.spec,
-                product.product_name, unit.unit, product.get_price, out_management.storage_num * product.get_price AS total_price, 
+                    <CommandText>SELECT   out_management.out_id, out_management.time, out_management.product_id, out_management.storage_num, product.spec,store.product_type as store_name,
+                product.product_name, unit.unit, product.out_price, cast(out_management.storage_num * product.out_price as numeric(18,11)) AS total_price, 
                 product.unit_id, out_management.customer_id, customer.customer_name, out_management.product_type_id, 
-                product_type.product_type
+                product_type.product_type as eng_name
 FROM      out_management INNER JOIN
                 product ON out_management.product_id = product.product_id INNER JOIN
                 unit ON product.unit_id = unit.unit_id INNER JOIN
-                customer ON out_management.customer_id = customer.customer_id INNER JOIN
-                product_type ON out_management.product_type_id = product_type.product_type_id</CommandText>
+                product_type ON out_management.product_type_id = product_type.product_type_id INNER JOIN
+                product_type as store ON store.product_type_id = product_type.parent_id left JOIN
+                customer ON out_management.customer_id = customer.customer_id </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -1064,15 +1138,16 @@ FROM      out_management INNER JOIN
               <Mapping SourceColumn="product_id" DataSetColumn="product_id" />
               <Mapping SourceColumn="product_name" DataSetColumn="product_name" />
               <Mapping SourceColumn="unit" DataSetColumn="unit" />
-              <Mapping SourceColumn="get_price" DataSetColumn="get_price" />
               <Mapping SourceColumn="total_price" DataSetColumn="total_price" />
               <Mapping SourceColumn="unit_id" DataSetColumn="unit_id" />
               <Mapping SourceColumn="customer_id" DataSetColumn="customer_id" />
               <Mapping SourceColumn="customer_name" DataSetColumn="customer_name" />
               <Mapping SourceColumn="storage_num" DataSetColumn="storage_num" />
               <Mapping SourceColumn="product_type_id" DataSetColumn="product_type_id" />
-              <Mapping SourceColumn="product_type" DataSetColumn="product_type" />
               <Mapping SourceColumn="spec" DataSetColumn="spec" />
+              <Mapping SourceColumn="out_price" DataSetColumn="out_price" />
+              <Mapping SourceColumn="store_name" DataSetColumn="store_name" />
+              <Mapping SourceColumn="eng_name" DataSetColumn="eng_name" />
             </Mappings>
             <Sources>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="AddOut" Modifier="Public" Name="AddOut" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="AddOut">
@@ -1091,6 +1166,67 @@ VALUES   (@id,@time,@cus_id,@store_id,@pro_id,@num)</CommandText>
                     </Parameters>
                   </DbCommand>
                 </InsertCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   O.out_id, O.time, O.product_id, O.storage_num, P.spec,store.product_type as store_name,
+                P.product_name, unit.unit, P.out_price, cast(O.storage_num * P.out_price as numeric(18,11)) AS total_price, 
+                P.unit_id, O.customer_id, customer.customer_name, O.product_type_id, 
+                E.product_type as eng_name
+FROM      out_management as O INNER JOIN
+                product as P ON O.product_id = P.product_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type as E ON O.product_type_id = E.product_type_id INNER JOIN
+                product_type as store ON store.product_type_id = E.parent_id left JOIN
+                customer ON O.customer_id = customer.customer_id 
+where ((O.time &gt;= @from_time and O.time &lt;= @to_time) or (@from_time &gt;= @to_time)) and
+          (O.out_id like '%'+@id+'%') and
+          (O.customer_id = @c_id or @c_id = -1) and
+          (O.product_type_id = @eng_id or @eng_id = -1) and
+           (O.product_id =@pro_id or  @pro_id = -1) and
+          ((P.out_price &gt;= @min_price and P.out_price &lt;= @max_price and @max_price &gt; 0) or
+            (P.out_price &gt;= @min_price  and @max_price &lt;= 0)) and
+          ((O.storage_num &gt;= @min_num and O.storage_num &lt;= @max_num and @max_num &gt; 0) or
+            (O.storage_num &gt;= @min_num and @max_num &lt;= 0)) and
+          ((O.storage_num * P.out_price &gt;= @min_amount and O.storage_num * P.out_price &lt;= @max_amount and @max_amount &gt; 0) or
+            (O.storage_num * P.out_price &gt;= @min_amount  and @max_amount &lt;= 0))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="from_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@from_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="to_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@to_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="out_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="out_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="c_id" ColumnName="customer_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@c_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="customer_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="eng_id" ColumnName="product_type_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@eng_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="product_type_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="pro_id" ColumnName="product_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@pro_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="product_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="min_price" ColumnName="out_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@min_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="out_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="max_price" ColumnName="out_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@max_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="out_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="min_num" ColumnName="storage_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@min_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="storage_num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="max_num" ColumnName="storage_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@max_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="storage_num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="min_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@min_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="max_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@max_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataById" GeneratorSourceName="FillById" GetMethodModifier="Public" GetMethodName="GetDataById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataById" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   out_management.out_id, out_management.time, out_management.product_id, out_management.storage_num, product.spec,S.product_type as store_name,
+                product.product_name, unit.unit, product.out_price, cast(out_management.storage_num * product.out_price as numeric(18,11)) AS total_price, 
+                product.unit_id, out_management.customer_id, customer.customer_name, out_management.product_type_id, 
+                product_type.product_type as eng_name
+FROM      out_management INNER JOIN
+                product ON out_management.product_id = product.product_id INNER JOIN
+                unit ON product.unit_id = unit.unit_id left JOIN
+                customer ON out_management.customer_id = customer.customer_id INNER JOIN
+                product_type ON out_management.product_type_id = product_type.product_type_id inner join
+               product_type as S ON S.product_type_id = product_type.parent_id
+where out_management.out_id = @oid</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="oid" ColumnName="out_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@oid" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="out_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
               </DbSource>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="find" Modifier="Public" Name="find" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="find">
                 <SelectCommand>
@@ -1111,16 +1247,26 @@ WHERE   (out_id LIKE @date + '%')</CommandText>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT   exchange_management.exchange_id, exchange_management.time, product.product_name, unit.unit, product.spec,
-                f_house.product_type AS from_house, t_house.product_type AS to_house, 
-                exchange_management.exchange_num, product.get_price, 
-                exchange_management.exchange_num * product.get_price AS total_price, product.product_id, 
-                f_house.product_type_id AS from_house_id, t_house.product_type_id AS to_house_id, unit.unit_id
-FROM      product INNER JOIN
-                unit ON product.unit_id = unit.unit_id INNER JOIN
-                exchange_management ON product.product_id = exchange_management.product_id INNER JOIN
-                product_type AS f_house ON exchange_management.from_house_id = f_house.product_type_id INNER JOIN
-                product_type AS t_house ON exchange_management.to_house_id = t_house.product_type_id </CommandText>
+                    <CommandText>SELECT   E.exchange_id, E.time, P.product_name, unit.unit, P.spec,
+                P1.product_type AS from_eng, P3.product_type AS to_eng, 
+                P2.product_type AS from_store, P4.product_type AS to_store,
+                E.exchange_num, 
+                 (case E.is_out
+                 when 0 then P.get_price 
+                 else P.out_price 
+                  end ) as price, 
+                 (case E.is_out
+                 when 0 then cast(E.exchange_num * P.get_price as numeric(18,11)) 
+                 else cast(E.exchange_num * P.out_price as numeric(18,11)) 
+                  end ) AS total_price, P.product_id, 
+                P1.product_type_id AS from_house_id, P3.product_type_id AS to_house_id, unit.unit_id
+FROM      exchange_management as E INNER JOIN
+                product AS P ON P.product_id = E.product_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type AS P1 ON E.from_house_id = P1.product_type_id INNER JOIN
+                product_type AS P2 ON P1.parent_id = P2.product_type_id INNER JOIN
+                product_type AS P3 ON E.to_house_id = P3.product_type_id  INNER JOIN
+                product_type AS P4 ON P3.parent_id = P4.product_type_id </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -1132,23 +1278,25 @@ FROM      product INNER JOIN
               <Mapping SourceColumn="exchange_num" DataSetColumn="exchange_num" />
               <Mapping SourceColumn="product_name" DataSetColumn="product_name" />
               <Mapping SourceColumn="unit" DataSetColumn="unit" />
-              <Mapping SourceColumn="from_house" DataSetColumn="from_house" />
-              <Mapping SourceColumn="to_house" DataSetColumn="to_house" />
-              <Mapping SourceColumn="get_price" DataSetColumn="get_price" />
               <Mapping SourceColumn="total_price" DataSetColumn="total_price" />
               <Mapping SourceColumn="product_id" DataSetColumn="product_id" />
               <Mapping SourceColumn="from_house_id" DataSetColumn="from_house_id" />
               <Mapping SourceColumn="to_house_id" DataSetColumn="to_house_id" />
               <Mapping SourceColumn="unit_id" DataSetColumn="unit_id" />
               <Mapping SourceColumn="spec" DataSetColumn="spec" />
+              <Mapping SourceColumn="price" DataSetColumn="price" />
+              <Mapping SourceColumn="from_eng" DataSetColumn="from_eng" />
+              <Mapping SourceColumn="to_eng" DataSetColumn="to_eng" />
+              <Mapping SourceColumn="from_store" DataSetColumn="from_store" />
+              <Mapping SourceColumn="to_store" DataSetColumn="to_store" />
             </Mappings>
             <Sources>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="AddExchange" Modifier="Public" Name="AddExchange" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="AddExchange">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>INSERT INTO exchange_management
-                (exchange_id, time, product_id, exchange_num, from_house_id, to_house_id)
-VALUES   (@id,@time,@pro_id,@num,@from_id,@to_id)</CommandText>
+                (exchange_id, time, product_id, exchange_num, from_house_id, to_house_id,is_out)
+VALUES   (@id,@time,@pro_id,@num,@from_id,@to_id,@is_out)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="exchange_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="exchange_id" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -1156,9 +1304,95 @@ VALUES   (@id,@time,@pro_id,@num,@from_id,@to_id)</CommandText>
                       <Parameter AllowDbNull="true" AutogeneratedName="num" ColumnName="exchange_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="exchange_num" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="from_id" ColumnName="from_house_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@from_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="from_house_id" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="to_id" ColumnName="to_house_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@to_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="to_house_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="is_out" ColumnName="is_out" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@is_out" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="is_out" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </InsertCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   E.exchange_id, E.time, P.product_name, unit.unit, P.spec,
+                P1.product_type AS from_eng, P3.product_type AS to_eng, 
+                P2.product_type AS from_store, P4.product_type AS to_store,
+                E.exchange_num, 
+                 (case E.is_out
+                 when 0 then P.get_price 
+                 else P.out_price 
+                  end ) as price, 
+                 (case E.is_out
+                 when 0 then cast(E.exchange_num * P.get_price as numeric(18,11)) 
+                 else cast(E.exchange_num * P.out_price as numeric(18,11)) 
+                  end ) AS total_price, P.product_id, 
+                P1.product_type_id AS from_house_id, P3.product_type_id AS to_house_id, unit.unit_id
+FROM      exchange_management as E INNER JOIN
+                product AS P ON P.product_id = E.product_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type AS P1 ON E.from_house_id = P1.product_type_id INNER JOIN
+                product_type AS P2 ON P1.parent_id = P2.product_type_id INNER JOIN
+                product_type AS P3 ON E.to_house_id = P3.product_type_id  INNER JOIN
+                product_type AS P4 ON P3.parent_id = P4.product_type_id 
+where ((E.time &gt;= @from_time and E.time &lt;= @to_time) or (@from_time &gt;= @to_time)) and
+          (E.exchange_id like '%'+@id+'%') and
+          (E.from_house_id = @from_eng_id or @from_eng_id = -1) and
+          (E.to_house_id = @to_eng_id or @to_eng_id = -1) and
+           (E.product_id =@pro_id or  @pro_id = -1) and
+          ((E.is_out = 1 and ((P.out_price &gt;= @min_price and P.out_price &lt;= @max_price and @max_price &gt; 0) or
+            (P.out_price &gt;= @min_price  and @max_price &lt;= 0))) or
+            (E.is_out = 0 and ((P.get_price &gt;= @min_price and P.get_price &lt;= @max_price and @max_price &gt; 0) or
+            (P.get_price &gt;= @min_price  and @max_price &lt;= 0)))) and
+          ((E.exchange_num &gt;= @min_num and E.exchange_num &lt;= @max_num and @max_num &gt; 0) or
+            (E.exchange_num &gt;= @min_num and @max_num &lt;= 0)) and
+          ((E.is_out = 1 and ((E.exchange_num * P.out_price &gt;= @min_amount and E.exchange_num * P.out_price &lt;= @max_amount and @max_amount &gt; 0) or
+            (E.exchange_num * P.out_price &gt;= @min_amount  and @max_amount &lt;= 0))) or
+          (E.is_out = 0 and ((E.exchange_num * P.get_price &gt;= @min_amount and E.exchange_num * P.get_price &lt;= @max_amount and @max_amount &gt; 0) or
+            (E.exchange_num * P.get_price &gt;= @min_amount  and @max_amount &lt;= 0))))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="from_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@from_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="to_time" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@to_time" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="exchange_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@id" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="exchange_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="from_eng_id" ColumnName="from_house_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@from_eng_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="from_house_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="to_eng_id" ColumnName="to_house_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@to_eng_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="to_house_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="pro_id" ColumnName="product_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@pro_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="product_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="min_price" ColumnName="out_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@min_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="out_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="max_price" ColumnName="out_price" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.product" DataTypeServer="numeric(18, 11)" DbType="Decimal" Direction="Input" ParameterName="@max_price" Precision="18" ProviderType="Decimal" Scale="11" Size="9" SourceColumn="out_price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="min_num" ColumnName="exchange_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@min_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="exchange_num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="max_num" ColumnName="exchange_num" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="numeric(18, 5)" DbType="Decimal" Direction="Input" ParameterName="@max_num" Precision="18" ProviderType="Decimal" Scale="5" Size="9" SourceColumn="exchange_num" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="min_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@min_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="max_amount" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="Decimal" Direction="Input" ParameterName="@max_amount" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataById" GeneratorSourceName="FillById" GetMethodModifier="Public" GetMethodName="GetDataById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataById" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   E.exchange_id, E.time, P.product_name, unit.unit, P.spec,
+                P1.product_type AS from_eng, P3.product_type AS to_eng, 
+                P2.product_type AS from_store, P4.product_type AS to_store,
+                E.exchange_num, 
+                 (case E.is_out
+                 when 0 then P.get_price 
+                 else P.out_price 
+                  end ) as price, 
+                 (case E.is_out
+                 when 0 then cast(E.exchange_num * P.get_price as numeric(18,11)) 
+                 else cast(E.exchange_num * P.out_price as numeric(18,11)) 
+                  end ) AS total_price, P.product_id, 
+                P1.product_type_id AS from_house_id, P3.product_type_id AS to_house_id, unit.unit_id
+FROM      exchange_management as E INNER JOIN
+                product AS P ON P.product_id = E.product_id INNER JOIN
+                unit ON P.unit_id = unit.unit_id INNER JOIN
+                product_type AS P1 ON E.from_house_id = P1.product_type_id INNER JOIN
+                product_type AS P2 ON P1.parent_id = P2.product_type_id INNER JOIN
+                product_type AS P3 ON E.to_house_id = P3.product_type_id  INNER JOIN
+                product_type AS P4 ON P3.parent_id = P4.product_type_id 
+where E.exchange_id = @eid</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="eid" ColumnName="exchange_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@eid" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="exchange_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
               </DbSource>
               <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="find" Modifier="Public" Name="find" QueryType="Scalar" ScalarCallRetval="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="find">
                 <SelectCommand>
@@ -1409,6 +1643,166 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
               </DbSource>
             </Sources>
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="StorageDocTableAdapter" GeneratorDataComponentClassName="StorageDocTableAdapter" Name="StorageDoc" UserDataComponentName="StorageDocTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.storage_id AS s_id, S.supplier_id, C.supplier_name AS sup_name, S.time, product_type.product_type, 
+                product_type_1.product_type AS store_name
+FROM      storage_management AS S INNER JOIN
+                supplier AS C ON S.supplier_id = C.supplier_id INNER JOIN
+                product_type ON S.product_type_id = product_type.product_type_id INNER JOIN
+                product_type AS product_type_1 ON product_type.parent_id = product_type_1.product_type_id
+GROUP BY S.storage_id, S.supplier_id, C.supplier_name, S.time, product_type.product_type, product_type_1.product_type</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="s_id" DataSetColumn="s_id" />
+              <Mapping SourceColumn="sup_name" DataSetColumn="sup_name" />
+              <Mapping SourceColumn="supplier_id" DataSetColumn="supplier_id" />
+              <Mapping SourceColumn="time" DataSetColumn="time" />
+              <Mapping SourceColumn="product_type" DataSetColumn="product_type" />
+              <Mapping SourceColumn="store_name" DataSetColumn="store_name" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.storage_id AS s_id, S.supplier_id, C.supplier_name AS sup_name, C.supplier_type, S.time, 
+                product_type.product_type, product_type_1.product_type AS store_name
+FROM      storage_management AS S INNER JOIN
+                supplier AS C ON S.supplier_id = C.supplier_id INNER JOIN
+                product_type ON S.product_type_id = product_type.product_type_id INNER JOIN
+                product_type AS product_type_1 ON product_type.parent_id = product_type_1.product_type_id
+WHERE   (S.time &gt;= @fromTime) AND (S.time &lt;= @toTime) OR
+                (@toTime &lt;= @fromTime)
+GROUP BY S.storage_id, S.supplier_id, C.supplier_name, C.supplier_type, S.time, product_type.product_type, 
+                product_type_1.product_type
+HAVING   (S.storage_id LIKE '%' + @sid + '%') AND (S.supplier_id = @sup_id OR
+                @sup_id = - 1)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="fromTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@fromTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="toTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@toTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="sid" ColumnName="storage_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@sid" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="s_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="sup_id" ColumnName="supplier_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.storage_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@sup_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="supplier_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="OutDocTableAdapter" GeneratorDataComponentClassName="OutDocTableAdapter" Name="OutDoc" UserDataComponentName="OutDocTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.out_id AS o_id, S.customer_id, C.customer_name AS cus_name, S.time, product_type.product_type, 
+                product_type_1.product_type AS store_name
+FROM      out_management AS S  INNER JOIN
+                product_type ON S.product_type_id = product_type.product_type_id INNER JOIN
+                product_type AS product_type_1 ON product_type.parent_id = product_type_1.product_type_id left JOIN
+                customer AS C ON S.customer_id = C.customer_id
+GROUP BY S.out_id , S.customer_id, C.customer_name , S.time, product_type.product_type, 
+                product_type_1.product_type</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="time" DataSetColumn="time" />
+              <Mapping SourceColumn="product_type" DataSetColumn="product_type" />
+              <Mapping SourceColumn="store_name" DataSetColumn="store_name" />
+              <Mapping SourceColumn="customer_id" DataSetColumn="customer_id" />
+              <Mapping SourceColumn="cus_name" DataSetColumn="cus_name" />
+              <Mapping SourceColumn="o_id" DataSetColumn="o_id" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.out_id AS o_id, S.customer_id, C.customer_name AS cus_name, S.time, product_type.product_type, 
+                product_type_1.product_type AS store_name
+FROM      out_management AS S left JOIN
+                customer AS C ON S.customer_id = C.customer_id INNER JOIN
+                product_type ON S.product_type_id = product_type.product_type_id INNER JOIN
+                product_type AS product_type_1 ON product_type.parent_id = product_type_1.product_type_id
+WHERE   (S.time &gt;= @fromTime) AND (S.time &lt;= @toTime) OR
+                (@toTime &lt;= @fromTime)
+GROUP BY S.out_id, S.customer_id, C.customer_name, S.time, product_type.product_type, 
+                product_type_1.product_type
+HAVING   (S.out_id LIKE '%' + @oid + '%') AND (S.customer_id = @cus_id OR
+                @cus_id = - 1)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="fromTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@fromTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="toTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@toTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="oid" ColumnName="out_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@oid" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="o_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="cus_id" ColumnName="customer_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.out_management" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@cus_id" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="customer_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ExchangeDocTableAdapter" GeneratorDataComponentClassName="ExchangeDocTableAdapter" Name="ExchangeDoc" UserDataComponentName="ExchangeDocTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.exchange_id AS e_id, S.time, p1.product_type AS from_eng, p2.product_type AS from_store, 
+                p4.product_type AS to_store, p3.product_type AS to_eng, 
+                '从 ' + p1.product_type + ' 调入 ' + p3.product_type AS info
+FROM      exchange_management AS S INNER JOIN
+                product_type AS p1 ON S.from_house_id = p1.product_type_id INNER JOIN
+                product_type AS p2 ON p1.parent_id = p2.product_type_id INNER JOIN
+                product_type AS p3 ON S.to_house_id = p3.product_type_id INNER JOIN
+                product_type AS p4 ON p3.parent_id = p4.product_type_id
+GROUP BY S.exchange_id, S.time, p1.product_type, p2.product_type, p4.product_type, p3.product_type</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="time" DataSetColumn="time" />
+              <Mapping SourceColumn="e_id" DataSetColumn="e_id" />
+              <Mapping SourceColumn="from_eng" DataSetColumn="from_eng" />
+              <Mapping SourceColumn="from_store" DataSetColumn="from_store" />
+              <Mapping SourceColumn="to_store" DataSetColumn="to_store" />
+              <Mapping SourceColumn="to_eng" DataSetColumn="to_eng" />
+              <Mapping SourceColumn="info" DataSetColumn="info" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="FillByCondition" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByCondition" GeneratorSourceName="FillByCondition" GetMethodModifier="Public" GetMethodName="GetDataByCondition" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByCondition" UserSourceName="FillByCondition">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT   S.exchange_id AS e_id, S.time, p1.product_type AS from_eng, p2.product_type AS from_store, 
+                p4.product_type AS to_store, p3.product_type AS to_eng, 
+                '从 ' + p1.product_type + ' 调入 ' + p3.product_type AS info
+FROM      exchange_management AS S INNER JOIN
+                product_type AS p1 ON S.from_house_id = p1.product_type_id INNER JOIN
+                product_type AS p2 ON p1.parent_id = p2.product_type_id INNER JOIN
+                product_type AS p3 ON S.to_house_id = p3.product_type_id INNER JOIN
+                product_type AS p4 ON p3.parent_id = p4.product_type_id
+WHERE   (S.time &gt;= @fromTime) AND (S.time &lt;= @toTime) OR
+                (@toTime &lt;= @fromTime)
+GROUP BY S.exchange_id, S.time, p1.product_type, p2.product_type, 
+                p4.product_type, p3.product_type
+HAVING   (S.exchange_id LIKE '%' + @eid + '%')</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="fromTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@fromTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="toTime" ColumnName="time" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@toTime" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="time" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="eid" ColumnName="exchange_id" DataSourceName="[G:\KUGUAN\KUGUAN\DATA\DATA.MDF].dbo.exchange_management" DataTypeServer="nvarchar(255)" DbType="String" Direction="Input" ParameterName="@eid" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumn="e_id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
         </Tables>
         <Sources>
           <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="dbo.AddProType" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="AddProType" MethodsParameterType="CLR" Modifier="Public" Name="AddProType" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="AddProType">
@@ -1470,6 +1864,55 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
+          <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="dbo.GetCusId" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="GetCusId" MethodsParameterType="CLR" Modifier="Public" Name="GetCusId" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="GetCusId">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>dbo.GetCusId</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="ReturnValue" ParameterName="@RETURN_VALUE" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="nvarchar" DbType="String" Direction="Input" ParameterName="@cus_name" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="InputOutput" ParameterName="@cus_id" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="dbo.GetEngId" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="GetEngId" MethodsParameterType="CLR" Modifier="Public" Name="GetEngId" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="GetEngId">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>dbo.GetEngId</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="ReturnValue" ParameterName="@RETURN_VALUE" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="nvarchar" DbType="String" Direction="Input" ParameterName="@store_name" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="nvarchar" DbType="String" Direction="Input" ParameterName="@eng_name" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="InputOutput" ParameterName="@eng_id" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="dbo.GetSupId" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="GetSupId" MethodsParameterType="CLR" Modifier="Public" Name="GetSupId" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="GetSupId">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>dbo.GetSupId</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="ReturnValue" ParameterName="@RETURN_VALUE" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="nvarchar" DbType="String" Direction="Input" ParameterName="@sup_name" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="InputOutput" ParameterName="@sup_id" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="ConnectionString (Settings)" DbObjectName="dbo.GetUnitId" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="GetUnitId" MethodsParameterType="CLR" Modifier="Public" Name="GetUnitId" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy7" UserSourceName="GetUnitId">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>dbo.GetUnitId</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="ReturnValue" ParameterName="@RETURN_VALUE" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="nvarchar" DbType="String" Direction="Input" ParameterName="@unit_name" Precision="0" ProviderType="NVarChar" Scale="0" Size="255" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="InputOutput" ParameterName="@unit_id" Precision="10" ProviderType="Int" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
         </Sources>
       </DataSource>
     </xs:appinfo>
@@ -1477,7 +1920,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
   <xs:element name="dataDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="dataDataSet" msprop:Generator_UserDSName="dataDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="customer" msprop:Generator_TableClassName="customerDataTable" msprop:Generator_TableVarName="tablecustomer" msprop:Generator_TablePropName="customer" msprop:Generator_RowDeletingName="customerRowDeleting" msprop:Generator_RowChangingName="customerRowChanging" msprop:Generator_RowEvHandlerName="customerRowChangeEventHandler" msprop:Generator_RowDeletedName="customerRowDeleted" msprop:Generator_UserTableName="customer" msprop:Generator_RowChangedName="customerRowChanged" msprop:Generator_RowEvArgName="customerRowChangeEvent" msprop:Generator_RowClassName="customerRow">
+        <xs:element name="customer" msprop:Generator_TableClassName="customerDataTable" msprop:Generator_TableVarName="tablecustomer" msprop:Generator_RowChangedName="customerRowChanged" msprop:Generator_TablePropName="customer" msprop:Generator_RowDeletingName="customerRowDeleting" msprop:Generator_RowChangingName="customerRowChanging" msprop:Generator_RowEvHandlerName="customerRowChangeEventHandler" msprop:Generator_RowDeletedName="customerRowDeleted" msprop:Generator_RowClassName="customerRow" msprop:Generator_UserTableName="customer" msprop:Generator_RowEvArgName="customerRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="customer_type" msprop:Generator_ColumnVarNameInTable="columncustomer_type" msprop:Generator_ColumnPropNameInRow="customer_type" msprop:Generator_ColumnPropNameInTable="customer_typeColumn" msprop:Generator_UserColumnName="customer_type" type="xs:int" minOccurs="0" />
@@ -1555,7 +1998,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="customer_type" msprop:Generator_TableClassName="customer_typeDataTable" msprop:Generator_TableVarName="tablecustomer_type" msprop:Generator_TablePropName="customer_type" msprop:Generator_RowDeletingName="customer_typeRowDeleting" msprop:Generator_RowChangingName="customer_typeRowChanging" msprop:Generator_RowEvHandlerName="customer_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="customer_typeRowDeleted" msprop:Generator_UserTableName="customer_type" msprop:Generator_RowChangedName="customer_typeRowChanged" msprop:Generator_RowEvArgName="customer_typeRowChangeEvent" msprop:Generator_RowClassName="customer_typeRow">
+        <xs:element name="customer_type" msprop:Generator_TableClassName="customer_typeDataTable" msprop:Generator_TableVarName="tablecustomer_type" msprop:Generator_RowChangedName="customer_typeRowChanged" msprop:Generator_TablePropName="customer_type" msprop:Generator_RowDeletingName="customer_typeRowDeleting" msprop:Generator_RowChangingName="customer_typeRowChanging" msprop:Generator_RowEvHandlerName="customer_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="customer_typeRowDeleted" msprop:Generator_RowClassName="customer_typeRow" msprop:Generator_UserTableName="customer_type" msprop:Generator_RowEvArgName="customer_typeRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="customer_type_id" msprop:Generator_ColumnVarNameInTable="columncustomer_type_id" msprop:Generator_ColumnPropNameInRow="customer_type_id" msprop:Generator_ColumnPropNameInTable="customer_type_idColumn" msprop:Generator_UserColumnName="customer_type_id" type="xs:int" minOccurs="0" />
@@ -1571,7 +2014,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="supplier" msprop:Generator_TableClassName="supplierDataTable" msprop:Generator_TableVarName="tablesupplier" msprop:Generator_TablePropName="supplier" msprop:Generator_RowDeletingName="supplierRowDeleting" msprop:Generator_RowChangingName="supplierRowChanging" msprop:Generator_RowEvHandlerName="supplierRowChangeEventHandler" msprop:Generator_RowDeletedName="supplierRowDeleted" msprop:Generator_UserTableName="supplier" msprop:Generator_RowChangedName="supplierRowChanged" msprop:Generator_RowEvArgName="supplierRowChangeEvent" msprop:Generator_RowClassName="supplierRow">
+        <xs:element name="supplier" msprop:Generator_TableClassName="supplierDataTable" msprop:Generator_TableVarName="tablesupplier" msprop:Generator_RowChangedName="supplierRowChanged" msprop:Generator_TablePropName="supplier" msprop:Generator_RowDeletingName="supplierRowDeleting" msprop:Generator_RowChangingName="supplierRowChanging" msprop:Generator_RowEvHandlerName="supplierRowChangeEventHandler" msprop:Generator_RowDeletedName="supplierRowDeleted" msprop:Generator_RowClassName="supplierRow" msprop:Generator_UserTableName="supplier" msprop:Generator_RowEvArgName="supplierRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="supplier_id" msprop:Generator_ColumnVarNameInTable="columnsupplier_id" msprop:Generator_ColumnPropNameInRow="supplier_id" msprop:Generator_ColumnPropNameInTable="supplier_idColumn" msprop:Generator_UserColumnName="supplier_id" type="xs:int" minOccurs="0" />
@@ -1649,7 +2092,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="supplier_type" msprop:Generator_TableClassName="supplier_typeDataTable" msprop:Generator_TableVarName="tablesupplier_type" msprop:Generator_TablePropName="supplier_type" msprop:Generator_RowDeletingName="supplier_typeRowDeleting" msprop:Generator_RowChangingName="supplier_typeRowChanging" msprop:Generator_RowEvHandlerName="supplier_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="supplier_typeRowDeleted" msprop:Generator_UserTableName="supplier_type" msprop:Generator_RowChangedName="supplier_typeRowChanged" msprop:Generator_RowEvArgName="supplier_typeRowChangeEvent" msprop:Generator_RowClassName="supplier_typeRow">
+        <xs:element name="supplier_type" msprop:Generator_TableClassName="supplier_typeDataTable" msprop:Generator_TableVarName="tablesupplier_type" msprop:Generator_RowChangedName="supplier_typeRowChanged" msprop:Generator_TablePropName="supplier_type" msprop:Generator_RowDeletingName="supplier_typeRowDeleting" msprop:Generator_RowChangingName="supplier_typeRowChanging" msprop:Generator_RowEvHandlerName="supplier_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="supplier_typeRowDeleted" msprop:Generator_RowClassName="supplier_typeRow" msprop:Generator_UserTableName="supplier_type" msprop:Generator_RowEvArgName="supplier_typeRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="supplier_type_id" msprop:Generator_ColumnVarNameInTable="columnsupplier_type_id" msprop:Generator_ColumnPropNameInRow="supplier_type_id" msprop:Generator_ColumnPropNameInTable="supplier_type_idColumn" msprop:Generator_UserColumnName="supplier_type_id" type="xs:int" minOccurs="0" />
@@ -1665,7 +2108,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="user" msprop:Generator_TableClassName="userDataTable" msprop:Generator_TableVarName="tableuser" msprop:Generator_TablePropName="user" msprop:Generator_RowDeletingName="userRowDeleting" msprop:Generator_RowChangingName="userRowChanging" msprop:Generator_RowEvHandlerName="userRowChangeEventHandler" msprop:Generator_RowDeletedName="userRowDeleted" msprop:Generator_UserTableName="user" msprop:Generator_RowChangedName="userRowChanged" msprop:Generator_RowEvArgName="userRowChangeEvent" msprop:Generator_RowClassName="userRow">
+        <xs:element name="user" msprop:Generator_TableClassName="userDataTable" msprop:Generator_TableVarName="tableuser" msprop:Generator_RowChangedName="userRowChanged" msprop:Generator_TablePropName="user" msprop:Generator_RowDeletingName="userRowDeleting" msprop:Generator_RowChangingName="userRowChanging" msprop:Generator_RowEvHandlerName="userRowChangeEventHandler" msprop:Generator_RowDeletedName="userRowDeleted" msprop:Generator_RowClassName="userRow" msprop:Generator_UserTableName="user" msprop:Generator_RowEvArgName="userRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="user_id" msprop:Generator_ColumnVarNameInTable="columnuser_id" msprop:Generator_ColumnPropNameInRow="user_id" msprop:Generator_ColumnPropNameInTable="user_idColumn" msprop:Generator_UserColumnName="user_id" type="xs:int" />
@@ -1693,7 +2136,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="product" msprop:Generator_TableClassName="productDataTable" msprop:Generator_TableVarName="tableproduct" msprop:Generator_RowChangedName="productRowChanged" msprop:Generator_TablePropName="product" msprop:Generator_RowDeletingName="productRowDeleting" msprop:Generator_RowChangingName="productRowChanging" msprop:Generator_RowEvHandlerName="productRowChangeEventHandler" msprop:Generator_RowDeletedName="productRowDeleted" msprop:Generator_RowClassName="productRow" msprop:Generator_UserTableName="product" msprop:Generator_RowEvArgName="productRowChangeEvent">
+        <xs:element name="product" msprop:Generator_TableClassName="productDataTable" msprop:Generator_TableVarName="tableproduct" msprop:Generator_TablePropName="product" msprop:Generator_RowDeletingName="productRowDeleting" msprop:Generator_RowChangingName="productRowChanging" msprop:Generator_RowEvHandlerName="productRowChangeEventHandler" msprop:Generator_RowDeletedName="productRowDeleted" msprop:Generator_UserTableName="product" msprop:Generator_RowChangedName="productRowChanged" msprop:Generator_RowEvArgName="productRowChangeEvent" msprop:Generator_RowClassName="productRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="product_id" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
@@ -1738,7 +2181,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="storage_management" msprop:Generator_TableClassName="storage_managementDataTable" msprop:Generator_TableVarName="tablestorage_management" msprop:Generator_RowChangedName="storage_managementRowChanged" msprop:Generator_TablePropName="storage_management" msprop:Generator_RowDeletingName="storage_managementRowDeleting" msprop:Generator_RowChangingName="storage_managementRowChanging" msprop:Generator_RowEvHandlerName="storage_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="storage_managementRowDeleted" msprop:Generator_RowClassName="storage_managementRow" msprop:Generator_UserTableName="storage_management" msprop:Generator_RowEvArgName="storage_managementRowChangeEvent">
+        <xs:element name="storage_management" msprop:Generator_TableClassName="storage_managementDataTable" msprop:Generator_TableVarName="tablestorage_management" msprop:Generator_TablePropName="storage_management" msprop:Generator_RowDeletingName="storage_managementRowDeleting" msprop:Generator_RowChangingName="storage_managementRowChanging" msprop:Generator_RowEvHandlerName="storage_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="storage_managementRowDeleted" msprop:Generator_UserTableName="storage_management" msprop:Generator_RowChangedName="storage_managementRowChanged" msprop:Generator_RowEvArgName="storage_managementRowChangeEvent" msprop:Generator_RowClassName="storage_managementRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="product_id" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
@@ -1791,10 +2234,17 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="get_price" msprop:Generator_ColumnVarNameInTable="columnget_price" msprop:Generator_ColumnPropNameInRow="get_price" msprop:Generator_ColumnPropNameInTable="get_priceColumn" msprop:Generator_UserColumnName="get_price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="eng_name" msprop:Generator_ColumnVarNameInTable="columneng_name" msprop:Generator_ColumnPropNameInRow="eng_name" msprop:Generator_ColumnPropNameInTable="eng_nameColumn" msprop:Generator_UserColumnName="eng_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="unit" msprop:Generator_TableClassName="unitDataTable" msprop:Generator_TableVarName="tableunit" msprop:Generator_RowChangedName="unitRowChanged" msprop:Generator_TablePropName="unit" msprop:Generator_RowDeletingName="unitRowDeleting" msprop:Generator_RowChangingName="unitRowChanging" msprop:Generator_RowEvHandlerName="unitRowChangeEventHandler" msprop:Generator_RowDeletedName="unitRowDeleted" msprop:Generator_RowClassName="unitRow" msprop:Generator_UserTableName="unit" msprop:Generator_RowEvArgName="unitRowChangeEvent">
+        <xs:element name="unit" msprop:Generator_TableClassName="unitDataTable" msprop:Generator_TableVarName="tableunit" msprop:Generator_TablePropName="unit" msprop:Generator_RowDeletingName="unitRowDeleting" msprop:Generator_RowChangingName="unitRowChanging" msprop:Generator_RowEvHandlerName="unitRowChangeEventHandler" msprop:Generator_RowDeletedName="unitRowDeleted" msprop:Generator_UserTableName="unit" msprop:Generator_RowChangedName="unitRowChanged" msprop:Generator_RowEvArgName="unitRowChangeEvent" msprop:Generator_RowClassName="unitRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="unit_id" msprop:Generator_ColumnVarNameInTable="columnunit_id" msprop:Generator_ColumnPropNameInRow="unit_id" msprop:Generator_ColumnPropNameInTable="unit_idColumn" msprop:Generator_UserColumnName="unit_id" type="xs:int" minOccurs="0" />
@@ -1808,7 +2258,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="storehouse" msprop:Generator_TableClassName="storehouseDataTable" msprop:Generator_TableVarName="tablestorehouse" msprop:Generator_RowChangedName="storehouseRowChanged" msprop:Generator_TablePropName="storehouse" msprop:Generator_RowDeletingName="storehouseRowDeleting" msprop:Generator_RowChangingName="storehouseRowChanging" msprop:Generator_RowEvHandlerName="storehouseRowChangeEventHandler" msprop:Generator_RowDeletedName="storehouseRowDeleted" msprop:Generator_RowClassName="storehouseRow" msprop:Generator_UserTableName="storehouse" msprop:Generator_RowEvArgName="storehouseRowChangeEvent">
+        <xs:element name="storehouse" msprop:Generator_TableClassName="storehouseDataTable" msprop:Generator_TableVarName="tablestorehouse" msprop:Generator_TablePropName="storehouse" msprop:Generator_RowDeletingName="storehouseRowDeleting" msprop:Generator_RowChangingName="storehouseRowChanging" msprop:Generator_RowEvHandlerName="storehouseRowChangeEventHandler" msprop:Generator_RowDeletedName="storehouseRowDeleted" msprop:Generator_UserTableName="storehouse" msprop:Generator_RowChangedName="storehouseRowChanged" msprop:Generator_RowEvArgName="storehouseRowChangeEvent" msprop:Generator_RowClassName="storehouseRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="storehouse_id" msprop:Generator_ColumnVarNameInTable="columnstorehouse_id" msprop:Generator_ColumnPropNameInRow="storehouse_id" msprop:Generator_ColumnPropNameInTable="storehouse_idColumn" msprop:Generator_UserColumnName="storehouse_id" type="xs:int" minOccurs="0" />
@@ -1822,7 +2272,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="product_type" msprop:Generator_TableClassName="product_typeDataTable" msprop:Generator_TableVarName="tableproduct_type" msprop:Generator_RowChangedName="product_typeRowChanged" msprop:Generator_TablePropName="product_type" msprop:Generator_RowDeletingName="product_typeRowDeleting" msprop:Generator_RowChangingName="product_typeRowChanging" msprop:Generator_RowEvHandlerName="product_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="product_typeRowDeleted" msprop:Generator_RowClassName="product_typeRow" msprop:Generator_UserTableName="product_type" msprop:Generator_RowEvArgName="product_typeRowChangeEvent">
+        <xs:element name="product_type" msprop:Generator_TableClassName="product_typeDataTable" msprop:Generator_TableVarName="tableproduct_type" msprop:Generator_TablePropName="product_type" msprop:Generator_RowDeletingName="product_typeRowDeleting" msprop:Generator_RowChangingName="product_typeRowChanging" msprop:Generator_RowEvHandlerName="product_typeRowChangeEventHandler" msprop:Generator_RowDeletedName="product_typeRowDeleted" msprop:Generator_UserTableName="product_type" msprop:Generator_RowChangedName="product_typeRowChanged" msprop:Generator_RowEvArgName="product_typeRowChangeEvent" msprop:Generator_RowClassName="product_typeRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="product_type_id" msprop:Generator_ColumnVarNameInTable="columnproduct_type_id" msprop:Generator_ColumnPropNameInRow="product_type_id" msprop:Generator_ColumnPropNameInTable="product_type_idColumn" msprop:Generator_UserColumnName="product_type_id" type="xs:int" minOccurs="0" />
@@ -1838,7 +2288,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="out_management" msprop:Generator_TableClassName="out_managementDataTable" msprop:Generator_TableVarName="tableout_management" msprop:Generator_TablePropName="out_management" msprop:Generator_RowDeletingName="out_managementRowDeleting" msprop:Generator_RowChangingName="out_managementRowChanging" msprop:Generator_RowEvHandlerName="out_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="out_managementRowDeleted" msprop:Generator_UserTableName="out_management" msprop:Generator_RowChangedName="out_managementRowChanged" msprop:Generator_RowEvArgName="out_managementRowChangeEvent" msprop:Generator_RowClassName="out_managementRow">
+        <xs:element name="out_management" msprop:Generator_TableClassName="out_managementDataTable" msprop:Generator_TableVarName="tableout_management" msprop:Generator_RowChangedName="out_managementRowChanged" msprop:Generator_TablePropName="out_management" msprop:Generator_RowDeletingName="out_managementRowDeleting" msprop:Generator_RowChangingName="out_managementRowChanging" msprop:Generator_RowEvHandlerName="out_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="out_managementRowDeleted" msprop:Generator_RowClassName="out_managementRow" msprop:Generator_UserTableName="out_management" msprop:Generator_RowEvArgName="out_managementRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="out_id" msprop:Generator_ColumnVarNameInTable="columnout_id" msprop:Generator_ColumnPropNameInRow="out_id" msprop:Generator_ColumnPropNameInTable="out_idColumn" msprop:Generator_UserColumnName="out_id" minOccurs="0">
@@ -1864,11 +2314,10 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="get_price" msprop:Generator_ColumnVarNameInTable="columnget_price" msprop:Generator_ColumnPropNameInRow="get_price" msprop:Generator_ColumnPropNameInTable="get_priceColumn" msprop:Generator_UserColumnName="get_price" type="xs:decimal" minOccurs="0" />
               <xs:element name="total_price" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columntotal_price" msprop:Generator_ColumnPropNameInRow="total_price" msprop:Generator_ColumnPropNameInTable="total_priceColumn" msprop:Generator_UserColumnName="total_price" type="xs:decimal" minOccurs="0" />
               <xs:element name="unit_id" msprop:Generator_ColumnVarNameInTable="columnunit_id" msprop:Generator_ColumnPropNameInRow="unit_id" msprop:Generator_ColumnPropNameInTable="unit_idColumn" msprop:Generator_UserColumnName="unit_id" type="xs:int" minOccurs="0" />
-              <xs:element name="customer_id" msprop:Generator_ColumnVarNameInTable="columncustomer_id" msprop:Generator_ColumnPropNameInRow="customer_id" msprop:Generator_ColumnPropNameInTable="customer_idColumn" msprop:Generator_UserColumnName="customer_id" type="xs:int" minOccurs="0" />
-              <xs:element name="customer_name" msprop:Generator_ColumnVarNameInTable="columncustomer_name" msprop:Generator_ColumnPropNameInRow="customer_name" msprop:Generator_ColumnPropNameInTable="customer_nameColumn" msprop:Generator_UserColumnName="customer_name" minOccurs="0">
+              <xs:element name="customer_id" msprop:Generator_ColumnVarNameInTable="columncustomer_id" msprop:Generator_ColumnPropNameInRow="customer_id" msprop:Generator_ColumnPropNameInTable="customer_idColumn" msprop:Generator_UserColumnName="customer_id" type="xs:int" default="-1" minOccurs="0" />
+              <xs:element name="customer_name" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="customer_name" msprop:Generator_ColumnVarNameInTable="columncustomer_name" msprop:Generator_ColumnPropNameInTable="customer_nameColumn" msprop:Generator_UserColumnName="customer_name" default="" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
@@ -1877,13 +2326,6 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
               </xs:element>
               <xs:element name="storage_num" msprop:Generator_ColumnVarNameInTable="columnstorage_num" msprop:Generator_ColumnPropNameInRow="storage_num" msprop:Generator_ColumnPropNameInTable="storage_numColumn" msprop:Generator_UserColumnName="storage_num" type="xs:decimal" minOccurs="0" />
               <xs:element name="product_type_id" msprop:Generator_ColumnVarNameInTable="columnproduct_type_id" msprop:Generator_ColumnPropNameInRow="product_type_id" msprop:Generator_ColumnPropNameInTable="product_type_idColumn" msprop:Generator_UserColumnName="product_type_id" type="xs:int" minOccurs="0" />
-              <xs:element name="product_type" msprop:Generator_ColumnVarNameInTable="columnproduct_type" msprop:Generator_ColumnPropNameInRow="product_type" msprop:Generator_ColumnPropNameInTable="product_typeColumn" msprop:Generator_UserColumnName="product_type" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="spec" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="spec" msprop:Generator_ColumnVarNameInTable="columnspec" msprop:Generator_ColumnPropNameInTable="specColumn" msprop:Generator_UserColumnName="spec" default="" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -1891,10 +2333,25 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="out_price" msprop:Generator_ColumnVarNameInTable="columnout_price" msprop:Generator_ColumnPropNameInRow="out_price" msprop:Generator_ColumnPropNameInTable="out_priceColumn" msprop:Generator_UserColumnName="out_price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="store_name" msprop:Generator_ColumnVarNameInTable="columnstore_name" msprop:Generator_ColumnPropNameInRow="store_name" msprop:Generator_ColumnPropNameInTable="store_nameColumn" msprop:Generator_UserColumnName="store_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="eng_name" msprop:Generator_ColumnVarNameInTable="columneng_name" msprop:Generator_ColumnPropNameInRow="eng_name" msprop:Generator_ColumnPropNameInTable="eng_nameColumn" msprop:Generator_UserColumnName="eng_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="exchange_management" msprop:Generator_TableClassName="exchange_managementDataTable" msprop:Generator_TableVarName="tableexchange_management" msprop:Generator_RowChangedName="exchange_managementRowChanged" msprop:Generator_TablePropName="exchange_management" msprop:Generator_RowDeletingName="exchange_managementRowDeleting" msprop:Generator_RowChangingName="exchange_managementRowChanging" msprop:Generator_RowEvHandlerName="exchange_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="exchange_managementRowDeleted" msprop:Generator_RowClassName="exchange_managementRow" msprop:Generator_UserTableName="exchange_management" msprop:Generator_RowEvArgName="exchange_managementRowChangeEvent">
+        <xs:element name="exchange_management" msprop:Generator_TableClassName="exchange_managementDataTable" msprop:Generator_TableVarName="tableexchange_management" msprop:Generator_TablePropName="exchange_management" msprop:Generator_RowDeletingName="exchange_managementRowDeleting" msprop:Generator_RowChangingName="exchange_managementRowChanging" msprop:Generator_RowEvHandlerName="exchange_managementRowChangeEventHandler" msprop:Generator_RowDeletedName="exchange_managementRowDeleted" msprop:Generator_UserTableName="exchange_management" msprop:Generator_RowChangedName="exchange_managementRowChanged" msprop:Generator_RowEvArgName="exchange_managementRowChangeEvent" msprop:Generator_RowClassName="exchange_managementRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="exchange_id" msprop:Generator_ColumnVarNameInTable="columnexchange_id" msprop:Generator_ColumnPropNameInRow="exchange_id" msprop:Generator_ColumnPropNameInTable="exchange_idColumn" msprop:Generator_UserColumnName="exchange_id" minOccurs="0">
@@ -1920,37 +2377,51 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="from_house" msprop:Generator_ColumnVarNameInTable="columnfrom_house" msprop:Generator_ColumnPropNameInRow="from_house" msprop:Generator_ColumnPropNameInTable="from_houseColumn" msprop:Generator_UserColumnName="from_house" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="to_house" msprop:Generator_ColumnVarNameInTable="columnto_house" msprop:Generator_ColumnPropNameInRow="to_house" msprop:Generator_ColumnPropNameInTable="to_houseColumn" msprop:Generator_UserColumnName="to_house" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="get_price" msprop:Generator_ColumnVarNameInTable="columnget_price" msprop:Generator_ColumnPropNameInRow="get_price" msprop:Generator_ColumnPropNameInTable="get_priceColumn" msprop:Generator_UserColumnName="get_price" type="xs:decimal" minOccurs="0" />
-              <xs:element name="total_price" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columntotal_price" msprop:Generator_ColumnPropNameInRow="total_price" msprop:Generator_ColumnPropNameInTable="total_priceColumn" msprop:Generator_UserColumnName="total_price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="total_price" msprop:Generator_ColumnVarNameInTable="columntotal_price" msprop:Generator_ColumnPropNameInRow="total_price" msprop:Generator_ColumnPropNameInTable="total_priceColumn" msprop:Generator_UserColumnName="total_price" type="xs:decimal" minOccurs="0" />
               <xs:element name="product_id" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
               <xs:element name="from_house_id" msprop:Generator_ColumnVarNameInTable="columnfrom_house_id" msprop:Generator_ColumnPropNameInRow="from_house_id" msprop:Generator_ColumnPropNameInTable="from_house_idColumn" msprop:Generator_UserColumnName="from_house_id" type="xs:int" minOccurs="0" />
               <xs:element name="to_house_id" msprop:Generator_ColumnVarNameInTable="columnto_house_id" msprop:Generator_ColumnPropNameInRow="to_house_id" msprop:Generator_ColumnPropNameInTable="to_house_idColumn" msprop:Generator_UserColumnName="to_house_id" type="xs:int" minOccurs="0" />
               <xs:element name="unit_id" msprop:Generator_ColumnVarNameInTable="columnunit_id" msprop:Generator_ColumnPropNameInRow="unit_id" msprop:Generator_ColumnPropNameInTable="unit_idColumn" msprop:Generator_UserColumnName="unit_id" type="xs:int" minOccurs="0" />
-              <xs:element name="spec" msprop:Generator_ColumnVarNameInTable="columnspec" msprop:Generator_ColumnPropNameInRow="spec" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInTable="specColumn" msprop:Generator_UserColumnName="spec" default="" minOccurs="0">
+              <xs:element name="spec" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="spec" msprop:Generator_ColumnVarNameInTable="columnspec" msprop:Generator_ColumnPropNameInTable="specColumn" msprop:Generator_UserColumnName="spec" default="" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="1000" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="price" msprop:Generator_ColumnVarNameInTable="columnprice" msprop:Generator_ColumnPropNameInRow="price" msprop:Generator_ColumnPropNameInTable="priceColumn" msprop:Generator_UserColumnName="price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="from_eng" msprop:Generator_ColumnVarNameInTable="columnfrom_eng" msprop:Generator_ColumnPropNameInRow="from_eng" msprop:Generator_ColumnPropNameInTable="from_engColumn" msprop:Generator_UserColumnName="from_eng" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="to_eng" msprop:Generator_ColumnVarNameInTable="columnto_eng" msprop:Generator_ColumnPropNameInRow="to_eng" msprop:Generator_ColumnPropNameInTable="to_engColumn" msprop:Generator_UserColumnName="to_eng" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="from_store" msprop:Generator_ColumnVarNameInTable="columnfrom_store" msprop:Generator_ColumnPropNameInRow="from_store" msprop:Generator_ColumnPropNameInTable="from_storeColumn" msprop:Generator_UserColumnName="from_store" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="to_store" msprop:Generator_ColumnVarNameInTable="columnto_store" msprop:Generator_ColumnPropNameInRow="to_store" msprop:Generator_ColumnPropNameInTable="to_storeColumn" msprop:Generator_UserColumnName="to_store" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="StockSumTable" msprop:Generator_TableClassName="StockSumTableDataTable" msprop:Generator_TableVarName="tableStockSumTable" msprop:Generator_TablePropName="StockSumTable" msprop:Generator_RowDeletingName="StockSumTableRowDeleting" msprop:Generator_RowChangingName="StockSumTableRowChanging" msprop:Generator_RowEvHandlerName="StockSumTableRowChangeEventHandler" msprop:Generator_RowDeletedName="StockSumTableRowDeleted" msprop:Generator_UserTableName="StockSumTable" msprop:Generator_RowChangedName="StockSumTableRowChanged" msprop:Generator_RowEvArgName="StockSumTableRowChangeEvent" msprop:Generator_RowClassName="StockSumTableRow">
+        <xs:element name="StockSumTable" msprop:Generator_TableClassName="StockSumTableDataTable" msprop:Generator_TableVarName="tableStockSumTable" msprop:Generator_RowChangedName="StockSumTableRowChanged" msprop:Generator_TablePropName="StockSumTable" msprop:Generator_RowDeletingName="StockSumTableRowDeleting" msprop:Generator_RowChangingName="StockSumTableRowChanging" msprop:Generator_RowEvHandlerName="StockSumTableRowChangeEventHandler" msprop:Generator_RowDeletedName="StockSumTableRowDeleted" msprop:Generator_RowClassName="StockSumTableRow" msprop:Generator_UserTableName="StockSumTable" msprop:Generator_RowEvArgName="StockSumTableRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="get_sum" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnget_sum" msprop:Generator_ColumnPropNameInRow="get_sum" msprop:Generator_ColumnPropNameInTable="get_sumColumn" msprop:Generator_UserColumnName="get_sum" type="xs:decimal" minOccurs="0" />
@@ -1959,7 +2430,7 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="product_stock" msprop:Generator_TableClassName="product_stockDataTable" msprop:Generator_TableVarName="tableproduct_stock" msprop:Generator_TablePropName="product_stock" msprop:Generator_RowDeletingName="product_stockRowDeleting" msprop:Generator_RowChangingName="product_stockRowChanging" msprop:Generator_RowEvHandlerName="product_stockRowChangeEventHandler" msprop:Generator_RowDeletedName="product_stockRowDeleted" msprop:Generator_UserTableName="product_stock" msprop:Generator_RowChangedName="product_stockRowChanged" msprop:Generator_RowEvArgName="product_stockRowChangeEvent" msprop:Generator_RowClassName="product_stockRow">
+        <xs:element name="product_stock" msprop:Generator_TableClassName="product_stockDataTable" msprop:Generator_TableVarName="tableproduct_stock" msprop:Generator_RowChangedName="product_stockRowChanged" msprop:Generator_TablePropName="product_stock" msprop:Generator_RowDeletingName="product_stockRowDeleting" msprop:Generator_RowChangingName="product_stockRowChanging" msprop:Generator_RowEvHandlerName="product_stockRowChangeEventHandler" msprop:Generator_RowDeletedName="product_stockRowDeleted" msprop:Generator_RowClassName="product_stockRow" msprop:Generator_UserTableName="product_stock" msprop:Generator_RowEvArgName="product_stockRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="product_id" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
@@ -2016,12 +2487,133 @@ WHERE   (product_id = @pid) AND (product_type_id = @tid)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="stock" msprop:Generator_TableClassName="stockDataTable" msprop:Generator_TableVarName="tablestock" msprop:Generator_TablePropName="stock" msprop:Generator_RowDeletingName="stockRowDeleting" msprop:Generator_RowChangingName="stockRowChanging" msprop:Generator_RowEvHandlerName="stockRowChangeEventHandler" msprop:Generator_RowDeletedName="stockRowDeleted" msprop:Generator_UserTableName="stock" msprop:Generator_RowChangedName="stockRowChanged" msprop:Generator_RowEvArgName="stockRowChangeEvent" msprop:Generator_RowClassName="stockRow">
+        <xs:element name="stock" msprop:Generator_TableClassName="stockDataTable" msprop:Generator_TableVarName="tablestock" msprop:Generator_RowChangedName="stockRowChanged" msprop:Generator_TablePropName="stock" msprop:Generator_RowDeletingName="stockRowDeleting" msprop:Generator_RowChangingName="stockRowChanging" msprop:Generator_RowEvHandlerName="stockRowChangeEventHandler" msprop:Generator_RowDeletedName="stockRowDeleted" msprop:Generator_RowClassName="stockRow" msprop:Generator_UserTableName="stock" msprop:Generator_RowEvArgName="stockRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="product_id" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
               <xs:element name="product_type_id" msprop:Generator_ColumnVarNameInTable="columnproduct_type_id" msprop:Generator_ColumnPropNameInRow="product_type_id" msprop:Generator_ColumnPropNameInTable="product_type_idColumn" msprop:Generator_UserColumnName="product_type_id" type="xs:int" minOccurs="0" />
               <xs:element name="stock_num" msprop:Generator_ColumnVarNameInTable="columnstock_num" msprop:Generator_ColumnPropNameInRow="stock_num" msprop:Generator_ColumnPropNameInTable="stock_numColumn" msprop:Generator_UserColumnName="stock_num" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="StorageDoc" msprop:Generator_TableClassName="StorageDocDataTable" msprop:Generator_TableVarName="tableStorageDoc" msprop:Generator_TablePropName="StorageDoc" msprop:Generator_RowDeletingName="StorageDocRowDeleting" msprop:Generator_RowChangingName="StorageDocRowChanging" msprop:Generator_RowEvHandlerName="StorageDocRowChangeEventHandler" msprop:Generator_RowDeletedName="StorageDocRowDeleted" msprop:Generator_UserTableName="StorageDoc" msprop:Generator_RowChangedName="StorageDocRowChanged" msprop:Generator_RowEvArgName="StorageDocRowChangeEvent" msprop:Generator_RowClassName="StorageDocRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="s_id" msprop:Generator_ColumnVarNameInTable="columns_id" msprop:Generator_ColumnPropNameInRow="s_id" msprop:Generator_ColumnPropNameInTable="s_idColumn" msprop:Generator_UserColumnName="s_id" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="sup_name" msprop:Generator_ColumnVarNameInTable="columnsup_name" msprop:Generator_ColumnPropNameInRow="sup_name" msprop:Generator_ColumnPropNameInTable="sup_nameColumn" msprop:Generator_UserColumnName="sup_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="supplier_id" msprop:Generator_ColumnVarNameInTable="columnsupplier_id" msprop:Generator_ColumnPropNameInRow="supplier_id" msprop:Generator_ColumnPropNameInTable="supplier_idColumn" msprop:Generator_UserColumnName="supplier_id" type="xs:int" minOccurs="0" />
+              <xs:element name="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnPropNameInTable="timeColumn" msprop:Generator_UserColumnName="time" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="product_type" msprop:Generator_ColumnVarNameInTable="columnproduct_type" msprop:Generator_ColumnPropNameInRow="product_type" msprop:Generator_ColumnPropNameInTable="product_typeColumn" msprop:Generator_UserColumnName="product_type" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="store_name" msprop:Generator_ColumnVarNameInTable="columnstore_name" msprop:Generator_ColumnPropNameInRow="store_name" msprop:Generator_ColumnPropNameInTable="store_nameColumn" msprop:Generator_UserColumnName="store_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OutDoc" msprop:Generator_TableClassName="OutDocDataTable" msprop:Generator_TableVarName="tableOutDoc" msprop:Generator_TablePropName="OutDoc" msprop:Generator_RowDeletingName="OutDocRowDeleting" msprop:Generator_RowChangingName="OutDocRowChanging" msprop:Generator_RowEvHandlerName="OutDocRowChangeEventHandler" msprop:Generator_RowDeletedName="OutDocRowDeleted" msprop:Generator_UserTableName="OutDoc" msprop:Generator_RowChangedName="OutDocRowChanged" msprop:Generator_RowEvArgName="OutDocRowChangeEvent" msprop:Generator_RowClassName="OutDocRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnPropNameInTable="timeColumn" msprop:Generator_UserColumnName="time" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="product_type" msprop:Generator_ColumnVarNameInTable="columnproduct_type" msprop:Generator_ColumnPropNameInRow="product_type" msprop:Generator_ColumnPropNameInTable="product_typeColumn" msprop:Generator_UserColumnName="product_type" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="store_name" msprop:Generator_ColumnVarNameInTable="columnstore_name" msprop:Generator_ColumnPropNameInRow="store_name" msprop:Generator_ColumnPropNameInTable="store_nameColumn" msprop:Generator_UserColumnName="store_name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="customer_id" msprop:Generator_ColumnVarNameInTable="columncustomer_id" msprop:Generator_ColumnPropNameInRow="customer_id" msprop:Generator_ColumnPropNameInTable="customer_idColumn" msprop:Generator_UserColumnName="customer_id" type="xs:int" minOccurs="0" />
+              <xs:element name="cus_name" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="cus_name" msprop:Generator_ColumnVarNameInTable="columncus_name" msprop:Generator_ColumnPropNameInTable="cus_nameColumn" msprop:Generator_UserColumnName="cus_name" default="" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="o_id" msprop:Generator_ColumnVarNameInTable="columno_id" msprop:Generator_ColumnPropNameInRow="o_id" msprop:Generator_ColumnPropNameInTable="o_idColumn" msprop:Generator_UserColumnName="o_id" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ExchangeDoc" msprop:Generator_TableClassName="ExchangeDocDataTable" msprop:Generator_TableVarName="tableExchangeDoc" msprop:Generator_TablePropName="ExchangeDoc" msprop:Generator_RowDeletingName="ExchangeDocRowDeleting" msprop:Generator_RowChangingName="ExchangeDocRowChanging" msprop:Generator_RowEvHandlerName="ExchangeDocRowChangeEventHandler" msprop:Generator_RowDeletedName="ExchangeDocRowDeleted" msprop:Generator_UserTableName="ExchangeDoc" msprop:Generator_RowChangedName="ExchangeDocRowChanged" msprop:Generator_RowEvArgName="ExchangeDocRowChangeEvent" msprop:Generator_RowClassName="ExchangeDocRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnPropNameInTable="timeColumn" msprop:Generator_UserColumnName="time" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="e_id" msprop:Generator_ColumnVarNameInTable="columne_id" msprop:Generator_ColumnPropNameInRow="e_id" msprop:Generator_ColumnPropNameInTable="e_idColumn" msprop:Generator_UserColumnName="e_id" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="from_eng" msprop:Generator_ColumnVarNameInTable="columnfrom_eng" msprop:Generator_ColumnPropNameInRow="from_eng" msprop:Generator_ColumnPropNameInTable="from_engColumn" msprop:Generator_UserColumnName="from_eng" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="from_store" msprop:Generator_ColumnVarNameInTable="columnfrom_store" msprop:Generator_ColumnPropNameInRow="from_store" msprop:Generator_ColumnPropNameInTable="from_storeColumn" msprop:Generator_UserColumnName="from_store" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="to_store" msprop:Generator_ColumnVarNameInTable="columnto_store" msprop:Generator_ColumnPropNameInRow="to_store" msprop:Generator_ColumnPropNameInTable="to_storeColumn" msprop:Generator_UserColumnName="to_store" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="to_eng" msprop:Generator_ColumnVarNameInTable="columnto_eng" msprop:Generator_ColumnPropNameInRow="to_eng" msprop:Generator_ColumnPropNameInTable="to_engColumn" msprop:Generator_UserColumnName="to_eng" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="info" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columninfo" msprop:Generator_ColumnPropNameInRow="info" msprop:Generator_ColumnPropNameInTable="infoColumn" msprop:Generator_UserColumnName="info" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="519" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

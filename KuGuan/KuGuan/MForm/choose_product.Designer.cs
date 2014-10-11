@@ -35,12 +35,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
-            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
-            this.cnlButton = new System.Windows.Forms.Button();
-            this.addProButton = new System.Windows.Forms.Button();
-            this.changeButton = new System.Windows.Forms.Button();
             this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +43,12 @@
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataDataSet = new KuGuan.dataDataSet();
+            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
+            this.cnlButton = new System.Windows.Forms.Button();
+            this.addProButton = new System.Windows.Forms.Button();
+            this.changeButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
@@ -108,6 +108,7 @@
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToOrderColumns = true;
+            this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -125,54 +126,11 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowTemplate.Height = 23;
+            this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(1114, 457);
             this.dataGridView.TabIndex = 16;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
-            // 
-            // productBindingSource
-            // 
-            this.productBindingSource.DataMember = "product";
-            this.productBindingSource.DataSource = this.dataDataSet;
-            // 
-            // dataDataSet
-            // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // productTableAdapter
-            // 
-            this.productTableAdapter.ClearBeforeFill = true;
-            // 
-            // cnlButton
-            // 
-            this.cnlButton.Location = new System.Drawing.Point(1039, 500);
-            this.cnlButton.Name = "cnlButton";
-            this.cnlButton.Size = new System.Drawing.Size(87, 38);
-            this.cnlButton.TabIndex = 22;
-            this.cnlButton.Text = "取消";
-            this.cnlButton.UseVisualStyleBackColor = true;
-            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
-            // 
-            // addProButton
-            // 
-            this.addProButton.Location = new System.Drawing.Point(12, 500);
-            this.addProButton.Name = "addProButton";
-            this.addProButton.Size = new System.Drawing.Size(80, 38);
-            this.addProButton.TabIndex = 23;
-            this.addProButton.Text = "新增";
-            this.addProButton.UseVisualStyleBackColor = true;
-            this.addProButton.Click += new System.EventHandler(this.addProButton_Click);
-            // 
-            // changeButton
-            // 
-            this.changeButton.Location = new System.Drawing.Point(98, 500);
-            this.changeButton.Name = "changeButton";
-            this.changeButton.Size = new System.Drawing.Size(80, 38);
-            this.changeButton.TabIndex = 24;
-            this.changeButton.Text = "修改";
-            this.changeButton.UseVisualStyleBackColor = true;
-            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
             // 
             // productidDataGridViewTextBoxColumn
             // 
@@ -235,6 +193,50 @@
             this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
             this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
             this.remarkDataGridViewTextBoxColumn.Width = 101;
+            // 
+            // productBindingSource
+            // 
+            this.productBindingSource.DataMember = "product";
+            this.productBindingSource.DataSource = this.dataDataSet;
+            // 
+            // dataDataSet
+            // 
+            this.dataDataSet.DataSetName = "dataDataSet";
+            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // productTableAdapter
+            // 
+            this.productTableAdapter.ClearBeforeFill = true;
+            // 
+            // cnlButton
+            // 
+            this.cnlButton.Location = new System.Drawing.Point(1039, 500);
+            this.cnlButton.Name = "cnlButton";
+            this.cnlButton.Size = new System.Drawing.Size(87, 38);
+            this.cnlButton.TabIndex = 22;
+            this.cnlButton.Text = "取消";
+            this.cnlButton.UseVisualStyleBackColor = true;
+            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
+            // 
+            // addProButton
+            // 
+            this.addProButton.Location = new System.Drawing.Point(12, 500);
+            this.addProButton.Name = "addProButton";
+            this.addProButton.Size = new System.Drawing.Size(80, 38);
+            this.addProButton.TabIndex = 23;
+            this.addProButton.Text = "新增";
+            this.addProButton.UseVisualStyleBackColor = true;
+            this.addProButton.Click += new System.EventHandler(this.addProButton_Click);
+            // 
+            // changeButton
+            // 
+            this.changeButton.Location = new System.Drawing.Point(98, 500);
+            this.changeButton.Name = "changeButton";
+            this.changeButton.Size = new System.Drawing.Size(80, 38);
+            this.changeButton.TabIndex = 24;
+            this.changeButton.Text = "修改";
+            this.changeButton.UseVisualStyleBackColor = true;
+            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
             // 
             // choose_product
             // 

@@ -42,8 +42,6 @@ namespace KuGuan.MForm
 
         private void out_management_Load(object sender, EventArgs e)
         {
-            // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
-            this.unitTableAdapter.Fill(this.dataDataSet.unit);
             string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
             Decimal new_id = Decimal.Parse((String)this.out_managementTableAdapter.find(date));
             new_id++;
@@ -80,10 +78,10 @@ namespace KuGuan.MForm
                 row.product_id = Int32.Parse(proIdBox.Text);
                 row.product_type_id = P.TypeId;
                 row.product_name = proNameBox.Text;
-                row.unit_id = (int)unitBox.SelectedValue;
+                row.unit_id = P.UnitId;
                 row.unit = unitBox.Text;
                 row.storage_num = numUpDown.Value;
-                row.get_price = Decimal.Parse(priceBox.Text);
+                row.out_price = Decimal.Parse(priceBox.Text);
                 row.total_price = numUpDown.Value * Decimal.Parse(priceBox.Text);
                 row.EndEdit();
                 this.dataDataSet.out_management.Addout_managementRow(row);
@@ -150,7 +148,7 @@ namespace KuGuan.MForm
             string reason = "";
             if (this.dataDataSet.out_management.Rows.Count == 0)
                 return;
-            List<KuGuan.dataDataSet.out_managementRow> failedRows = new List<dataDataSet.out_managementRow>();
+            List<KuGuan.dataDataSet.out_managementRow> successedRows = new List<dataDataSet.out_managementRow>();
 
             int cus_id = -1;
             if (cusNameBox.Text.Trim() != "")
@@ -167,8 +165,9 @@ namespace KuGuan.MForm
                 {
                     if (typeId != row.product_type_id)
                     {
-                        reason += "多条记录所在仓库不一致；";
-                        failedRows.Add(row);
+                        if (!reason.Contains("多条记录所在仓库不一致；"))
+                            reason += "多条记录所在仓库不一致；";
+                        
                         continue;
                     }
                 }
@@ -182,11 +181,11 @@ namespace KuGuan.MForm
                 if (c > 0)
                 {
                     count += c;
+                    successedRows.Add(row);
                 }
                 else
                 {
                     reason += "存入数据库失败;";
-                    failedRows.Add(row);
                 }
             }
             if (count == this.dataDataSet.out_management.Rows.Count)
@@ -199,7 +198,7 @@ namespace KuGuan.MForm
             {
                 MessageBox.Show("提交入库信息条数:" + this.dataDataSet.out_management.Rows.Count
                     + "\n成功入库信息条数:" + count+"\n其他信息："+reason);
-                foreach (KuGuan.dataDataSet.out_managementRow r in failedRows)
+                foreach (KuGuan.dataDataSet.out_managementRow r in successedRows)
                     this.dataDataSet.out_management.Rows.Remove(r);
             }
             string date = datePicker.Value.ToString("yyyyMMdd");
