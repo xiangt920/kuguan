@@ -13,13 +13,13 @@ namespace KuGuan.MForm
     public partial class ChgPwdForm : Form
     {
         private User user;
-        private dataDataSetTableAdapters.userTableAdapter userTable;
+        private kuguanDataSetTableAdapters.userTableAdapter userTable;
         public ChgPwdForm()
         {
             InitializeComponent();
         }
 
-        public void userInit(User user, dataDataSetTableAdapters.userTableAdapter userTable) 
+        public void userInit(User user, kuguanDataSetTableAdapters.userTableAdapter userTable) 
         {
             this.user = user;
             this.userTable = userTable;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KuGuan.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,16 +13,17 @@ namespace KuGuan.MForm
 {
     public partial class CustomerForm : DockContent
     {
-        private dataDataSetTableAdapters.customer_typeTableAdapter custypeAdapter = new dataDataSetTableAdapters.customer_typeTableAdapter();
-
-        private dataDataSetTableAdapters.QueriesTableAdapter procAdapter = new dataDataSetTableAdapters.QueriesTableAdapter();
+        private kuguanDataSetTableAdapters.customer_typeTableAdapter custypeAdapter = new kuguanDataSetTableAdapters.customer_typeTableAdapter();
         private DataTable custypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
         private bool isChoose = false;
         private int customer_id = -1;
         private string customer_name = "";
+        private bool importing = false;
         public int Id { get { return this.customer_id; } }
         public string CusName { get { return this.customer_name; } }
+        public ProgressBar Bar { get { return this.progressBar1; } }
+        public bool Importing { set { this.importing = value; } }
         public CustomerForm()
         {
             InitializeComponent();
@@ -56,6 +58,7 @@ namespace KuGuan.MForm
                 addNextButton.Enabled = false;
                 addSupButton.Enabled = false;
                 addButton.Enabled = false;
+                importButton.Enabled = false;
             }
         }
 
@@ -64,30 +67,38 @@ namespace KuGuan.MForm
             // TODO:  这行代码将数据加载到表“dataDataSet.customer”中。您可以根据需要移动或删除它。
             if (!isChoose)
             {
+                if (custypeTable != null)
+                    custypeTable.Rows.Clear();
                 custypeTable = custypeAdapter.GetData();
                 foreach (DataRow r in custypeTable.Rows)
                 {
-                    int type_id = (int)r["customer_type_id"];
-                    int parent_id = (int)r["parent_id"];
-                    int type_class = (int)r["type_class"];
-                    String type_name = (String)r["customer_type"];
-
-                    TreeNode parent_node = new TreeNode(type_name);
-
-                    parent_node.Tag = type_id;
-                    if (type_class == 1)
+                    try
                     {
-                        treeView.Nodes.Add(parent_node);
-                        node_index.Add(type_id + "", parent_node.Index);
+                        int type_id = (int)r["customer_type_id"];
+                        int parent_id = (int)r["parent_id"];
+                        int type_class = (int)r["type_class"];
+                        String type_name = (String)r["customer_type"];
+
+                        TreeNode parent_node = new TreeNode(type_name);
+
+                        parent_node.Tag = type_id;
+                        if (type_class == 1)
+                        {
+                            treeView.Nodes.Add(parent_node);
+                            node_index.Add(type_id + "", parent_node.Index);
+                        }
+                        else
+                        {
+                            treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
+                        }
                     }
-                    else
-                    {
-                        treeView.Nodes[node_index[parent_id + ""]].Nodes.Add(parent_node);
-                    }
+                    catch (Exception)
+                    { }
                 }
                 addNextButton.Enabled = false;
                 addSupButton.Enabled = false;
                 addButton.Enabled = false;
+                importButton.Enabled = false;
             }
 
         }
@@ -100,11 +111,13 @@ namespace KuGuan.MForm
             {
                 addNextButton.Enabled = false;
                 addSupButton.Enabled = true;
+                importButton.Enabled = true;
             }
             else
             {
                 addNextButton.Enabled = true;
                 addSupButton.Enabled = false;
+                importButton.Enabled = false;
             }
             tLabel.Text = node.Text;
             if (((int)(node.Tag)) != -1)
@@ -115,20 +128,19 @@ namespace KuGuan.MForm
         {
             int id = (int)e.Node.Tag;
             string name = (string)e.Label;
-            if (id != -1 && name != "" && name != e.Node.Text)
+            if (id != -1 &&name != null && name != "" && name != e.Node.Text)
             {
                 this.custypeAdapter.UpdateTypeById(name, id);
             }
-            else
+            else if(name != null)
             {
-                int? new_id = -1;
                 if (e.Node.Level == 0)
-                    this.procAdapter.AddCusType(ref new_id, name, 1, 0);
+                    this.custypeAdapter.AddType(name, 1, 0);
                 else
                 {
-                    this.procAdapter.AddCusType(ref new_id, name, 2, (int)e.Node.Parent.Tag);
+                    this.custypeAdapter.AddType(name, 2, (int)e.Node.Parent.Tag);
                 }
-                e.Node.Tag = new_id;
+                e.Node.Tag = this.custypeAdapter.GetNewId();
             }
         }
 
@@ -236,7 +248,7 @@ namespace KuGuan.MForm
             {
 
                 DataRowView SelectedRowView = (DataRowView)this.customerBindingSource.Current;
-                dataDataSet.customerRow selectedRow = (dataDataSet.customerRow)SelectedRowView.Row;
+                kuguanDataSet.customerRow selectedRow = (kuguanDataSet.customerRow)SelectedRowView.Row;
                 selectedRow.Delete();
                 this.customerTableAdapter.Update(this.dataDataSet);
 
@@ -281,7 +293,7 @@ namespace KuGuan.MForm
                 int index = e.RowIndex;
                 if (index >= 0)
                 {
-                    foreach (KuGuan.dataDataSet.customerRow row in this.dataDataSet.customer.Rows) 
+                    foreach (KuGuan.kuguanDataSet.customerRow row in this.dataDataSet.customer.Rows) 
                     {
                         if (row.customer_id == id)
                         {
@@ -298,6 +310,39 @@ namespace KuGuan.MForm
             if (form.ShowDialog() == DialogResult.OK)
             {
                 this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (int)node.Tag, (int)node.Tag);
+            }
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            TreeNode node = treeView.SelectedNode;
+            if (node == null)
+            {
+                MessageBox.Show("请先选择一个客户类别！");
+                return;
+            }
+            if (node.Level == 0)
+            {
+                MessageBox.Show("第一级类别不能添加客户！");
+            }
+            else
+            {
+                if (this.importing)
+                {
+                    MessageBox.Show("正在进行其它导入操作！\n请耐心等待导入完成后再进行此操作！");
+                    return;
+                }
+                ExcelOperate excel = new ExcelOperate(this);
+                excel.ImportSupplier(node.Tag, false);
+            }
+        }
+
+        private void CustomerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.importing)
+            {
+                MessageBox.Show("正在导入数据，无法关闭窗口");
+                e.Cancel = true;
             }
         }
     }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductForm));
             this.addNextButton = new System.Windows.Forms.Button();
             this.delButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
@@ -52,13 +53,16 @@
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
+            this.fromExcelButton = new System.Windows.Forms.Button();
+            this.importBar = new System.Windows.Forms.ProgressBar();
+            this.productStockAdapter = new KuGuan.kuguanDataSetTableAdapters.ProductStockAdapter();
+            this.undoButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productstockBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -127,7 +131,9 @@
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(667, 11);
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.searchButton.Location = new System.Drawing.Point(575, 14);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(80, 38);
             this.searchButton.TabIndex = 8;
@@ -137,7 +143,7 @@
             // 
             // cusBox
             // 
-            this.cusBox.Location = new System.Drawing.Point(112, 19);
+            this.cusBox.Location = new System.Drawing.Point(100, 24);
             this.cusBox.Name = "cusBox";
             this.cusBox.Size = new System.Drawing.Size(106, 21);
             this.cusBox.TabIndex = 8;
@@ -145,7 +151,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 24);
+            this.label2.Location = new System.Drawing.Point(29, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 5;
@@ -156,18 +162,20 @@
             this.groupBox2.Controls.Add(this.searchButton);
             this.groupBox2.Controls.Add(this.cusBox);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(496, 492);
+            this.groupBox2.Location = new System.Drawing.Point(588, 488);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox2.Size = new System.Drawing.Size(753, 54);
+            this.groupBox2.Size = new System.Drawing.Size(661, 56);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             // 
             // changeButton
             // 
-            this.changeButton.Location = new System.Drawing.Point(314, 502);
+            this.changeButton.Image = global::KuGuan.Properties.Resources.Pencil4_conew3;
+            this.changeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.changeButton.Location = new System.Drawing.Point(300, 502);
             this.changeButton.Name = "changeButton";
-            this.changeButton.Size = new System.Drawing.Size(80, 38);
+            this.changeButton.Size = new System.Drawing.Size(66, 38);
             this.changeButton.TabIndex = 20;
             this.changeButton.Text = "修改";
             this.changeButton.UseVisualStyleBackColor = true;
@@ -175,9 +183,11 @@
             // 
             // delSupButton
             // 
-            this.delSupButton.Location = new System.Drawing.Point(400, 502);
+            this.delSupButton.Image = global::KuGuan.Properties.Resources.no;
+            this.delSupButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.delSupButton.Location = new System.Drawing.Point(372, 502);
             this.delSupButton.Name = "delSupButton";
-            this.delSupButton.Size = new System.Drawing.Size(80, 38);
+            this.delSupButton.Size = new System.Drawing.Size(66, 38);
             this.delSupButton.TabIndex = 19;
             this.delSupButton.Text = "删除";
             this.delSupButton.UseVisualStyleBackColor = true;
@@ -185,9 +195,11 @@
             // 
             // addProButton
             // 
+            this.addProButton.Image = global::KuGuan.Properties.Resources._0_conew3;
+            this.addProButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addProButton.Location = new System.Drawing.Point(228, 502);
             this.addProButton.Name = "addProButton";
-            this.addProButton.Size = new System.Drawing.Size(80, 38);
+            this.addProButton.Size = new System.Drawing.Size(66, 38);
             this.addProButton.TabIndex = 18;
             this.addProButton.Text = "新增";
             this.addProButton.UseVisualStyleBackColor = true;
@@ -195,6 +207,8 @@
             // 
             // refreshButton
             // 
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.refreshButton.Location = new System.Drawing.Point(1255, 502);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(87, 38);
@@ -220,7 +234,7 @@
             this.unitDataGridViewTextBoxColumn,
             this.productintroduceDataGridViewTextBoxColumn,
             this.remarkDataGridViewTextBoxColumn});
-            this.dataGridView.DataSource = this.productBindingSource;
+            this.dataGridView.DataSource = this.productstockBindingSource;
             this.dataGridView.Location = new System.Drawing.Point(228, 29);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
@@ -293,10 +307,10 @@
             this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
             this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // productBindingSource
+            // productstockBindingSource
             // 
-            this.productBindingSource.DataMember = "product";
-            this.productBindingSource.DataSource = this.dataDataSet;
+            this.productstockBindingSource.DataMember = "product_stock";
+            this.productstockBindingSource.DataSource = this.dataDataSet;
             // 
             // dataDataSet
             // 
@@ -318,15 +332,48 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "产品类别结构图";
             // 
-            // productTableAdapter
+            // fromExcelButton
             // 
-            this.productTableAdapter.ClearBeforeFill = true;
+            this.fromExcelButton.Image = global::KuGuan.Properties.Resources._1_conew1;
+            this.fromExcelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.fromExcelButton.Location = new System.Drawing.Point(444, 502);
+            this.fromExcelButton.Name = "fromExcelButton";
+            this.fromExcelButton.Size = new System.Drawing.Size(122, 38);
+            this.fromExcelButton.TabIndex = 22;
+            this.fromExcelButton.Text = "从Excel导入";
+            this.fromExcelButton.UseVisualStyleBackColor = true;
+            this.fromExcelButton.Click += new System.EventHandler(this.fromExcelButton_Click);
+            // 
+            // importBar
+            // 
+            this.importBar.Location = new System.Drawing.Point(228, 546);
+            this.importBar.Name = "importBar";
+            this.importBar.Size = new System.Drawing.Size(338, 23);
+            this.importBar.TabIndex = 23;
+            // 
+            // productStockAdapter
+            // 
+            this.productStockAdapter.ClearBeforeFill = true;
+            // 
+            // undoButton
+            // 
+            this.undoButton.Enabled = false;
+            this.undoButton.Location = new System.Drawing.Point(588, 546);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(75, 23);
+            this.undoButton.TabIndex = 24;
+            this.undoButton.Text = "撤销导入";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 578);
+            this.Controls.Add(this.undoButton);
+            this.Controls.Add(this.importBar);
+            this.Controls.Add(this.fromExcelButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.delSupButton);
@@ -334,15 +381,16 @@
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
-            this.HideOnClose = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProductForm";
             this.TabText = "货品设置";
             this.Text = "货品设置";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProductForm_FormClosing);
             this.Load += new System.EventHandler(this.ProductForm_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productstockBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -368,9 +416,11 @@
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.GroupBox groupBox1;
-        private dataDataSetTableAdapters.productTableAdapter productTableAdapter;
-        private System.Windows.Forms.BindingSource productBindingSource;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
+        private System.Windows.Forms.Button fromExcelButton;
+        private System.Windows.Forms.ProgressBar importBar;
+        private System.Windows.Forms.BindingSource productstockBindingSource;
+        private kuguanDataSetTableAdapters.ProductStockAdapter productStockAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn spec;
@@ -379,5 +429,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productintroduceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn remarkDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button undoButton;
     }
 }

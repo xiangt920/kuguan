@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.searchButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(choose_product));
             this.cusBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.refreshButton = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,26 +44,17 @@
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
-            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
-            this.cnlButton = new System.Windows.Forms.Button();
-            this.addProButton = new System.Windows.Forms.Button();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
+            this.productTableAdapter = new KuGuan.kuguanDataSetTableAdapters.productTableAdapter();
             this.changeButton = new System.Windows.Forms.Button();
+            this.addProButton = new System.Windows.Forms.Button();
+            this.cnlButton = new System.Windows.Forms.Button();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.SuspendLayout();
-            // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(667, 11);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(87, 38);
-            this.searchButton.TabIndex = 8;
-            this.searchButton.Text = "查询";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
             // cusBox
             // 
@@ -93,15 +84,17 @@
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             // 
-            // refreshButton
+            // searchButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(943, 500);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(87, 38);
-            this.refreshButton.TabIndex = 17;
-            this.refreshButton.Text = "刷新列表";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.searchButton.Location = new System.Drawing.Point(667, 11);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(87, 38);
+            this.searchButton.TabIndex = 8;
+            this.searchButton.Text = "查询";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
             // dataGridView
             // 
@@ -208,18 +201,22 @@
             // 
             this.productTableAdapter.ClearBeforeFill = true;
             // 
-            // cnlButton
+            // changeButton
             // 
-            this.cnlButton.Location = new System.Drawing.Point(1039, 500);
-            this.cnlButton.Name = "cnlButton";
-            this.cnlButton.Size = new System.Drawing.Size(87, 38);
-            this.cnlButton.TabIndex = 22;
-            this.cnlButton.Text = "取消";
-            this.cnlButton.UseVisualStyleBackColor = true;
-            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
+            this.changeButton.Image = global::KuGuan.Properties.Resources.Pencil4_conew3;
+            this.changeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.changeButton.Location = new System.Drawing.Point(98, 500);
+            this.changeButton.Name = "changeButton";
+            this.changeButton.Size = new System.Drawing.Size(80, 38);
+            this.changeButton.TabIndex = 24;
+            this.changeButton.Text = "修改";
+            this.changeButton.UseVisualStyleBackColor = true;
+            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
             // 
             // addProButton
             // 
+            this.addProButton.Image = global::KuGuan.Properties.Resources._0_conew3;
+            this.addProButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addProButton.Location = new System.Drawing.Point(12, 500);
             this.addProButton.Name = "addProButton";
             this.addProButton.Size = new System.Drawing.Size(80, 38);
@@ -228,15 +225,29 @@
             this.addProButton.UseVisualStyleBackColor = true;
             this.addProButton.Click += new System.EventHandler(this.addProButton_Click);
             // 
-            // changeButton
+            // cnlButton
             // 
-            this.changeButton.Location = new System.Drawing.Point(98, 500);
-            this.changeButton.Name = "changeButton";
-            this.changeButton.Size = new System.Drawing.Size(80, 38);
-            this.changeButton.TabIndex = 24;
-            this.changeButton.Text = "修改";
-            this.changeButton.UseVisualStyleBackColor = true;
-            this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
+            this.cnlButton.Image = global::KuGuan.Properties.Resources.no;
+            this.cnlButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cnlButton.Location = new System.Drawing.Point(1039, 500);
+            this.cnlButton.Name = "cnlButton";
+            this.cnlButton.Size = new System.Drawing.Size(87, 38);
+            this.cnlButton.TabIndex = 22;
+            this.cnlButton.Text = "取消";
+            this.cnlButton.UseVisualStyleBackColor = true;
+            this.cnlButton.Click += new System.EventHandler(this.cnlButton_Click);
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.Location = new System.Drawing.Point(943, 500);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(100, 38);
+            this.refreshButton.TabIndex = 17;
+            this.refreshButton.Text = "刷新列表";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // choose_product
             // 
@@ -249,6 +260,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "choose_product";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "选择货品";
@@ -270,9 +282,9 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.DataGridView dataGridView;
-        private dataDataSetTableAdapters.productTableAdapter productTableAdapter;
+        private kuguanDataSetTableAdapters.productTableAdapter productTableAdapter;
         private System.Windows.Forms.BindingSource productBindingSource;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.Button cnlButton;
         private System.Windows.Forms.Button addProButton;
         private System.Windows.Forms.Button changeButton;

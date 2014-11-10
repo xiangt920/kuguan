@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(out_management));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,7 +42,7 @@
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.out_managementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -71,15 +72,28 @@
             this.label11 = new System.Windows.Forms.Label();
             this.proNameBox = new System.Windows.Forms.TextBox();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.oIdBox = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.out_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.out_managementTableAdapter();
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            this.button6 = new System.Windows.Forms.Button();
+            this.out_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.out_managementTableAdapter();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
+            this.stockTableAdapter = new KuGuan.kuguanDataSetTableAdapters.stockTableAdapter();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.custBox = new System.Windows.Forms.ComboBox();
+            this.custodianBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.sumBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.amountBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.accountTableAdapter = new KuGuan.kuguanDataSetTableAdapters.accountTableAdapter();
+            this.use_unitTableAdapter = new KuGuan.kuguanDataSetTableAdapters.use_unitTableAdapter();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.custodianTableAdapter = new KuGuan.kuguanDataSetTableAdapters.custodianTableAdapter();
+            this.undoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.out_managementBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
@@ -88,6 +102,9 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.custodianBindingSource)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -137,7 +154,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(945, 189);
+            this.dataGridView1.Size = new System.Drawing.Size(945, 165);
             this.dataGridView1.TabIndex = 29;
             // 
             // product_id
@@ -270,7 +287,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 7;
-            this.label8.Text = "工程：";
+            this.label8.Text = "类别：";
             // 
             // storeBox
             // 
@@ -399,9 +416,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(273, 167);
+            this.button1.Image = global::KuGuan.Properties.Resources._0_conew3;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.Location = new System.Drawing.Point(283, 167);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 23);
+            this.button1.Size = new System.Drawing.Size(121, 23);
             this.button1.TabIndex = 33;
             this.button1.Text = "添加";
             this.button1.UseVisualStyleBackColor = true;
@@ -495,35 +514,16 @@
             // 
             // datePicker
             // 
-            this.datePicker.Location = new System.Drawing.Point(562, 31);
+            this.datePicker.Location = new System.Drawing.Point(354, 12);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(200, 21);
             this.datePicker.TabIndex = 26;
             this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_TabIndexChanged);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(515, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "日期：";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(212, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "凭证号：";
-            // 
             // oIdBox
             // 
             this.oIdBox.BackColor = System.Drawing.SystemColors.Control;
-            this.oIdBox.Location = new System.Drawing.Point(271, 31);
+            this.oIdBox.Location = new System.Drawing.Point(63, 12);
             this.oIdBox.Name = "oIdBox";
             this.oIdBox.ReadOnly = true;
             this.oIdBox.Size = new System.Drawing.Size(200, 21);
@@ -533,7 +533,7 @@
             // 
             this.button4.Image = global::KuGuan.Properties.Resources._13_2007522133019__conew1;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.Location = new System.Drawing.Point(204, 512);
+            this.button4.Location = new System.Drawing.Point(204, 520);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(105, 34);
             this.button4.TabIndex = 32;
@@ -546,7 +546,7 @@
             // 
             this.button3.Image = global::KuGuan.Properties.Resources.no;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.Location = new System.Drawing.Point(315, 512);
+            this.button3.Location = new System.Drawing.Point(315, 520);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 34);
             this.button3.TabIndex = 31;
@@ -559,7 +559,7 @@
             // 
             this.button2.Image = global::KuGuan.Properties.Resources.ok;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.Location = new System.Drawing.Point(1044, 512);
+            this.button2.Location = new System.Drawing.Point(1044, 520);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(105, 34);
             this.button2.TabIndex = 30;
@@ -574,47 +574,181 @@
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.Connection = null;
+            this.tableAdapterManager.custodianTableAdapter = null;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.use_unitTableAdapter = null;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
-            // button6
+            // stockTableAdapter
             // 
-            this.button6.Image = global::KuGuan.Properties.Resources.ok;
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button6.Location = new System.Drawing.Point(933, 512);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(105, 34);
-            this.button6.TabIndex = 33;
-            this.button6.Text = "导入excel";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.UseVisualStyleBackColor = true;
+            this.stockTableAdapter.ClearBeforeFill = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.custBox);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.sumBox);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.amountBox);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Location = new System.Drawing.Point(204, 478);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(945, 35);
+            this.panel1.TabIndex = 34;
+            // 
+            // custBox
+            // 
+            this.custBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.custodianBindingSource, "id", true));
+            this.custBox.DataSource = this.custodianBindingSource;
+            this.custBox.DisplayMember = "c_name";
+            this.custBox.FormattingEnabled = true;
+            this.custBox.Location = new System.Drawing.Point(433, 8);
+            this.custBox.Name = "custBox";
+            this.custBox.Size = new System.Drawing.Size(121, 20);
+            this.custBox.TabIndex = 14;
+            this.custBox.ValueMember = "id";
+            // 
+            // custodianBindingSource
+            // 
+            this.custodianBindingSource.DataMember = "custodian";
+            this.custodianBindingSource.DataSource = this.dataDataSet;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(384, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "保管员：";
+            // 
+            // sumBox
+            // 
+            this.sumBox.Location = new System.Drawing.Point(637, 8);
+            this.sumBox.Name = "sumBox";
+            this.sumBox.ReadOnly = true;
+            this.sumBox.Size = new System.Drawing.Size(114, 21);
+            this.sumBox.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(578, 11);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "总数量：";
+            // 
+            // amountBox
+            // 
+            this.amountBox.Location = new System.Drawing.Point(825, 8);
+            this.amountBox.Name = "amountBox";
+            this.amountBox.ReadOnly = true;
+            this.amountBox.Size = new System.Drawing.Size(114, 21);
+            this.amountBox.TabIndex = 10;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label9.Location = new System.Drawing.Point(766, 11);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "总金额：";
+            // 
+            // accountTableAdapter
+            // 
+            this.accountTableAdapter.ClearBeforeFill = true;
+            // 
+            // use_unitTableAdapter
+            // 
+            this.use_unitTableAdapter.ClearBeforeFill = true;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Snow;
+            this.panel3.Controls.Add(this.label16);
+            this.panel3.Controls.Add(this.label19);
+            this.panel3.Controls.Add(this.oIdBox);
+            this.panel3.Controls.Add(this.datePicker);
+            this.panel3.Location = new System.Drawing.Point(204, 16);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(691, 43);
+            this.panel3.TabIndex = 34;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.label16.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label16.Location = new System.Drawing.Point(4, 15);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "凭证号：";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label19.Location = new System.Drawing.Point(307, 15);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(41, 12);
+            this.label19.TabIndex = 2;
+            this.label19.Text = "日期：";
+            // 
+            // custodianTableAdapter
+            // 
+            this.custodianTableAdapter.ClearBeforeFill = true;
+            // 
+            // undoButton
+            // 
+            this.undoButton.Enabled = false;
+            this.undoButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.undoButton.Location = new System.Drawing.Point(933, 520);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(105, 34);
+            this.undoButton.TabIndex = 35;
+            this.undoButton.Text = "撤销保存";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // out_management
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::KuGuan.Properties.Resources.bg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1354, 578);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.undoButton);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.datePicker);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.oIdBox);
-            this.HideOnClose = true;
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "out_management";
             this.TabText = "出库管理";
             this.Text = "出库管理";
@@ -632,8 +766,12 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.custodianBindingSource)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -659,13 +797,11 @@
         private System.Windows.Forms.TextBox unitBox;
         private System.Windows.Forms.TextBox proIdBox;
         private System.Windows.Forms.DateTimePicker datePicker;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox oIdBox;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource out_managementBindingSource;
-        private dataDataSetTableAdapters.out_managementTableAdapter out_managementTableAdapter;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private kuguanDataSetTableAdapters.out_managementTableAdapter out_managementTableAdapter;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.TextBox stockBox;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label6;
@@ -686,6 +822,21 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn storagenumDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Button button6;
+        private kuguanDataSetTableAdapters.stockTableAdapter stockTableAdapter;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox sumBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox amountBox;
+        private System.Windows.Forms.Label label9;
+        private kuguanDataSetTableAdapters.accountTableAdapter accountTableAdapter;
+        private kuguanDataSetTableAdapters.use_unitTableAdapter use_unitTableAdapter;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox custBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.BindingSource custodianBindingSource;
+        private kuguanDataSetTableAdapters.custodianTableAdapter custodianTableAdapter;
+        private System.Windows.Forms.Button undoButton;
     }
 }

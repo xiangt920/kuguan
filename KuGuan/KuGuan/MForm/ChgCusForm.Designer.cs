@@ -39,11 +39,12 @@
             System.Windows.Forms.Label emailLabel;
             System.Windows.Forms.Label opening_bankLabel;
             System.Windows.Forms.Label bank_accountLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChgCusForm));
             this.cnlButton = new System.Windows.Forms.Button();
             this.cfmButton = new System.Windows.Forms.Button();
             this.supplier_nameTextBox = new System.Windows.Forms.TextBox();
             this.customerBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.addressTextBox = new System.Windows.Forms.TextBox();
             this.codeTextBox = new System.Windows.Forms.TextBox();
             this.linkmanTextBox = new System.Windows.Forms.TextBox();
@@ -53,9 +54,9 @@
             this.emailTextBox = new System.Windows.Forms.TextBox();
             this.opening_bankTextBox = new System.Windows.Forms.TextBox();
             this.bank_accountTextBox = new System.Windows.Forms.TextBox();
-            this.customerTableAdapter = new KuGuan.dataDataSetTableAdapters.customerTableAdapter();
+            this.customerTableAdapter = new KuGuan.kuguanDataSetTableAdapters.customerTableAdapter();
             this.typeBox = new System.Windows.Forms.TextBox();
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
             supplier_nameLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             codeLabel = new System.Windows.Forms.Label();
@@ -162,6 +163,8 @@
             // 
             // cnlButton
             // 
+            this.cnlButton.Image = global::KuGuan.Properties.Resources.no;
+            this.cnlButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cnlButton.Location = new System.Drawing.Point(166, 347);
             this.cnlButton.Name = "cnlButton";
             this.cnlButton.Size = new System.Drawing.Size(75, 34);
@@ -172,6 +175,8 @@
             // 
             // cfmButton
             // 
+            this.cfmButton.Image = global::KuGuan.Properties.Resources.ok;
+            this.cfmButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cfmButton.Location = new System.Drawing.Point(77, 347);
             this.cfmButton.Name = "cfmButton";
             this.cfmButton.Size = new System.Drawing.Size(75, 34);
@@ -284,16 +289,22 @@
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = this.customerTableAdapter;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
             // ChgCusForm
             // 
@@ -323,6 +334,7 @@
             this.Controls.Add(this.opening_bankTextBox);
             this.Controls.Add(bank_accountLabel);
             this.Controls.Add(this.bank_accountTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChgCusForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ChgCusForm";
@@ -349,10 +361,10 @@
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.TextBox opening_bankTextBox;
         private System.Windows.Forms.TextBox bank_accountTextBox;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource customerBindingSource;
-        private dataDataSetTableAdapters.customerTableAdapter customerTableAdapter;
+        private kuguanDataSetTableAdapters.customerTableAdapter customerTableAdapter;
         private System.Windows.Forms.TextBox typeBox;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
     }
 }

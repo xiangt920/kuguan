@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StoreForm));
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.addNextButton = new System.Windows.Forms.Button();
             this.delButton = new System.Windows.Forms.Button();
@@ -38,9 +38,9 @@
             this.tLabel = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView = new System.Windows.Forms.TreeView();
-            this.product_typeTableAdapter = new KuGuan.dataDataSetTableAdapters.product_typeTableAdapter();
+            this.product_typeTableAdapter = new KuGuan.kuguanDataSetTableAdapters.product_typeTableAdapter();
             this.producttypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -121,7 +121,6 @@
             // 
             // treeView
             // 
-            this.treeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             this.treeView.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.treeView.ImeMode = System.Windows.Forms.ImeMode.Hangul;
             this.treeView.LabelEdit = true;
@@ -145,16 +144,24 @@
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.custodianTableAdapter = null;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = this.product_typeTableAdapter;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.use_unitTableAdapter = null;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
             // imageList
             // 
@@ -170,7 +177,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1354, 578);
             this.Controls.Add(this.groupBox1);
-            this.HideOnClose = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StoreForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TabText = "仓库设置";
@@ -186,7 +193,7 @@
 
         #endregion
 
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button addNextButton;
         private System.Windows.Forms.Button delButton;
@@ -194,9 +201,9 @@
         private System.Windows.Forms.TextBox tLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView treeView;
-        private dataDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
+        private kuguanDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
         private System.Windows.Forms.BindingSource producttypeBindingSource;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.ImageList imageList;
     }
 }

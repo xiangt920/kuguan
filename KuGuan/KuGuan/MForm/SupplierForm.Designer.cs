@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SupplierForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.addNextButton = new System.Windows.Forms.Button();
             this.delButton = new System.Windows.Forms.Button();
@@ -49,12 +50,11 @@
             this.openingbankDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bankaccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.refreshButton = new System.Windows.Forms.Button();
             this.addSupButton = new System.Windows.Forms.Button();
             this.delSupButton = new System.Windows.Forms.Button();
             this.changeButton = new System.Windows.Forms.Button();
-            this.supplierTableAdapter = new KuGuan.dataDataSetTableAdapters.supplierTableAdapter();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.linkmanBox = new System.Windows.Forms.TextBox();
@@ -63,6 +63,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.importButton = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.supplierTableAdapter = new KuGuan.kuguanDataSetTableAdapters.supplierTableAdapter();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).BeginInit();
@@ -80,14 +83,14 @@
             this.groupBox1.Controls.Add(this.treeView);
             this.groupBox1.Location = new System.Drawing.Point(21, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 541);
+            this.groupBox1.Size = new System.Drawing.Size(201, 567);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "供应商类别结构图";
             // 
             // addNextButton
             // 
-            this.addNextButton.Location = new System.Drawing.Point(70, 506);
+            this.addNextButton.Location = new System.Drawing.Point(69, 526);
             this.addNextButton.Name = "addNextButton";
             this.addNextButton.Size = new System.Drawing.Size(63, 35);
             this.addNextButton.TabIndex = 5;
@@ -97,7 +100,7 @@
             // 
             // delButton
             // 
-            this.delButton.Location = new System.Drawing.Point(135, 506);
+            this.delButton.Location = new System.Drawing.Point(134, 526);
             this.delButton.Name = "delButton";
             this.delButton.Size = new System.Drawing.Size(61, 35);
             this.delButton.TabIndex = 4;
@@ -107,7 +110,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(6, 506);
+            this.addButton.Location = new System.Drawing.Point(5, 526);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(62, 35);
             this.addButton.TabIndex = 3;
@@ -120,7 +123,7 @@
             this.tLabel.BackColor = System.Drawing.SystemColors.HighlightText;
             this.tLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tLabel.ForeColor = System.Drawing.Color.Red;
-            this.tLabel.Location = new System.Drawing.Point(66, 474);
+            this.tLabel.Location = new System.Drawing.Point(65, 494);
             this.tLabel.Name = "tLabel";
             this.tLabel.ReadOnly = true;
             this.tLabel.Size = new System.Drawing.Size(129, 21);
@@ -131,7 +134,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 478);
+            this.label1.Location = new System.Drawing.Point(6, 498);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
@@ -270,7 +273,9 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(1256, 512);
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.Location = new System.Drawing.Point(1256, 494);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(87, 38);
             this.refreshButton.TabIndex = 2;
@@ -280,7 +285,9 @@
             // 
             // addSupButton
             // 
-            this.addSupButton.Location = new System.Drawing.Point(228, 512);
+            this.addSupButton.Image = global::KuGuan.Properties.Resources._0_conew3;
+            this.addSupButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addSupButton.Location = new System.Drawing.Point(228, 494);
             this.addSupButton.Name = "addSupButton";
             this.addSupButton.Size = new System.Drawing.Size(80, 38);
             this.addSupButton.TabIndex = 3;
@@ -290,7 +297,9 @@
             // 
             // delSupButton
             // 
-            this.delSupButton.Location = new System.Drawing.Point(400, 512);
+            this.delSupButton.Image = global::KuGuan.Properties.Resources.no;
+            this.delSupButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.delSupButton.Location = new System.Drawing.Point(400, 494);
             this.delSupButton.Name = "delSupButton";
             this.delSupButton.Size = new System.Drawing.Size(80, 38);
             this.delSupButton.TabIndex = 5;
@@ -300,17 +309,15 @@
             // 
             // changeButton
             // 
-            this.changeButton.Location = new System.Drawing.Point(314, 512);
+            this.changeButton.Image = global::KuGuan.Properties.Resources.Pencil4_conew3;
+            this.changeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.changeButton.Location = new System.Drawing.Point(314, 494);
             this.changeButton.Name = "changeButton";
             this.changeButton.Size = new System.Drawing.Size(80, 38);
             this.changeButton.TabIndex = 6;
             this.changeButton.Text = "修改";
             this.changeButton.UseVisualStyleBackColor = true;
             this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
-            // 
-            // supplierTableAdapter
-            // 
-            this.supplierTableAdapter.ClearBeforeFill = true;
             // 
             // groupBox2
             // 
@@ -321,7 +328,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(496, 502);
+            this.groupBox2.Location = new System.Drawing.Point(496, 484);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.groupBox2.Size = new System.Drawing.Size(753, 54);
@@ -330,6 +337,8 @@
             // 
             // searchButton
             // 
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.searchButton.Location = new System.Drawing.Point(667, 10);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(80, 38);
@@ -386,12 +395,37 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "供应商名称：";
             // 
+            // importButton
+            // 
+            this.importButton.Image = global::KuGuan.Properties.Resources._1_conew1;
+            this.importButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.importButton.Location = new System.Drawing.Point(314, 535);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(166, 35);
+            this.importButton.TabIndex = 8;
+            this.importButton.Text = "从Excel导入";
+            this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.importButton_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(496, 543);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(753, 23);
+            this.progressBar1.TabIndex = 9;
+            // 
+            // supplierTableAdapter
+            // 
+            this.supplierTableAdapter.ClearBeforeFill = true;
+            // 
             // SupplierForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1354, 578);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.importButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.delSupButton);
@@ -399,10 +433,11 @@
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
-            this.HideOnClose = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SupplierForm";
             this.TabText = "供应商设置";
             this.Text = "供应商设置";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SupplierForm_FormClosing);
             this.Load += new System.EventHandler(this.SupplierForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -420,9 +455,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TreeView treeView;
         private System.Windows.Forms.DataGridView dataGridView;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource supplierBindingSource;
-        private dataDataSetTableAdapters.supplierTableAdapter supplierTableAdapter;
+        private kuguanDataSetTableAdapters.supplierTableAdapter supplierTableAdapter;
         private System.Windows.Forms.TextBox tLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button delButton;
@@ -451,5 +486,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.Button importButton;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

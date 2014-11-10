@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(exchange_management));
             this.exchangeDocView = new System.Windows.Forms.DataGridView();
             this.ProductIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,16 +42,18 @@
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.exchange_managementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.oIdBox = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.proView = new System.Windows.Forms.DataGridView();
+            this.ProIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.outengBox = new System.Windows.Forms.TextBox();
@@ -66,17 +69,22 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.addButton = new System.Windows.Forms.Button();
-            this.unitBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.exchange_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.exchange_managementTableAdapter();
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
+            this.exchange_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.exchange_managementTableAdapter();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
             this.panel1 = new System.Windows.Forms.Panel();
             this.getPriceButton = new System.Windows.Forms.RadioButton();
             this.outpriceButton = new System.Windows.Forms.RadioButton();
-            this.ProIdCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StockCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NumCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.sumBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.amountBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.accountTableAdapter = new KuGuan.kuguanDataSetTableAdapters.accountTableAdapter();
+            this.use_unitTableAdapter = new KuGuan.kuguanDataSetTableAdapters.use_unitTableAdapter();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.undoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.exchangeDocView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exchange_managementBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
@@ -85,8 +93,9 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // exchangeDocView
@@ -95,14 +104,14 @@
             this.exchangeDocView.AllowUserToDeleteRows = false;
             this.exchangeDocView.AllowUserToResizeRows = false;
             this.exchangeDocView.AutoGenerateColumns = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.exchangeDocView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.exchangeDocView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.exchangeDocView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.exchangeDocView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductIdCol,
@@ -113,30 +122,30 @@
             this.unitDataGridViewTextBoxColumn,
             this.totalpriceDataGridViewTextBoxColumn});
             this.exchangeDocView.DataSource = this.exchange_managementBindingSource;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.exchangeDocView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.exchangeDocView.DefaultCellStyle = dataGridViewCellStyle2;
             this.exchangeDocView.Location = new System.Drawing.Point(204, 307);
             this.exchangeDocView.Name = "exchangeDocView";
             this.exchangeDocView.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.exchangeDocView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.exchangeDocView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.exchangeDocView.RowHeadersVisible = false;
             this.exchangeDocView.RowTemplate.Height = 23;
             this.exchangeDocView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.exchangeDocView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.exchangeDocView.Size = new System.Drawing.Size(945, 189);
+            this.exchangeDocView.Size = new System.Drawing.Size(945, 165);
             this.exchangeDocView.TabIndex = 29;
             // 
             // ProductIdCol
@@ -205,35 +214,16 @@
             // 
             // datePicker
             // 
-            this.datePicker.Location = new System.Drawing.Point(562, 31);
+            this.datePicker.Location = new System.Drawing.Point(354, 12);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(200, 21);
             this.datePicker.TabIndex = 26;
             this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_TabIndexChanged);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(515, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "日期：";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(212, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "凭证号：";
-            // 
             // oIdBox
             // 
             this.oIdBox.BackColor = System.Drawing.SystemColors.Control;
-            this.oIdBox.Location = new System.Drawing.Point(271, 31);
+            this.oIdBox.Location = new System.Drawing.Point(63, 12);
             this.oIdBox.Name = "oIdBox";
             this.oIdBox.ReadOnly = true;
             this.oIdBox.Size = new System.Drawing.Size(200, 21);
@@ -243,7 +233,7 @@
             // 
             this.button4.Image = global::KuGuan.Properties.Resources._13_2007522133019__conew1;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.Location = new System.Drawing.Point(204, 512);
+            this.button4.Location = new System.Drawing.Point(204, 520);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(105, 34);
             this.button4.TabIndex = 32;
@@ -256,7 +246,7 @@
             // 
             this.button3.Image = global::KuGuan.Properties.Resources.no;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.Location = new System.Drawing.Point(315, 512);
+            this.button3.Location = new System.Drawing.Point(315, 520);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 34);
             this.button3.TabIndex = 31;
@@ -269,7 +259,7 @@
             // 
             this.button2.Image = global::KuGuan.Properties.Resources.ok;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.Location = new System.Drawing.Point(1044, 512);
+            this.button2.Location = new System.Drawing.Point(1044, 520);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(105, 34);
             this.button2.TabIndex = 30;
@@ -313,6 +303,32 @@
             this.proView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.proView_CellEndEdit);
             this.proView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.proView_MouseClick);
             // 
+            // ProIdCol
+            // 
+            this.ProIdCol.HeaderText = "编号";
+            this.ProIdCol.Name = "ProIdCol";
+            this.ProIdCol.ReadOnly = true;
+            this.ProIdCol.Width = 70;
+            // 
+            // ProNameCol
+            // 
+            this.ProNameCol.HeaderText = "产品名称";
+            this.ProNameCol.Name = "ProNameCol";
+            this.ProNameCol.ReadOnly = true;
+            // 
+            // StockCol
+            // 
+            this.StockCol.HeaderText = "库存";
+            this.StockCol.Name = "StockCol";
+            this.StockCol.ReadOnly = true;
+            this.StockCol.Width = 120;
+            // 
+            // NumCol
+            // 
+            this.NumCol.HeaderText = "数量";
+            this.NumCol.Name = "NumCol";
+            this.NumCol.Width = 120;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -353,7 +369,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 7;
-            this.label8.Text = "工程：";
+            this.label8.Text = "类别：";
             // 
             // outstoreBox
             // 
@@ -414,7 +430,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 7;
-            this.label4.Text = "工程：";
+            this.label4.Text = "类别：";
             // 
             // instoreBox
             // 
@@ -466,6 +482,8 @@
             // 
             // addButton
             // 
+            this.addButton.Image = global::KuGuan.Properties.Resources._0_conew3;
+            this.addButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addButton.Location = new System.Drawing.Point(849, 204);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(87, 27);
@@ -474,48 +492,47 @@
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.show_on_list);
             // 
-            // unitBindingSource
-            // 
-            this.unitBindingSource.DataMember = "unit";
-            this.unitBindingSource.DataSource = this.dataDataSet;
-            // 
             // exchange_managementTableAdapter
             // 
             this.exchange_managementTableAdapter.ClearBeforeFill = true;
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.Connection = null;
+            this.tableAdapterManager.custodianTableAdapter = null;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
-            // unitTableAdapter
-            // 
-            this.unitTableAdapter.ClearBeforeFill = true;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.use_unitTableAdapter = null;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.panel1.Controls.Add(this.getPriceButton);
             this.panel1.Controls.Add(this.outpriceButton);
-            this.panel1.Location = new System.Drawing.Point(888, 23);
+            this.panel1.Location = new System.Drawing.Point(909, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(261, 36);
+            this.panel1.Size = new System.Drawing.Size(240, 43);
             this.panel1.TabIndex = 33;
             // 
             // getPriceButton
             // 
             this.getPriceButton.AutoSize = true;
             this.getPriceButton.Checked = true;
-            this.getPriceButton.Location = new System.Drawing.Point(15, 9);
+            this.getPriceButton.Location = new System.Drawing.Point(15, 15);
             this.getPriceButton.Name = "getPriceButton";
             this.getPriceButton.Size = new System.Drawing.Size(95, 16);
             this.getPriceButton.TabIndex = 5;
@@ -527,7 +544,7 @@
             // outpriceButton
             // 
             this.outpriceButton.AutoSize = true;
-            this.outpriceButton.Location = new System.Drawing.Point(116, 9);
+            this.outpriceButton.Location = new System.Drawing.Point(116, 15);
             this.outpriceButton.Name = "outpriceButton";
             this.outpriceButton.Size = new System.Drawing.Size(95, 16);
             this.outpriceButton.TabIndex = 6;
@@ -535,48 +552,125 @@
             this.outpriceButton.UseVisualStyleBackColor = true;
             this.outpriceButton.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
-            // ProIdCol
+            // panel3
             // 
-            this.ProIdCol.HeaderText = "编号";
-            this.ProIdCol.Name = "ProIdCol";
-            this.ProIdCol.ReadOnly = true;
-            this.ProIdCol.Width = 70;
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.sumBox);
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.amountBox);
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Location = new System.Drawing.Point(204, 479);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(945, 35);
+            this.panel3.TabIndex = 35;
             // 
-            // ProNameCol
+            // sumBox
             // 
-            this.ProNameCol.HeaderText = "产品名称";
-            this.ProNameCol.Name = "ProNameCol";
-            this.ProNameCol.ReadOnly = true;
+            this.sumBox.Location = new System.Drawing.Point(637, 8);
+            this.sumBox.Name = "sumBox";
+            this.sumBox.ReadOnly = true;
+            this.sumBox.Size = new System.Drawing.Size(114, 21);
+            this.sumBox.TabIndex = 12;
             // 
-            // StockCol
+            // label10
             // 
-            this.StockCol.HeaderText = "库存";
-            this.StockCol.Name = "StockCol";
-            this.StockCol.ReadOnly = true;
-            this.StockCol.Width = 120;
+            this.label10.AutoSize = true;
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(578, 11);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "总数量：";
             // 
-            // NumCol
+            // amountBox
             // 
-            this.NumCol.HeaderText = "数量";
-            this.NumCol.Name = "NumCol";
-            this.NumCol.Width = 120;
+            this.amountBox.Location = new System.Drawing.Point(825, 8);
+            this.amountBox.Name = "amountBox";
+            this.amountBox.ReadOnly = true;
+            this.amountBox.Size = new System.Drawing.Size(114, 21);
+            this.amountBox.TabIndex = 10;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label11.Location = new System.Drawing.Point(766, 11);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "总金额：";
+            // 
+            // accountTableAdapter
+            // 
+            this.accountTableAdapter.ClearBeforeFill = true;
+            // 
+            // use_unitTableAdapter
+            // 
+            this.use_unitTableAdapter.ClearBeforeFill = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.Snow;
+            this.panel4.Controls.Add(this.label12);
+            this.panel4.Controls.Add(this.label13);
+            this.panel4.Controls.Add(this.oIdBox);
+            this.panel4.Controls.Add(this.datePicker);
+            this.panel4.Location = new System.Drawing.Point(204, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(691, 43);
+            this.panel4.TabIndex = 43;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label12.Location = new System.Drawing.Point(4, 15);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "凭证号：";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label13.Location = new System.Drawing.Point(307, 15);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(41, 12);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "日期：";
+            // 
+            // undoButton
+            // 
+            this.undoButton.Enabled = false;
+            this.undoButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.undoButton.Location = new System.Drawing.Point(933, 520);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(105, 34);
+            this.undoButton.TabIndex = 44;
+            this.undoButton.Text = "撤销保存";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // exchange_management
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::KuGuan.Properties.Resources.bg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1344, 579);
+            this.Controls.Add(this.undoButton);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.exchangeDocView);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.datePicker);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.oIdBox);
-            this.HideOnClose = true;
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "exchange_management";
             this.TabText = "调库管理";
             this.Text = "调库管理";
@@ -593,30 +687,27 @@
             this.groupBox2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.unitBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView exchangeDocView;
         private System.Windows.Forms.DateTimePicker datePicker;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox oIdBox;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource exchange_managementBindingSource;
-        private dataDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
-        private System.Windows.Forms.BindingSource unitBindingSource;
-        private dataDataSetTableAdapters.unitTableAdapter unitTableAdapter;
+        private kuguanDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView proView;
         private System.Windows.Forms.Label label6;
@@ -648,5 +739,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ProNameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumCol;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox sumBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox amountBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button4;
+        private kuguanDataSetTableAdapters.accountTableAdapter accountTableAdapter;
+        private kuguanDataSetTableAdapters.use_unitTableAdapter use_unitTableAdapter;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button undoButton;
     }
 }

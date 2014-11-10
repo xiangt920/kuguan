@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StockForm));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.maxNumBox = new System.Windows.Forms.TextBox();
             this.minNumBox = new System.Windows.Forms.TextBox();
@@ -41,8 +42,7 @@
             this.searchButton = new System.Windows.Forms.Button();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.refreshButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -60,31 +60,31 @@
             this.sumnumBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
-            this.stockSumTableAdapter = new KuGuan.dataDataSetTableAdapters.StockSumTableAdapter();
-            this.product_typeTableAdapter = new KuGuan.dataDataSetTableAdapters.product_typeTableAdapter();
+            this.stockSumTableAdapter = new KuGuan.kuguanDataSetTableAdapters.StockSumTableAdapter();
+            this.product_typeTableAdapter = new KuGuan.kuguanDataSetTableAdapters.product_typeTableAdapter();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tLabel = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.treeView = new System.Windows.Forms.TreeView();
+            this.productStockAdapter = new KuGuan.kuguanDataSetTableAdapters.ProductStockAdapter();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.tAmoutBox = new System.Windows.Forms.TextBox();
+            this.tNumBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.exportButton = new System.Windows.Forms.Button();
             this.productidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stocknumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.unitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AmountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tLabel = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.treeView = new System.Windows.Forms.TreeView();
-            this.productStockAdapter = new KuGuan.dataDataSetTableAdapters.ProductStockAdapter();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.tAmoutBox = new System.Windows.Forms.TextBox();
-            this.tNumBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -114,7 +114,7 @@
             this.groupBox2.Location = new System.Drawing.Point(215, 478);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox2.Size = new System.Drawing.Size(1021, 54);
+            this.groupBox2.Size = new System.Drawing.Size(896, 54);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             // 
@@ -192,7 +192,9 @@
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(935, 9);
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.searchButton.Location = new System.Drawing.Point(815, 9);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(80, 38);
             this.searchButton.TabIndex = 8;
@@ -216,11 +218,6 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "产品名称：";
             // 
-            // productBindingSource
-            // 
-            this.productBindingSource.DataMember = "product";
-            this.productBindingSource.DataSource = this.dataDataSet;
-            // 
             // dataDataSet
             // 
             this.dataDataSet.DataSetName = "dataDataSet";
@@ -228,6 +225,8 @@
             // 
             // refreshButton
             // 
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.refreshButton.Location = new System.Drawing.Point(1242, 487);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(87, 38);
@@ -402,10 +401,6 @@
             this.label3.Text = "库存总数量：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // productTableAdapter
-            // 
-            this.productTableAdapter.ClearBeforeFill = true;
-            // 
             // stockSumTableAdapter
             // 
             this.stockSumTableAdapter.ClearBeforeFill = true;
@@ -421,11 +416,13 @@
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.productidDataGridViewTextBoxColumn,
             this.productnameDataGridViewTextBoxColumn,
+            this.spec,
             this.PriceColumn,
             this.stocknumDataGridViewTextBoxColumn,
             this.unitDataGridViewTextBoxColumn,
@@ -433,7 +430,7 @@
             this.productintroduceDataGridViewTextBoxColumn,
             this.remarkDataGridViewTextBoxColumn});
             this.dataGridView.DataSource = this.productstockBindingSource;
-            this.dataGridView.GridColor = System.Drawing.SystemColors.Window;
+            this.dataGridView.GridColor = System.Drawing.Color.LightSteelBlue;
             this.dataGridView.Location = new System.Drawing.Point(215, 139);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
@@ -445,67 +442,6 @@
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(1114, 286);
             this.dataGridView.TabIndex = 32;
-            // 
-            // productidDataGridViewTextBoxColumn
-            // 
-            this.productidDataGridViewTextBoxColumn.DataPropertyName = "product_id";
-            this.productidDataGridViewTextBoxColumn.HeaderText = "货品编号";
-            this.productidDataGridViewTextBoxColumn.Name = "productidDataGridViewTextBoxColumn";
-            this.productidDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // productnameDataGridViewTextBoxColumn
-            // 
-            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
-            this.productnameDataGridViewTextBoxColumn.HeaderText = "货品名称";
-            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
-            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // PriceColumn
-            // 
-            this.PriceColumn.DataPropertyName = "get_price";
-            this.PriceColumn.HeaderText = "单价";
-            this.PriceColumn.Name = "PriceColumn";
-            this.PriceColumn.ReadOnly = true;
-            this.PriceColumn.Width = 150;
-            // 
-            // stocknumDataGridViewTextBoxColumn
-            // 
-            this.stocknumDataGridViewTextBoxColumn.DataPropertyName = "stock_num";
-            this.stocknumDataGridViewTextBoxColumn.HeaderText = "库存";
-            this.stocknumDataGridViewTextBoxColumn.Name = "stocknumDataGridViewTextBoxColumn";
-            this.stocknumDataGridViewTextBoxColumn.ReadOnly = true;
-            this.stocknumDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // unitDataGridViewTextBoxColumn
-            // 
-            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
-            this.unitDataGridViewTextBoxColumn.HeaderText = "计量单位";
-            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
-            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // AmountColumn
-            // 
-            this.AmountColumn.DataPropertyName = "get_amount";
-            this.AmountColumn.HeaderText = "总金额";
-            this.AmountColumn.Name = "AmountColumn";
-            this.AmountColumn.ReadOnly = true;
-            this.AmountColumn.Width = 150;
-            // 
-            // productintroduceDataGridViewTextBoxColumn
-            // 
-            this.productintroduceDataGridViewTextBoxColumn.DataPropertyName = "product_introduce";
-            this.productintroduceDataGridViewTextBoxColumn.HeaderText = "描述";
-            this.productintroduceDataGridViewTextBoxColumn.Name = "productintroduceDataGridViewTextBoxColumn";
-            this.productintroduceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.productintroduceDataGridViewTextBoxColumn.Width = 270;
-            // 
-            // remarkDataGridViewTextBoxColumn
-            // 
-            this.remarkDataGridViewTextBoxColumn.DataPropertyName = "remark";
-            this.remarkDataGridViewTextBoxColumn.HeaderText = "备注";
-            this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
-            this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
-            this.remarkDataGridViewTextBoxColumn.Width = 121;
             // 
             // productstockBindingSource
             // 
@@ -548,7 +484,7 @@
             // 
             // treeView
             // 
-            this.treeView.LabelEdit = true;
+            this.treeView.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.treeView.Location = new System.Drawing.Point(6, 20);
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(189, 387);
@@ -606,12 +542,93 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "本类数量合计";
             // 
+            // exportButton
+            // 
+            this.exportButton.Image = global::KuGuan.Properties.Resources._1_conew1;
+            this.exportButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exportButton.Location = new System.Drawing.Point(1117, 487);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(119, 38);
+            this.exportButton.TabIndex = 34;
+            this.exportButton.Text = "导出到Excel";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // productidDataGridViewTextBoxColumn
+            // 
+            this.productidDataGridViewTextBoxColumn.DataPropertyName = "product_id";
+            this.productidDataGridViewTextBoxColumn.HeaderText = "货品编号";
+            this.productidDataGridViewTextBoxColumn.Name = "productidDataGridViewTextBoxColumn";
+            this.productidDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // productnameDataGridViewTextBoxColumn
+            // 
+            this.productnameDataGridViewTextBoxColumn.DataPropertyName = "product_name";
+            this.productnameDataGridViewTextBoxColumn.HeaderText = "货品名称";
+            this.productnameDataGridViewTextBoxColumn.Name = "productnameDataGridViewTextBoxColumn";
+            this.productnameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // spec
+            // 
+            this.spec.DataPropertyName = "spec";
+            this.spec.HeaderText = "规格";
+            this.spec.Name = "spec";
+            this.spec.ReadOnly = true;
+            // 
+            // PriceColumn
+            // 
+            this.PriceColumn.DataPropertyName = "get_price";
+            this.PriceColumn.HeaderText = "单价";
+            this.PriceColumn.Name = "PriceColumn";
+            this.PriceColumn.ReadOnly = true;
+            this.PriceColumn.Width = 150;
+            // 
+            // stocknumDataGridViewTextBoxColumn
+            // 
+            this.stocknumDataGridViewTextBoxColumn.DataPropertyName = "stock_num";
+            this.stocknumDataGridViewTextBoxColumn.HeaderText = "库存";
+            this.stocknumDataGridViewTextBoxColumn.Name = "stocknumDataGridViewTextBoxColumn";
+            this.stocknumDataGridViewTextBoxColumn.ReadOnly = true;
+            this.stocknumDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // unitDataGridViewTextBoxColumn
+            // 
+            this.unitDataGridViewTextBoxColumn.DataPropertyName = "unit";
+            this.unitDataGridViewTextBoxColumn.HeaderText = "计量单位";
+            this.unitDataGridViewTextBoxColumn.Name = "unitDataGridViewTextBoxColumn";
+            this.unitDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // AmountColumn
+            // 
+            this.AmountColumn.DataPropertyName = "get_amount";
+            this.AmountColumn.HeaderText = "总金额";
+            this.AmountColumn.Name = "AmountColumn";
+            this.AmountColumn.ReadOnly = true;
+            this.AmountColumn.Width = 150;
+            // 
+            // productintroduceDataGridViewTextBoxColumn
+            // 
+            this.productintroduceDataGridViewTextBoxColumn.DataPropertyName = "product_introduce";
+            this.productintroduceDataGridViewTextBoxColumn.HeaderText = "描述";
+            this.productintroduceDataGridViewTextBoxColumn.Name = "productintroduceDataGridViewTextBoxColumn";
+            this.productintroduceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.productintroduceDataGridViewTextBoxColumn.Width = 170;
+            // 
+            // remarkDataGridViewTextBoxColumn
+            // 
+            this.remarkDataGridViewTextBoxColumn.DataPropertyName = "remark";
+            this.remarkDataGridViewTextBoxColumn.HeaderText = "备注";
+            this.remarkDataGridViewTextBoxColumn.Name = "remarkDataGridViewTextBoxColumn";
+            this.remarkDataGridViewTextBoxColumn.ReadOnly = true;
+            this.remarkDataGridViewTextBoxColumn.Width = 121;
+            // 
             // StockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1362, 584);
+            this.ClientSize = new System.Drawing.Size(1354, 584);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
@@ -619,6 +636,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.refreshButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StockForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TabText = "库存查询";
@@ -627,7 +645,6 @@
             this.Load += new System.EventHandler(this.StockForm_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -651,9 +668,7 @@
 
         #endregion
 
-        private dataDataSetTableAdapters.productTableAdapter productTableAdapter;
-        private dataDataSet dataDataSet;
-        private System.Windows.Forms.BindingSource productBindingSource;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox nameBox;
@@ -668,7 +683,7 @@
         private System.Windows.Forms.TextBox sumpriceBox;
         private System.Windows.Forms.TextBox sumnumBox;
         private System.Windows.Forms.BindingSource stockSumTableBindingSource;
-        private dataDataSetTableAdapters.StockSumTableAdapter stockSumTableAdapter;
+        private kuguanDataSetTableAdapters.StockSumTableAdapter stockSumTableAdapter;
         private System.Windows.Forms.RadioButton allcalcButton;
         private System.Windows.Forms.RadioButton singlecalcButton;
         private System.Windows.Forms.RadioButton getPriceButton;
@@ -676,27 +691,19 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.BindingSource producttypeBindingSource;
-        private dataDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
+        private kuguanDataSetTableAdapters.product_typeTableAdapter product_typeTableAdapter;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView treeView;
         private System.Windows.Forms.BindingSource productstockBindingSource;
-        private dataDataSetTableAdapters.ProductStockAdapter productStockAdapter;
+        private kuguanDataSetTableAdapters.ProductStockAdapter productStockAdapter;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TextBox tAmoutBox;
         private System.Windows.Forms.TextBox tNumBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PriceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stocknumDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AmountColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn productintroduceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn remarkDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox maxNumBox;
         private System.Windows.Forms.TextBox minNumBox;
@@ -705,5 +712,15 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn spec;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PriceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stocknumDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AmountColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productintroduceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn remarkDataGridViewTextBoxColumn;
     }
 }

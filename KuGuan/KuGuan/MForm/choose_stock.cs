@@ -13,11 +13,10 @@ namespace KuGuan.MForm
 {
     public partial class choose_stock : DockContent
     {
-        private dataDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new dataDataSetTableAdapters.product_typeTableAdapter();
-        private dataDataSetTableAdapters.QueriesTableAdapter procAdapter = new dataDataSetTableAdapters.QueriesTableAdapter();
+        private kuguanDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new kuguanDataSetTableAdapters.product_typeTableAdapter();
         private DataTable protypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
-        private List<dataDataSet.product_stockRow> selectedRows = new List<dataDataSet.product_stockRow>();
+        private List<kuguanDataSet.product_stockRow> selectedRows = new List<kuguanDataSet.product_stockRow>();
         private bool isMultiSelect = false;
         private string product_id;
         private string product_name;
@@ -30,6 +29,7 @@ namespace KuGuan.MForm
         private string store;
         private decimal stock;
         private int type_id;
+        private int count = 0;
         public string ID { get { return this.product_id; } }
         public string ProName { get { return this.product_name; } }
         public string ProSpec { get { return this.pro_spec; } }
@@ -42,7 +42,7 @@ namespace KuGuan.MForm
 
         public int TypeId { get { return this.type_id; } }
         public decimal Stock { get { return this.stock; } }
-        public List<dataDataSet.product_stockRow> SelectedRows { get { return this.selectedRows; } }
+        public List<kuguanDataSet.product_stockRow> SelectedRows { get { return this.selectedRows; } }
         public choose_stock()
         {
             InitializeComponent();
@@ -88,6 +88,7 @@ namespace KuGuan.MForm
         private void ProductForm_Load(object sender, EventArgs e)
         {
             // TODO:  这行代码将数据加载到表“dataDataSet.product_stock”中。您可以根据需要移动或删除它。
+            selectedRows.Clear();
         }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -97,9 +98,10 @@ namespace KuGuan.MForm
             this.productStockAdapter.FillByType(this.dataDataSet.product_stock, (int)node.Tag);
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                row.Cells["ChooseColumn"].Value = true;
+                row.Cells["ChooseColumn"].Value = false;
             }
-            cfmButton.Text = "选择(" + dataGridView.Rows.Count + ")";
+            count = 0;
+            cfmButton.Text = "选择(" + count + ")";
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -111,9 +113,10 @@ namespace KuGuan.MForm
                 this.productStockAdapter.FillByCondition(this.dataDataSet.product_stock,(int)node.Tag, cus);
                 foreach (DataGridViewRow row in dataGridView.Rows)
                 {
-                    row.Cells["ChooseColumn"].Value = true;
+                    row.Cells["ChooseColumn"].Value = false ;
                 }
-                cfmButton.Text = "选择(" + dataGridView.Rows.Count + ")";
+                count = 0;
+                cfmButton.Text = "选择(" + count + ")";
             }
             
         }
@@ -127,9 +130,10 @@ namespace KuGuan.MForm
             }
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                row.Cells["ChooseColumn"].Value = true;
+                row.Cells["ChooseColumn"].Value = false;
             }
-            cfmButton.Text = "选择(" + dataGridView.Rows.Count + ")";
+            count = 0;
+            cfmButton.Text = "选择(" + count + ")";
         }
 
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -139,10 +143,10 @@ namespace KuGuan.MForm
             if (index >= 0)
             {
 
-                var select_rows = from dataDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
+                var select_rows = from kuguanDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
                                   where r2.product_id == (int)dataGridView.Rows[index].Cells["productidDataGridViewTextBoxColumn"].Value
                                   select r2;
-                dataDataSet.product_stockRow row = select_rows.ElementAt(0);
+                kuguanDataSet.product_stockRow row = select_rows.ElementAt(0);
                 this.product_id = row.product_id+"";
                 this.type_id = row.product_type_id;
                 this.product_unit = row.unit;
@@ -226,7 +230,7 @@ namespace KuGuan.MForm
                     this.store = n.Parent.Text;
                 type = "";
                 var select_rows = from DataGridViewRow r1 in dataGridView.Rows
-                                    join dataDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows on (int)r1.Cells["productidDataGridViewTextBoxColumn"].Value equals r2.product_id 
+                                    join kuguanDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows on (int)r1.Cells["productidDataGridViewTextBoxColumn"].Value equals r2.product_id 
                                     where r1.Cells["ChooseColumn"].Value != null && (bool)r1.Cells["ChooseColumn"].Value == true
                                     select r2;
                 if (select_rows.Count() > 0)
@@ -247,10 +251,10 @@ namespace KuGuan.MForm
                     int index = dataGridView.SelectedRows[0].Index;
                     if (index >= 0)
                     {
-                        var select_rows = from dataDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
+                        var select_rows = from kuguanDataSet.product_stockRow r2 in this.dataDataSet.product_stock.Rows
                                           where r2.product_id == (int)dataGridView.Rows[index].Cells["productidDataGridViewTextBoxColumn"].Value
                                           select r2;
-                        dataDataSet.product_stockRow row = select_rows.ElementAt(0);
+                        kuguanDataSet.product_stockRow row = select_rows.ElementAt(0);
                         this.product_id = row.product_id + "";
                         this.type_id = row.product_type_id;
                         this.product_unit = row.unit;
@@ -287,12 +291,18 @@ namespace KuGuan.MForm
                     if (c.Value == null)
                         c.Value = true;
                     else
+                    {
+                        if ((bool)c.Value)
+                        {
+                            count--;
+                        }
+                        else
+                            count++;
                         c.Value = !(bool)c.Value;
+                    }
                 }
-                var select_rows = from DataGridViewRow row in dataGridView.Rows
-                        where row.Cells["ChooseColumn"].Value != null && (bool)row.Cells["ChooseColumn"].Value == true
-                        select row;
-                cfmButton.Text = "选择(" + select_rows.Count() + ")";
+
+                cfmButton.Text = "选择(" + count + ")";
             }
         }
 
@@ -300,9 +310,33 @@ namespace KuGuan.MForm
         {
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                row.Cells["ChooseColumn"].Value = true;
+                row.Cells["ChooseColumn"].Value = false;
             }
-            cfmButton.Text = "选择(" + dataGridView.Rows.Count + ")";
+            count = 0;
+            cfmButton.Text = "选择(" + count + ")";
+        }
+
+        private void chooseAllButton_Click(object sender, EventArgs e)
+        {
+            if (count == dataGridView.Rows.Count)
+            {
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    row.Cells["ChooseColumn"].Value = false;
+                }
+                count = 0;
+                cfmButton.Text = "选择(" + count + ")";
+            }
+            else
+            {
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    row.Cells["ChooseColumn"].Value = true;
+                }
+                count = dataGridView.Rows.Count;
+                cfmButton.Text = "选择(" + count + ")";
+            }
+
         }
     
     }

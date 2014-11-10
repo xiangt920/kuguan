@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KuGuan.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,8 +12,9 @@ namespace KuGuan.MForm
 {
     public partial class ChgProForm : Form
     {
-
         private int id;
+        private int store_id;
+        private kuguanDataSetTableAdapters.stockTableAdapter stockAdapter = new kuguanDataSetTableAdapters.stockTableAdapter();
         public ChgProForm()
         {
             InitializeComponent();
@@ -23,6 +25,14 @@ namespace KuGuan.MForm
             InitializeComponent();
             this.Text = title;
             this.id = id;
+        }
+
+        public ChgProForm(String title, int id,int store_id)
+        {
+            InitializeComponent();
+            this.Text = title;
+            this.id = id;
+            this.store_id = store_id;
         }
 
         private void ChgProForm_Load(object sender, EventArgs e)
@@ -48,7 +58,6 @@ namespace KuGuan.MForm
         private void cfmButton_Click(object sender, EventArgs e)
         {
             this.Validate();
-            this.productBindingSource.EndEdit();
             int count = 0;
             try
             {
@@ -56,14 +65,17 @@ namespace KuGuan.MForm
                 {
                     count = this.productTableAdapter.AddProduct(
                         product_nameTextBox.Text,
-                        Decimal.Parse(get_priceTextBox.Text),
-                        Decimal.Parse(out_priceTextBox.Text),
+                        Decimal.Parse(get_priceBox.Text),
+                        Decimal.Parse(out_priceBox.Text),
                         (int)unitBox.SelectedValue,
                         introBox.Text,
                         remarkTextBox.Text,
                         specBox.Text
                         );
+                    int newId = (int)this.productTableAdapter.GetNewId();
+                    stockAdapter.AddStock(newId, store_id, 0, 0);
                 }
+
                 else
                 {
                     count = this.productTableAdapter.UpdateById(
@@ -71,16 +83,17 @@ namespace KuGuan.MForm
                         remarkTextBox.Text,
                         introBox.Text,
                         (int)unitBox.SelectedValue,
-                        Decimal.Parse(get_priceTextBox.Text),
-                        Decimal.Parse(out_priceTextBox.Text),
+                        Decimal.Parse(out_priceBox.Text),
+                        Decimal.Parse(get_priceBox.Text),
                         specBox.Text,
-                        Int32.Parse(idBox.Text)
+                        id
                         );
                 }
             }
             catch (FormatException)
             {
                 MessageBox.Show("价格输入错误!");
+                return;
             }
             if (count > 0)
             {

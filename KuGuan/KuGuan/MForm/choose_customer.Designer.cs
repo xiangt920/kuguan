@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.searchButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(choose_customer));
             this.linkmanBox = new System.Windows.Forms.TextBox();
             this.addrBox = new System.Windows.Forms.TextBox();
             this.cusBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.searchButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.refreshButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.customeridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customernameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,28 +51,19 @@
             this.openingbankDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bankaccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customerBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.tLabel = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView = new System.Windows.Forms.TreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.customerTableAdapter = new KuGuan.dataDataSetTableAdapters.customerTableAdapter();
+            this.customerTableAdapter = new KuGuan.kuguanDataSetTableAdapters.customerTableAdapter();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(667, 10);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(80, 38);
-            this.searchButton.TabIndex = 8;
-            this.searchButton.Text = "查询";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
             // linkmanBox
             // 
@@ -129,6 +120,18 @@
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             // 
+            // searchButton
+            // 
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.searchButton.Location = new System.Drawing.Point(667, 10);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(80, 38);
+            this.searchButton.TabIndex = 8;
+            this.searchButton.Text = "查询";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -137,16 +140,6 @@
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 6;
             this.label3.Text = "地址：";
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Location = new System.Drawing.Point(213, 503);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(87, 38);
-            this.refreshButton.TabIndex = 10;
-            this.refreshButton.Text = "刷新列表";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // dataGridView
             // 
@@ -313,15 +306,28 @@
             // 
             this.customerTableAdapter.ClearBeforeFill = true;
             // 
+            // refreshButton
+            // 
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.Location = new System.Drawing.Point(213, 503);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(105, 38);
+            this.refreshButton.TabIndex = 10;
+            this.refreshButton.Text = "刷新列表";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
             // choose_customer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 578);
+            this.ClientSize = new System.Drawing.Size(1354, 578);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "choose_customer";
             this.Text = "选择客户";
             this.Load += new System.EventHandler(this.CustomerForm_Load);
@@ -352,9 +358,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView treeView;
         private System.Windows.Forms.GroupBox groupBox1;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource customerBindingSource;
-        private dataDataSetTableAdapters.customerTableAdapter customerTableAdapter;
+        private kuguanDataSetTableAdapters.customerTableAdapter customerTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn customeridDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn customernameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;

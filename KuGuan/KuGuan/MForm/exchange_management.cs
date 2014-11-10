@@ -1,8 +1,11 @@
-﻿using System;
+﻿using KuGuan.Model;
+using KuGuan.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,11 +22,34 @@ namespace KuGuan.MForm
         private bool CellValueTrue = true;
         private DataGridViewCell ErrorCell = null;
         private choose_customer C = new choose_customer();
-        private List<dataDataSet.product_stockRow> willRows = new List<dataDataSet.product_stockRow>();
+        private List<kuguanDataSet.product_stockRow> willRows = new List<kuguanDataSet.product_stockRow>();
+        private kuguanDataSetTableAdapters.TableAdapterManager manager;
+        private kuguanDataSetTableAdapters.exchangeTableAdapter exchangeAdapter = new kuguanDataSetTableAdapters.exchangeTableAdapter();
+        private kuguanDataSetTableAdapters.stockTableAdapter stockAdapter = new kuguanDataSetTableAdapters.stockTableAdapter();
+        private kuguanDataSetTableAdapters.remainTableAdapter remainAdapter = new kuguanDataSetTableAdapters.remainTableAdapter();
+
         public exchange_management()
         {
             InitializeComponent();
+
+            manager = new kuguanDataSetTableAdapters.TableAdapterManager();
+            manager.BackupDataSetBeforeUpdate = false;
+            manager.customer_typeTableAdapter = null;
+            manager.stockTableAdapter = stockAdapter;
+            manager.proTableAdapter = null;
+            manager.customerTableAdapter = null;
+            manager.supplier_typeTableAdapter = null;
+            manager.supplierTableAdapter = null;
+            manager.unitTableAdapter = null;
+            manager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            manager.userTableAdapter = null;
+            manager.storageTableAdapter = null;
+            manager.outTableAdapter = null;
+            manager.exchangeTableAdapter = exchangeAdapter;
+            manager.remainTableAdapter = remainAdapter;
+            manager.accountTableAdapter = accountTableAdapter;
         }
+        
         private void choose_product()
         {
             if (P.ShowDialog() == DialogResult.OK)
@@ -31,7 +57,7 @@ namespace KuGuan.MForm
                 outstoreBox.Text = P.Store;
                 proView.Rows.Clear();
                 String t = "";
-                foreach (dataDataSet.product_stockRow row in P.SelectedRows)
+                foreach (kuguanDataSet.product_stockRow row in P.SelectedRows)
                 {
                     DataGridViewRow r = new DataGridViewRow();
                     r.CreateCells(proView, new object[] {row.product_id,row.product_name,row.stock_num,row.stock_num });
@@ -43,20 +69,16 @@ namespace KuGuan.MForm
                 outengBox.Text = t;
             }
         }
-        private static String[] b = new String[9];
-        private List<String> to = new List<String>();
 
         private void exchange_management_Load(object sender, EventArgs e)
         {
-            // TODO: 这行代码将数据加载到表“dataDataSet.unit”中。您可以根据需要移动或删除它。
-            this.unitTableAdapter.Fill(this.dataDataSet.unit);
+            stockAdapter.Fill(this.dataDataSet.stock);
             string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
             Decimal new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(date));
             new_id++;
             oIdBox.Text = new_id.ToString();
         }
 
-        
         private void show_on_list(object sender, EventArgs e)
         {
             if (proView.Rows.Count == 0)
@@ -69,7 +91,7 @@ namespace KuGuan.MForm
                 MessageBox.Show("请您选择调入仓库！");
                 return;
             }
-            foreach (dataDataSet.product_stockRow r in P.SelectedRows)
+            foreach (kuguanDataSet.product_stockRow r in P.SelectedRows)
             {
                 if (r.product_type_id == S.Id)
                 {
@@ -80,9 +102,9 @@ namespace KuGuan.MForm
             try
             {
                 
-                foreach (dataDataSet.product_stockRow r in P.SelectedRows)
+                foreach (kuguanDataSet.product_stockRow r in P.SelectedRows)
                 {
-                    KuGuan.dataDataSet.exchange_managementRow row = (dataDataSet.exchange_managementRow)this.dataDataSet.exchange_management.NewRow();
+                    KuGuan.kuguanDataSet.exchange_managementRow row = (kuguanDataSet.exchange_managementRow)this.dataDataSet.exchange_management.NewRow();
                     row.BeginEdit();
                     row.time = datePicker.Value;
                     row.from_house_id = r.product_type_id;
@@ -101,22 +123,22 @@ namespace KuGuan.MForm
                     if (getPriceButton.Checked)
                     {
                         row.price = r.get_price;
-                        row.total_price = r.get_price * num.ElementAt(0);
+                        row.total_price = Decimal.Round(r.get_price * num.ElementAt(0),11);
                     }
                     else
                     {
                         row.price = r.out_price;
-                        row.total_price = r.out_price * num.ElementAt(0);
+                        row.total_price = Decimal.Round(r.out_price * num.ElementAt(0),11);
                     }
                     row.EndEdit();
                     if(!willRows.Contains(r))
                         willRows.Add(r);
                     this.dataDataSet.exchange_management.Addexchange_managementRow(row);
+                    var rs = from kuguanDataSet.exchange_managementRow r0 in dataDataSet.exchange_management.Rows
+                             select r0;
+                    sumBox.Text = rs.Sum(r1 => r1.exchange_num) + "";
+                    amountBox.Text = Decimal.Round(rs.Sum(r1 => r1.total_price), 2) + "";
                 }
-                
-                string date = datePicker.Value.ToString("yyyyMMdd");
-                Decimal new_id = Decimal.Parse(oIdBox.Text) + 1;
-                oIdBox.Text = new_id.ToString();
             }
             catch (System.Exception)
             {
@@ -130,6 +152,8 @@ namespace KuGuan.MForm
 
             this.dataDataSet.exchange_management.Rows.Clear();
             willRows.Clear();
+            sumBox.Text = "0";
+            amountBox.Text = "0";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -138,6 +162,11 @@ namespace KuGuan.MForm
             {
                 int row_index = this.exchangeDocView.SelectedCells[0].RowIndex;
                 exchangeDocView.Rows.RemoveAt(row_index);
+                var rs = from kuguanDataSet.exchange_managementRow r0 in dataDataSet.exchange_management.Rows
+                         select r0;
+                sumBox.Text = rs.Sum(r1 => r1.exchange_num) + "";
+                amountBox.Text = Decimal.Round(rs.Sum(r1 => r1.total_price), 2) + "";
+                
             }
             catch (System.Exception)
             {
@@ -147,6 +176,14 @@ namespace KuGuan.MForm
 
         private void dateTimePicker1_TabIndexChanged(object sender, EventArgs e)
         {
+            kuguanDataSetTableAdapters.accountTableAdapter ata = new kuguanDataSetTableAdapters.accountTableAdapter();
+            int? count = ata.Get0CountFromTime(datePicker.Value);
+            if (count > 0)
+            {
+                MessageBox.Show(this, "该日期已结账，不可调库！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                datePicker.Value = DateTime.Now;
+                return;
+            }
             try
             {
                 string date = datePicker.Value.ToString("yyyyMMdd");  //.ToString("yyyyMMdd");
@@ -161,65 +198,85 @@ namespace KuGuan.MForm
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Util.deleteBak();
+            try
+            {
+                File.Copy(@"data\kuguan.sdf", @"data\kuguan.esdf.obak", true);
+                undoButton.Enabled = true;
+            }
+            catch { }
             int count = 0;
             if (this.dataDataSet.exchange_management.Rows.Count == 0)
                 return;
-            List<KuGuan.dataDataSet.exchange_managementRow> successedRows = new List<dataDataSet.exchange_managementRow>();
-            Dictionary<int,string> fromIdList = new Dictionary<int,string>();
-            string exchangeId = "";
+            List<KuGuan.kuguanDataSet.exchange_managementRow> successedRows = new List<kuguanDataSet.exchange_managementRow>();
+            string exchangeId = oIdBox.Text;
             ISet<int> failedIdList = new SortedSet<int>();
-            foreach (KuGuan.dataDataSet.exchange_managementRow row in this.dataDataSet.exchange_management.Rows)
+            this.dataDataSet.exchange.Rows.Clear();
+            this.dataDataSet.account.Rows.Clear();
+            stockAdapter.Fill(this.dataDataSet.stock);
+            remainAdapter.Fill(this.dataDataSet.remain);
+            DateTime tmp = datePicker.Value.Date;
+            foreach (KuGuan.kuguanDataSet.exchange_managementRow row in this.dataDataSet.exchange_management.Rows)
             {
-                if (fromIdList.Count == 0)
-                {
-                    exchangeId = oIdBox.Text;
-                    fromIdList.Add(row.from_house_id, exchangeId);
-                }
-                else if (fromIdList.ContainsKey(row.from_house_id))
-                {
-                    exchangeId = fromIdList[row.from_house_id];
-                }
-                else
-                {
-                    string tmp_date = datePicker.Value.ToString("yyyyMMdd");
-                    Decimal tmp_new_id = Decimal.Parse((String)this.exchange_managementTableAdapter.find(tmp_date)) + 1;
-                    exchangeId = tmp_new_id + "";
-                    fromIdList.Add(row.from_house_id, exchangeId);
-                }
-                int c = this.exchange_managementTableAdapter.AddExchange(
+                kuguanDataSet.stockRow r0 = DBUtil.changeStock(row.product_id, row.from_house_id, -row.exchange_num,row.price,-row.total_price, this.dataDataSet.stock);
+                kuguanDataSet.stockRow r1 = DBUtil.changeStock(row.product_id, row.to_house_id, row.exchange_num, row.price, row.total_price, this.dataDataSet.stock);
+                this.dataDataSet.exchange.AddexchangeRow(
                     exchangeId,
-                    row.time,
+                    tmp,
                     row.product_id,
                     row.exchange_num,
                     row.from_house_id,
                     row.to_house_id,
-                    outpriceButton.Checked);
-                if (c > 0)
-                {
-                    count += c;
-                    successedRows.Add(row);
-                }
-                else
-                {
-                    if(!failedIdList.Contains(row.product_id))
-                        failedIdList.Add(row.product_id);
-                }
+                    outpriceButton.Checked,
+                    r0.stock_num,
+                    r0.stock_amount,
+                    r1.stock_num,
+                    r1.stock_amount,
+                    row.price);
+                this.dataDataSet.account.AddaccountRow(
+                    row.product_id, row.from_house_id, tmp,
+                    exchangeId,
+                    "从" + row.from_eng +
+                    "调至" + row.to_eng,
+                    0, 0, 0, row.exchange_num, row.price, row.total_price, "",
+                    r0.stock_num, r0.stock_num == 0 ? 0 : Decimal.Round(r0.stock_amount / r0.stock_num, 11),
+                    r0.stock_amount, 3);
+                this.dataDataSet.account.AddaccountRow(
+                    row.product_id, row.to_house_id, tmp,
+                    exchangeId,
+                    "从 " + row.from_eng +
+                    "调至 " + row.to_eng,
+                    row.exchange_num, row.price, row.total_price, 0, 0, 0,"",
+                    r1.stock_num, r1.stock_num == 0 ? 0 : Decimal.Round(r1.stock_amount / r1.stock_num, 11),
+                    r1.stock_amount, 3);
+                count++;
+
+                successedRows.Add(row);
             }
+
+            manager.UpdateAll(this.dataDataSet);
             if (count == this.dataDataSet.exchange_management.Rows.Count)
             {
-                MessageBox.Show("成功入库所有信息！");
+                MessageBox.Show("成功调库所有信息("+count+"条)！");
+                printDGV();
                 this.dataDataSet.exchange_management.Rows.Clear();
                 willRows.Clear();
+                sumBox.Text = "0";
+                amountBox.Text = "0";
             }
             else
             {
-                MessageBox.Show("提交入库信息条数:" + this.dataDataSet.exchange_management.Rows.Count
-                    + "\n成功入库信息条数:" + count);
-                foreach (KuGuan.dataDataSet.exchange_managementRow r in successedRows)
+                MessageBox.Show("提交调库信息条数:" + this.dataDataSet.exchange_management.Rows.Count
+                    + "\n成功调库信息条数:" + count);
+                foreach (KuGuan.kuguanDataSet.exchange_managementRow r in successedRows)
                 {
                     this.dataDataSet.exchange_management.Rows.Remove(r);
                 }
 
+                var rs = from kuguanDataSet.exchange_managementRow r0 in dataDataSet.exchange_management.Rows
+                         select r0;
+                sumBox.Text = rs.Sum(r1 => r1.exchange_num) + "";
+                amountBox.Text = Decimal.Round(rs.Sum(r1 => r1.total_price), 2) + "";
                 willRows.RemoveAll(r0 => !failedIdList.Contains(r0.product_id));
             }
             string date = datePicker.Value.ToString("yyyyMMdd");
@@ -232,7 +289,7 @@ namespace KuGuan.MForm
             if (this.dataDataSet.exchange_management.Rows.Count > 0)
             {
                 if (MessageBox.Show(
-                    "还有" + this.dataDataSet.exchange_management.Rows.Count + "入库信息尚未提交，确定放弃？",
+                    "还有" + this.dataDataSet.exchange_management.Rows.Count + "调库信息尚未提交，确定放弃？",
                     "提示",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question) == DialogResult.OK)
@@ -240,6 +297,11 @@ namespace KuGuan.MForm
                 else
                     e.Cancel = true;
             }
+            try
+            {
+                File.Delete(@"data\kuguan.sdf.ebak");
+            }
+            catch { }
         }
 
         private void instoreBox_Click(object sender, EventArgs e)
@@ -322,29 +384,93 @@ namespace KuGuan.MForm
 
         private void getPriceButton_CheckedChanged(object sender, EventArgs e)
         {
-
-            foreach (dataDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+            if (getPriceButton.Checked)
             {
-                var rs = from dataDataSet.product_stockRow r0 in willRows
-                         where row.product_id == r0.product_id
-                         select r0.get_price;
-                decimal price = rs.ElementAt(0);
-                row.price = price;
-                row.total_price = row.exchange_num * price;
+                foreach (kuguanDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+                {
+                    var rs = from kuguanDataSet.product_stockRow r0 in willRows
+                             where row.product_id == r0.product_id
+                             select r0.get_price;
+                    decimal price = rs.ElementAt(0);
+                    row.price = price;
+                    row.total_price = Decimal.Round(row.exchange_num * price, 11);
+                }
+                var rs0 = from kuguanDataSet.exchange_managementRow r1 in dataDataSet.exchange_management.Rows
+                          select r1;
+                sumBox.Text = rs0.Sum(r1 => r1.exchange_num) + "";
+                amountBox.Text = Decimal.Round(rs0.Sum(r1 => r1.total_price), 2) + "";
             }
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (dataDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+            if (outpriceButton.Checked)
             {
-                var rs = from dataDataSet.product_stockRow r0 in willRows
-                         where row.product_id == r0.product_id
-                         select r0.out_price;
-                decimal price = rs.ElementAt(0);
-                row.price = price;
-                row.total_price = row.exchange_num * price;
+                foreach (kuguanDataSet.exchange_managementRow row in dataDataSet.exchange_management.Rows)
+                {
+                    var rs = from kuguanDataSet.product_stockRow r0 in willRows
+                             where row.product_id == r0.product_id
+                             select r0.out_price;
+                    decimal price = rs.ElementAt(0);
+                    row.price = price;
+                    row.total_price = Decimal.Round(row.exchange_num * price, 11);
+
+
+                }
+                var rs0 = from kuguanDataSet.exchange_managementRow r1 in dataDataSet.exchange_management.Rows
+                          select r1;
+                sumBox.Text = rs0.Sum(r1 => r1.exchange_num) + "";
+                amountBox.Text = Decimal.Round(rs0.Sum(r1 => r1.total_price), 2) + "";
             }
+        }
+
+        private void printDGV()
+        {
+            if (MessageBox.Show("是否打印单据？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                PrintDialog dg = new PrintDialog();
+                DGVPrintDocument doc = new DGVPrintDocument(
+                    exchangeDocView, 
+                    "调库单据",
+                    new int[]{0});
+                doc.Title = use_unitTableAdapter.GetName() +"调库单据";
+                doc.SubTitle = new String[] { 
+                    "出库日期："+datePicker.Value.ToString("yyyy-MM-dd"),
+                    "凭证号："+oIdBox.Text,
+                    "调出仓库："+outstoreBox.Text,
+                    "调入仓库："+instoreBox.Text
+                };
+                doc.Footer = new String[] {
+                    "操作员："+((MainForm)this.MdiParent).MUser.Username,
+                    "经手人：",
+                    "数量："+sumBox.Text,
+                    "金额："+amountBox.Text
+                };
+                doc.CellFont = Util.GetFont(@"data\cf.dat");
+                doc.SubTitleFont = Util.GetFont(@"data\cf.dat");
+                doc.FooterFont = Util.GetFont(@"data\cf.dat");
+                doc.TitleFont = Util.GetFont(@"data\tf.dat");
+                doc.SubCount = 2;
+                dg.Document = doc.Doc;
+                doc.docInit(false);
+
+                if (dg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    doc.Doc.Print();
+                }
+            }
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                File.Copy(@"data\kuguan.sdf.ebak", @"data\kuguan.sdf", true);
+                undoButton.Enabled = false;
+                File.Delete(@"data\kuguan.sdf.ebak");
+            }
+            catch { }
         }
 
     }

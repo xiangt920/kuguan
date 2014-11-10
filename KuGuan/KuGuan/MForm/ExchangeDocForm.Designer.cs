@@ -30,11 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExchangeDocForm));
             this.ExchangeDocView = new System.Windows.Forms.DataGridView();
             this.eidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.infoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.exchangeDocBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.kuguanDataSet = new KuGuan.kuguanDataSet();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.saveExcelButton = new System.Windows.Forms.Button();
@@ -70,15 +71,18 @@
             this.totalpriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.exchangemanagementBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel3 = new System.Windows.Forms.Panel();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.amountBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.numBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.exchangeDocTableAdapter = new KuGuan.dataDataSetTableAdapters.ExchangeDocTableAdapter();
-            this.exchange_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.exchange_managementTableAdapter();
+            this.exchangeDocTableAdapter = new KuGuan.kuguanDataSetTableAdapters.ExchangeDocTableAdapter();
+            this.exchange_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.exchange_managementTableAdapter();
+            this.use_unitTableAdapter = new KuGuan.kuguanDataSetTableAdapters.use_unitTableAdapter();
+            this.manager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
             ((System.ComponentModel.ISupportInitialize)(this.ExchangeDocView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exchangeDocBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kuguanDataSet)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -131,12 +135,12 @@
             // exchangeDocBindingSource
             // 
             this.exchangeDocBindingSource.DataMember = "ExchangeDoc";
-            this.exchangeDocBindingSource.DataSource = this.dataDataSet;
+            this.exchangeDocBindingSource.DataSource = this.kuguanDataSet;
             // 
-            // dataDataSet
+            // kuguanDataSet
             // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.kuguanDataSet.DataSetName = "kuguanDataSet";
+            this.kuguanDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // panel1
             // 
@@ -164,9 +168,10 @@
             // 
             // saveExcelButton
             // 
-            this.saveExcelButton.Location = new System.Drawing.Point(314, 20);
+            this.saveExcelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.saveExcelButton.Location = new System.Drawing.Point(395, 20);
             this.saveExcelButton.Name = "saveExcelButton";
-            this.saveExcelButton.Size = new System.Drawing.Size(86, 34);
+            this.saveExcelButton.Size = new System.Drawing.Size(119, 34);
             this.saveExcelButton.TabIndex = 2;
             this.saveExcelButton.Text = "导出Excel";
             this.saveExcelButton.UseVisualStyleBackColor = true;
@@ -174,18 +179,23 @@
             // 
             // PrintDocButton
             // 
-            this.PrintDocButton.Location = new System.Drawing.Point(179, 20);
+            this.PrintDocButton.Image = global::KuGuan.Properties.Resources._10_conew1;
+            this.PrintDocButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PrintDocButton.Location = new System.Drawing.Point(231, 20);
             this.PrintDocButton.Name = "PrintDocButton";
-            this.PrintDocButton.Size = new System.Drawing.Size(86, 34);
+            this.PrintDocButton.Size = new System.Drawing.Size(119, 34);
             this.PrintDocButton.TabIndex = 1;
             this.PrintDocButton.Text = "打印单据";
             this.PrintDocButton.UseVisualStyleBackColor = true;
+            this.PrintDocButton.Click += new System.EventHandler(this.PrintDocButton_Click);
             // 
             // searchButton
             // 
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.searchButton.Location = new System.Drawing.Point(65, 20);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(86, 34);
+            this.searchButton.Size = new System.Drawing.Size(119, 34);
             this.searchButton.TabIndex = 0;
             this.searchButton.Text = "查询";
             this.searchButton.UseVisualStyleBackColor = true;
@@ -282,7 +292,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
             this.label3.TabIndex = 15;
-            this.label3.Text = "调出仓库：";
+            this.label3.Text = "调出类别：";
             // 
             // showFEngBox
             // 
@@ -316,7 +326,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 12);
             this.label8.TabIndex = 10;
-            this.label8.Text = "调入工程：";
+            this.label8.Text = "调入类别：";
             // 
             // showTStoreBox
             // 
@@ -464,12 +474,13 @@
             // exchangemanagementBindingSource
             // 
             this.exchangemanagementBindingSource.DataMember = "exchange_management";
-            this.exchangemanagementBindingSource.DataSource = this.dataDataSet;
+            this.exchangemanagementBindingSource.DataSource = this.kuguanDataSet;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.Window;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.deleteButton);
             this.panel3.Controls.Add(this.amountBox);
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.numBox);
@@ -478,6 +489,20 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1030, 39);
             this.panel3.TabIndex = 4;
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Image = global::KuGuan.Properties.Resources._13_2007522133019__conew1;
+            this.deleteButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.deleteButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.deleteButton.Location = new System.Drawing.Point(917, 1);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(105, 34);
+            this.deleteButton.TabIndex = 23;
+            this.deleteButton.Text = "此单作废";
+            this.deleteButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // amountBox
             // 
@@ -521,22 +546,50 @@
             // 
             this.exchange_managementTableAdapter.ClearBeforeFill = true;
             // 
+            // use_unitTableAdapter
+            // 
+            this.use_unitTableAdapter.ClearBeforeFill = true;
+            // 
+            // manager
+            // 
+            this.manager.accountTableAdapter = null;
+            this.manager.BackupDataSetBeforeUpdate = false;
+            this.manager.customer_typeTableAdapter = null;
+            this.manager.customerTableAdapter = null;
+            this.manager.exchangeTableAdapter = null;
+            this.manager.outTableAdapter = null;
+            this.manager.product_typeTableAdapter = null;
+            this.manager.proTableAdapter = null;
+            this.manager.remainTableAdapter = null;
+            this.manager.stockTableAdapter = null;
+            this.manager.storageTableAdapter = null;
+            this.manager.supplier_typeTableAdapter = null;
+            this.manager.supplierTableAdapter = null;
+            this.manager.unitTableAdapter = null;
+            this.manager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.manager.use_unitTableAdapter = this.use_unitTableAdapter;
+            this.manager.userTableAdapter = null;
+            // 
             // ExchangeDocForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::KuGuan.Properties.Resources.bg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1354, 578);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.exchangeDetailView);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExchangeDocForm";
             this.TabText = "调库单据查询";
             this.Text = "调库单据查询";
             this.Load += new System.EventHandler(this.StorageDocForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ExchangeDocView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.exchangeDocBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kuguanDataSet)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -583,13 +636,13 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox showTStoreBox;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet kuguanDataSet;
         private System.Windows.Forms.BindingSource exchangeDocBindingSource;
-        private dataDataSetTableAdapters.ExchangeDocTableAdapter exchangeDocTableAdapter;
+        private kuguanDataSetTableAdapters.ExchangeDocTableAdapter exchangeDocTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn eidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn infoDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource exchangemanagementBindingSource;
-        private dataDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
+        private kuguanDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn spec;
@@ -599,5 +652,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn totalpriceDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox showFEngBox;
+        private kuguanDataSetTableAdapters.use_unitTableAdapter use_unitTableAdapter;
+        private System.Windows.Forms.Button deleteButton;
+        private kuguanDataSetTableAdapters.TableAdapterManager manager;
     }
 }

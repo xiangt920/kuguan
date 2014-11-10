@@ -61,7 +61,7 @@ namespace KuGuan.MForm
             if (index >= 0)
             {
                 int id = (int)dataGridView.Rows[index].Cells[0].Value;
-                foreach (KuGuan.dataDataSet.productRow row in this.dataDataSet.product.Rows)
+                foreach (KuGuan.kuguanDataSet.productRow row in this.dataDataSet.product.Rows)
                 {
                     if (row.product_id == id) 
                     {

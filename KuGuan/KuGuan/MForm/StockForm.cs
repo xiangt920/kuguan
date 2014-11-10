@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KuGuan.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +14,7 @@ namespace KuGuan.MForm
 {
     public partial class StockForm : DockContent
     {
-        private dataDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new dataDataSetTableAdapters.product_typeTableAdapter();
+        private kuguanDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new kuguanDataSetTableAdapters.product_typeTableAdapter();
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
         private DataTable protypeTable;
         public StockForm()
@@ -28,7 +29,11 @@ namespace KuGuan.MForm
             this.product_typeTableAdapter.Fill0(this.dataDataSet.product_type);
             // TODO:  这行代码将数据加载到表“dataDataSet.StockSumTable”中。您可以根据需要移动或删除它。
             this.stockSumTableAdapter.Fill(this.dataDataSet.StockSumTable);
-
+            if (allcalcButton.Checked)
+            {
+                this.productStockAdapter.Fill(this.dataDataSet.product_stock);
+                showSum();
+            }
             this.storeBox.SelectedIndex = -1;
             initTree();
             TreeNode node = treeView.TopNode;
@@ -42,22 +47,27 @@ namespace KuGuan.MForm
                     treeView.SelectedNode = node;
             }
         }
+
         private void showSum() 
         {
-            var rows = from KuGuan.dataDataSet.product_stockRow row in this.dataDataSet.product_stock.Rows
+            var rows = from KuGuan.kuguanDataSet.product_stockRow row in this.dataDataSet.product_stock.Rows
                        select row;
             tNumBox.Text = rows.Sum(row => row.stock_num) + "";
             if (this.getPriceButton.Checked)
-                tAmoutBox.Text = rows.Sum(row => row.get_amount) + "";
+                tAmoutBox.Text = rows.Sum(row => Decimal.Round(row.out_amount, 2)) + "";
             else
-                tAmoutBox.Text = rows.Sum(row => row.out_amount) + "";
+                tAmoutBox.Text = rows.Sum(row => Decimal.Round(row.out_amount,2)) + "";
         }
+       
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            TreeNode node = ((TreeView)sender).SelectedNode;
-            tLabel.Text = node.Text;
-            this.productStockAdapter.FillByType(this.dataDataSet.product_stock, (int)node.Tag);
-            showSum();
+            if (singlecalcButton.Checked)
+            {
+                TreeNode node = ((TreeView)sender).SelectedNode;
+                tLabel.Text = node.Text;
+                this.productStockAdapter.FillByType(this.dataDataSet.product_stock, (int)node.Tag);
+                showSum();
+            }
 
         }
 
@@ -65,10 +75,10 @@ namespace KuGuan.MForm
         private void searchButton_Click(object sender, EventArgs e)
         {
             String cus = nameBox.Text.Trim();
-            decimal minPrice = 0;
-            decimal maxPrice = 0;
-            decimal minNum = 0;
-            decimal maxNum = 0;
+            decimal minPrice = -9999999999;
+            decimal maxPrice = -9999999999;
+            decimal minNum = -9999999999;
+            decimal maxNum = -9999999999;
             try
             {
                 minPrice = Decimal.Parse(minPriceBox.Text);
@@ -110,20 +120,36 @@ namespace KuGuan.MForm
             TreeNode node = this.treeView.SelectedNode;
             if (node != null)
             {
-                if(getPriceButton.Checked)
-                    productStockAdapter.FillByCondition1(this.dataDataSet.product_stock, 
-                        (int)node.Tag, cus, 
-                        minPrice, maxPrice,
-                        minNum,maxNum);
-                else
-                    productStockAdapter.FillByCondition2(this.dataDataSet.product_stock,
-                        (int)node.Tag, cus,
-                        minPrice, maxPrice,
-                        minNum, maxNum);
+                if (singlecalcButton.Checked)
+                {
+                    if (getPriceButton.Checked)
+                        productStockAdapter.FillByCondition1(this.dataDataSet.product_stock,
+                            (int)node.Tag, cus,
+                            minPrice, maxPrice,
+                            minNum, maxNum);
+                    else
+                        productStockAdapter.FillByCondition2(this.dataDataSet.product_stock,
+                            (int)node.Tag, cus,
+                            minPrice, maxPrice,
+                            minNum, maxNum);
+                }
 
                 showSum();
             }
-           
+            if (allcalcButton.Checked)
+            {
+                if (getPriceButton.Checked)
+                    productStockAdapter.FillByCondition1(this.dataDataSet.product_stock,
+                        -1, cus,
+                        minPrice, maxPrice,
+                        minNum, maxNum);
+                else
+                    productStockAdapter.FillByCondition2(this.dataDataSet.product_stock,
+                        -1, cus,
+                        minPrice, maxPrice,
+                        minNum, maxNum);
+                showSum();
+            }
 
         }
 
@@ -134,6 +160,12 @@ namespace KuGuan.MForm
             maxNumBox.Text = "";
             minPriceBox.Text = "";
             maxPriceBox.Text = "";
+            if (allcalcButton.Checked)
+            {
+                this.productStockAdapter.Fill(this.dataDataSet.product_stock);
+                showSum();
+                return;
+            }
             TreeNode node = this.treeView.SelectedNode;
             if (node != null)
             {
@@ -194,6 +226,20 @@ namespace KuGuan.MForm
             {
                 singlecalcButton.Checked = true;
                 this.stockSumTableAdapter.FillById(this.dataDataSet.StockSumTable, store_id);
+                if (singlecalcButton.Checked)
+                {
+                    foreach (TreeNode node in treeView.Nodes)
+                    {
+                        if ((int)node.Tag == store_id)
+                        {
+                            if (node != treeView.SelectedNode)
+                            {
+                                treeView.SelectedNode = node;
+                            }
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
@@ -256,13 +302,13 @@ namespace KuGuan.MForm
 
         private bool isNum(string s)
         {
-            Regex reg = new Regex("^\\d+(\\.\\d{0,11})?$");
+            Regex reg = new Regex("[-+]?\\d+(\\.\\d{0,11})?$");
             return reg.IsMatch(s);
         }
         private void minPriceBox_TextChanged(object sender, EventArgs e)
         {
             TextBox b = (TextBox)sender;
-            if (b.Text == "")
+            if (b.Text == "" || b.Text == "-")
                 return;
             if (!isNum(b.Text))
                 b.Text = "";
@@ -270,8 +316,35 @@ namespace KuGuan.MForm
 
         private void minPriceBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (sender == minNumBox || sender == maxNumBox)
+            {
+                if (e.KeyChar == '-')
+                    return;
+            }
             if (!((e.KeyChar >= 48 && e.KeyChar <= 57) || e.KeyChar == '.' || e.KeyChar == '\b'))
                 e.Handled = true; 
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            if (allcalcButton.Checked)
+            {
+                MessageBox.Show(this,"请先切换到单库存核算并选择一个类别进行导出！","警告",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                return;
+            }
+            TreeNode n = treeView.SelectedNode;
+            if (n == null)
+            {
+                MessageBox.Show(this, "请选择一个类别进行导出！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (n.Level == 0)
+            {
+                MessageBox.Show(this, "不能导出整个仓库，请选择一个类别进行导出！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            ExcelOperate excel = new ExcelOperate(this, n.Text);
+            excel.ProductExport(dataGridView, "局" + n.Parent.Text + "物资清查(" + n.Text + ")");
         }
 
     }

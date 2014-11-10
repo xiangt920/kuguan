@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(choose_stock));
             this.tLabel = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView = new System.Windows.Forms.TreeView();
@@ -50,11 +51,12 @@
             this.productintroduceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productstockBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cnlButton = new System.Windows.Forms.Button();
             this.cfmButton = new System.Windows.Forms.Button();
-            this.productStockAdapter = new KuGuan.dataDataSetTableAdapters.ProductStockAdapter();
+            this.productStockAdapter = new KuGuan.kuguanDataSetTableAdapters.ProductStockAdapter();
+            this.chooseAllButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productstockBindingSource)).BeginInit();
@@ -95,6 +97,8 @@
             // 
             // searchButton
             // 
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.searchButton.Location = new System.Drawing.Point(667, 11);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(80, 38);
@@ -133,9 +137,11 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(998, 501);
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.Location = new System.Drawing.Point(987, 503);
             this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(87, 38);
+            this.refreshButton.Size = new System.Drawing.Size(97, 38);
             this.refreshButton.TabIndex = 17;
             this.refreshButton.Text = "刷新列表";
             this.refreshButton.UseVisualStyleBackColor = true;
@@ -274,6 +280,8 @@
             // 
             // cnlButton
             // 
+            this.cnlButton.Image = global::KuGuan.Properties.Resources.no;
+            this.cnlButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cnlButton.Location = new System.Drawing.Point(1255, 503);
             this.cnlButton.Name = "cnlButton";
             this.cnlButton.Size = new System.Drawing.Size(87, 38);
@@ -284,6 +292,8 @@
             // 
             // cfmButton
             // 
+            this.cfmButton.Image = global::KuGuan.Properties.Resources.ok;
+            this.cfmButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cfmButton.Location = new System.Drawing.Point(1162, 503);
             this.cfmButton.Name = "cfmButton";
             this.cfmButton.Size = new System.Drawing.Size(87, 38);
@@ -296,18 +306,31 @@
             // 
             this.productStockAdapter.ClearBeforeFill = true;
             // 
+            // chooseAllButton
+            // 
+            this.chooseAllButton.Image = global::KuGuan.Properties.Resources.ok;
+            this.chooseAllButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chooseAllButton.Location = new System.Drawing.Point(1090, 503);
+            this.chooseAllButton.Name = "chooseAllButton";
+            this.chooseAllButton.Size = new System.Drawing.Size(66, 38);
+            this.chooseAllButton.TabIndex = 24;
+            this.chooseAllButton.Text = "全选";
+            this.chooseAllButton.UseVisualStyleBackColor = true;
+            this.chooseAllButton.Click += new System.EventHandler(this.chooseAllButton_Click);
+            // 
             // choose_stock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 578);
+            this.Controls.Add(this.chooseAllButton);
             this.Controls.Add(this.cfmButton);
             this.Controls.Add(this.cnlButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox1);
-            this.HideOnClose = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "choose_stock";
             this.TabText = "货品设置";
             this.Text = "选择货品";
@@ -336,10 +359,10 @@
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.GroupBox groupBox1;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.Button cnlButton;
         private System.Windows.Forms.BindingSource productstockBindingSource;
-        private dataDataSetTableAdapters.ProductStockAdapter productStockAdapter;
+        private kuguanDataSetTableAdapters.ProductStockAdapter productStockAdapter;
         private System.Windows.Forms.Button cfmButton;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ChooseColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
@@ -351,5 +374,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn unitDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productintroduceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn remarkDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button chooseAllButton;
     }
 }

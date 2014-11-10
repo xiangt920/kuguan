@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChgPwdForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.oldpwdBox = new System.Windows.Forms.TextBox();
-            this.newpwdBox = new System.Windows.Forms.TextBox();
             this.cfmpwdBox = new System.Windows.Forms.TextBox();
+            this.newpwdBox = new System.Windows.Forms.TextBox();
+            this.oldpwdBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.saveBtn = new System.Windows.Forms.Button();
             this.closeBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -54,32 +55,19 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // label1
+            // cfmpwdBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "原 密 码";
+            this.cfmpwdBox.Location = new System.Drawing.Point(95, 68);
+            this.cfmpwdBox.Name = "cfmpwdBox";
+            this.cfmpwdBox.Size = new System.Drawing.Size(120, 21);
+            this.cfmpwdBox.TabIndex = 5;
             // 
-            // label2
+            // newpwdBox
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "新 密 码";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "确认密码";
+            this.newpwdBox.Location = new System.Drawing.Point(95, 43);
+            this.newpwdBox.Name = "newpwdBox";
+            this.newpwdBox.Size = new System.Drawing.Size(120, 21);
+            this.newpwdBox.TabIndex = 4;
             // 
             // oldpwdBox
             // 
@@ -90,22 +78,37 @@
             this.oldpwdBox.TabIndex = 3;
             this.oldpwdBox.UseSystemPasswordChar = true;
             // 
-            // newpwdBox
+            // label3
             // 
-            this.newpwdBox.Location = new System.Drawing.Point(95, 43);
-            this.newpwdBox.Name = "newpwdBox";
-            this.newpwdBox.Size = new System.Drawing.Size(120, 21);
-            this.newpwdBox.TabIndex = 4;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "确认密码";
             // 
-            // cfmpwdBox
+            // label2
             // 
-            this.cfmpwdBox.Location = new System.Drawing.Point(95, 68);
-            this.cfmpwdBox.Name = "cfmpwdBox";
-            this.cfmpwdBox.Size = new System.Drawing.Size(120, 21);
-            this.cfmpwdBox.TabIndex = 5;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "新 密 码";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "原 密 码";
             // 
             // saveBtn
             // 
+            this.saveBtn.Image = global::KuGuan.Properties.Resources.ok;
+            this.saveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.saveBtn.Location = new System.Drawing.Point(13, 114);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(96, 33);
@@ -116,6 +119,8 @@
             // 
             // closeBtn
             // 
+            this.closeBtn.Image = global::KuGuan.Properties.Resources.no;
+            this.closeBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.closeBtn.Location = new System.Drawing.Point(132, 114);
             this.closeBtn.Name = "closeBtn";
             this.closeBtn.Size = new System.Drawing.Size(96, 33);
@@ -132,10 +137,12 @@
             this.Controls.Add(this.closeBtn);
             this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ChgPwdForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "密码修改";
             this.TopMost = true;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

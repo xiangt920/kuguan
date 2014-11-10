@@ -11,7 +11,9 @@
     <AssemblyName>KuGuan</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <PublishUrl>发布\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\Xiang\Desktop\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -21,10 +23,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -70,9 +73,34 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>9D25E9C17361572DEF6539A84D6625DA5A812714</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>KuGuan_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Data.SqlServerCe.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,21 +111,45 @@
     <Reference Include="System.Xml" />
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.10065.33, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>FakesAssemblies\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>lib\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dataDataSet.cs">
-      <DependentUpon>dataDataSet.xsd</DependentUpon>
+    <Compile Include="Control\HeaderUnitView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="dataDataSet1.Designer.cs">
+    <Compile Include="Control\HeaderUnitView.Designer.cs">
+      <DependentUpon>HeaderUnitView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="kuguanDataSet.cs">
+      <DependentUpon>kuguanDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="kuguanDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dataDataSet.xsd</DependentUpon>
+      <DependentUpon>kuguanDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DGVPrinter.cs" />
-    <Compile Include="ExcelOperate.cs" />
+    <Compile Include="MForm\AnnPrintAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\AnnPrintAccountForm.Designer.cs">
+      <DependentUpon>AnnPrintAccountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MForm\RegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\RegisterForm.Designer.cs">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MForm\custodian.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\custodian.designer.cs">
+      <DependentUpon>custodian.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Excel.cs" />
+    <Compile Include="Utils\ExcelOperate.cs" />
     <Compile Include="MForm\ChgCusForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,11 +228,29 @@
     <Compile Include="MForm\choose_stock.Designer.cs">
       <DependentUpon>choose_stock.cs</DependentUpon>
     </Compile>
+    <Compile Include="MForm\ProductAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\ProductAccountForm.Designer.cs">
+      <DependentUpon>ProductAccountForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MForm\ProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MForm\ProductForm.Designer.cs">
       <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MForm\RegForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\RegForm.Designer.cs">
+      <DependentUpon>RegForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MForm\StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MForm\StockForm.cs">
       <SubType>Form</SubType>
@@ -230,9 +300,22 @@
     <Compile Include="MForm\exchange_management.Designer.cs">
       <DependentUpon>exchange_management.cs</DependentUpon>
     </Compile>
+    <Compile Include="MForm\UseUnitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MForm\UseUnitForm.Designer.cs">
+      <DependentUpon>UseUnitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PrintDocument.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Utils\MachineUtil.cs" />
+    <Compile Include="Utils\DBUtil.cs" />
+    <Compile Include="Utils\RegisterTable.cs" />
+    <Compile Include="Utils\Rijndael.cs" />
+    <Compile Include="Utils\Util.cs" />
     <EmbeddedResource Include="MForm\ChgCusForm.resx">
       <DependentUpon>ChgCusForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,8 +355,20 @@
     <EmbeddedResource Include="MForm\choose_stock.resx">
       <DependentUpon>choose_stock.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MForm\ProductAccountForm.resx">
+      <DependentUpon>ProductAccountForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MForm\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\RegForm.resx">
+      <DependentUpon>RegForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\RegisterForm.resx">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MForm\StockForm.resx">
       <DependentUpon>StockForm.cs</DependentUpon>
@@ -299,6 +394,15 @@
     <EmbeddedResource Include="MForm\exchange_management.resx">
       <DependentUpon>exchange_management.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MForm\UseUnitForm.resx">
+      <DependentUpon>UseUnitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\AnnPrintAccountForm.resx">
+      <DependentUpon>AnnPrintAccountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MForm\custodian.resx">
+      <DependentUpon>custodian.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -312,20 +416,22 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="dataDataSet.xsc">
-      <DependentUpon>dataDataSet.xsd</DependentUpon>
+    <None Include="kuguanDataSet.xsc">
+      <DependentUpon>kuguanDataSet.xsd</DependentUpon>
     </None>
-    <None Include="dataDataSet.xsd">
+    <None Include="kuguanDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>kuguanDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-      <LastGenOutput>dataDataSet1.Designer.cs</LastGenOutput>
     </None>
-    <None Include="dataDataSet.xss">
-      <DependentUpon>dataDataSet.xsd</DependentUpon>
+    <None Include="kuguanDataSet.xss">
+      <DependentUpon>kuguanDataSet.xsd</DependentUpon>
     </None>
+    <None Include="KuGuan_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -356,11 +462,38 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\kuguan.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ico\1.仓库设置.png" />
     <Content Include="ico\1.供货商.png" />
     <Content Include="ico\1.出货商.png" />
     <Content Include="img\1.jpg" />
     <Content Include="img\2.jpg" />
+    <None Include="Resources\ai_conew1.png" />
+    <None Include="Resources\Urban MSN1_conew1.png" />
+    <None Include="Resources\135_conew1.png" />
+    <None Include="Resources\521_conew1.png" />
+    <None Include="Resources\519_conew1.png" />
+    <None Include="Resources\David Carey_conew11.png" />
+    <None Include="Resources\_1_conew11.png" />
+    <None Include="Resources\_1_conew1.png" />
+    <None Include="Resources\David Carey_conew1.png" />
+    <None Include="Resources\1_conew1.png" />
+    <None Include="Resources\10_conew1.png" />
+    <None Include="Resources\0_conew3.png" />
+    <None Include="Resources\Pencil4_conew3.png" />
+    <None Include="Resources\11_conew3.png" />
+    <None Include="Resources\135_conew2.png" />
+    <None Include="Resources\101_conew1.png" />
+    <None Include="Resources\83_conew1.png" />
+    <None Include="Resources\90_conew11.png" />
+    <None Include="Resources\5-13030Q1543J64_conew11.png" />
+    <None Include="Resources\90_conew1.png" />
+    <None Include="Resources\5-13030Q1543J64_conew1.png" />
+    <None Include="img\stock__.jpg" />
+    <None Include="img\bg.png" />
+    <None Include="img\reg.png" />
     <Content Include="MB_0008_touch.ico" />
     <None Include="ico\13[2007522133019]_conew1.png" />
     <Content Include="ico\2.入库管理.png" />
@@ -372,33 +505,8 @@
     <None Include="ico\ok.gif" />
     <Content Include="ico\注销.png" />
     <Content Include="ico\退出.png" />
-    <Content Include="data\data.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\data_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>data.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>7</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="VBIDE">
       <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>5</VersionMajor>
@@ -408,6 +516,21 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="System.Data.SqlServerCe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

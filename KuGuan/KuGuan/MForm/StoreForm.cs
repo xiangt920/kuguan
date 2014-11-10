@@ -13,8 +13,7 @@ namespace KuGuan.MForm
 {
     public partial class StoreForm : DockContent
     {
-        private dataDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new dataDataSetTableAdapters.product_typeTableAdapter();
-        private dataDataSetTableAdapters.QueriesTableAdapter procAdapter = new dataDataSetTableAdapters.QueriesTableAdapter();
+        private kuguanDataSetTableAdapters.product_typeTableAdapter protypeAdapter = new kuguanDataSetTableAdapters.product_typeTableAdapter();
 
         private DataTable protypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
@@ -35,6 +34,7 @@ namespace KuGuan.MForm
         public StoreForm(bool isChoose)
         {
             InitializeComponent();
+            treeView.LabelEdit = false;
             this.isChoose = isChoose;
             if(isChoose)
             {
@@ -107,6 +107,16 @@ namespace KuGuan.MForm
                     {
                         this.protypeAdapter.DeleteByParent(id);
                         this.protypeAdapter.DeleteById(id);
+                        kuguanDataSetTableAdapters.ProductStockAdapter psta = new kuguanDataSetTableAdapters.ProductStockAdapter();
+                        kuguanDataSetTableAdapters.accountTableAdapter ata = new kuguanDataSetTableAdapters.accountTableAdapter();
+                        kuguanDataSetTableAdapters.outTableAdapter ota = new kuguanDataSetTableAdapters.outTableAdapter();
+                        kuguanDataSetTableAdapters.storageTableAdapter sta = new kuguanDataSetTableAdapters.storageTableAdapter();
+                        kuguanDataSetTableAdapters.exchangeTableAdapter eta = new kuguanDataSetTableAdapters.exchangeTableAdapter();
+                        psta.DeleteBySid(id);
+                        ata.DeleteBySid(id);
+                        ota.DeleteBySid(id);
+                        sta.DeleteBySid(id);
+                        eta.DeleteBySid(id);
                         treeView.Nodes.Remove(node);
                         if (treeView.Nodes.Count != 0)
                             treeView.SelectedNode = treeView.Nodes[0];
@@ -122,6 +132,17 @@ namespace KuGuan.MForm
                     if (r == DialogResult.OK)
                     {
                         this.protypeAdapter.DeleteById(id);
+                        kuguanDataSetTableAdapters.ProductStockAdapter psta = new kuguanDataSetTableAdapters.ProductStockAdapter();
+                        kuguanDataSetTableAdapters.accountTableAdapter ata = new kuguanDataSetTableAdapters.accountTableAdapter();
+                        kuguanDataSetTableAdapters.outTableAdapter ota = new kuguanDataSetTableAdapters.outTableAdapter();
+                        kuguanDataSetTableAdapters.storageTableAdapter sta = new kuguanDataSetTableAdapters.storageTableAdapter();
+                        kuguanDataSetTableAdapters.exchangeTableAdapter eta = new kuguanDataSetTableAdapters.exchangeTableAdapter();
+                        psta.DeleteByTid(id);
+                        ata.DeleteByTid(id);
+                        ota.DeleteByTid(id);
+                        sta.DeleteByTid(id);
+                        eta.DeleteByTid(id);
+
                         treeView.SelectedNode = node.Parent;
                         treeView.Nodes.Remove(node);
 
@@ -211,14 +232,13 @@ namespace KuGuan.MForm
             }
             else
             {
-                int? new_id = -1;
                 if (e.Node.Level == 0)
-                    this.procAdapter.AddProType(name, 1, 0, ref new_id);
+                    this.protypeAdapter.AddType(name, 1, 0);
                 else
                 {
-                    this.procAdapter.AddProType(name, 2, (int)e.Node.Parent.Tag, ref new_id);
+                    this.protypeAdapter.AddType(name, 2, (int)e.Node.Parent.Tag);
                 }
-                e.Node.Tag = (int)new_id;
+                e.Node.Tag = this.protypeAdapter.GetNewId();
             }
         }
 

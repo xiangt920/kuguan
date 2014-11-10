@@ -36,15 +36,16 @@
             System.Windows.Forms.Label unitLabel;
             System.Windows.Forms.Label remarkLabel;
             System.Windows.Forms.Label label1;
-            this.dataDataSet = new KuGuan.dataDataSet();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChgProForm));
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.productTableAdapter = new KuGuan.dataDataSetTableAdapters.productTableAdapter();
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
-            this.unitTableAdapter = new KuGuan.dataDataSetTableAdapters.unitTableAdapter();
+            this.productTableAdapter = new KuGuan.kuguanDataSetTableAdapters.productTableAdapter();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
+            this.unitTableAdapter = new KuGuan.kuguanDataSetTableAdapters.unitTableAdapter();
             this.idBox = new System.Windows.Forms.TextBox();
             this.product_nameTextBox = new System.Windows.Forms.TextBox();
-            this.get_priceTextBox = new System.Windows.Forms.TextBox();
-            this.out_priceTextBox = new System.Windows.Forms.TextBox();
+            this.get_priceBox = new System.Windows.Forms.TextBox();
+            this.out_priceBox = new System.Windows.Forms.TextBox();
             this.remarkTextBox = new System.Windows.Forms.TextBox();
             this.cnlButton = new System.Windows.Forms.Button();
             this.cfmButton = new System.Windows.Forms.Button();
@@ -118,6 +119,15 @@
             remarkLabel.TabIndex = 13;
             remarkLabel.Text = "备注:";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(20, 42);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(35, 12);
+            label1.TabIndex = 53;
+            label1.Text = "规格:";
+            // 
             // dataDataSet
             // 
             this.dataDataSet.DataSetName = "dataDataSet";
@@ -134,16 +144,22 @@
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = null;
             this.tableAdapterManager.unitTableAdapter = this.unitTableAdapter;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
             // unitTableAdapter
             // 
@@ -165,21 +181,21 @@
             this.product_nameTextBox.Size = new System.Drawing.Size(266, 21);
             this.product_nameTextBox.TabIndex = 4;
             // 
-            // get_priceTextBox
+            // get_priceBox
             // 
-            this.get_priceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "get_price", true));
-            this.get_priceTextBox.Location = new System.Drawing.Point(85, 69);
-            this.get_priceTextBox.Name = "get_priceTextBox";
-            this.get_priceTextBox.Size = new System.Drawing.Size(266, 21);
-            this.get_priceTextBox.TabIndex = 6;
+            this.get_priceBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "get_price", true));
+            this.get_priceBox.Location = new System.Drawing.Point(85, 69);
+            this.get_priceBox.Name = "get_priceBox";
+            this.get_priceBox.Size = new System.Drawing.Size(266, 21);
+            this.get_priceBox.TabIndex = 6;
             // 
-            // out_priceTextBox
+            // out_priceBox
             // 
-            this.out_priceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "out_price", true));
-            this.out_priceTextBox.Location = new System.Drawing.Point(85, 99);
-            this.out_priceTextBox.Name = "out_priceTextBox";
-            this.out_priceTextBox.Size = new System.Drawing.Size(266, 21);
-            this.out_priceTextBox.TabIndex = 8;
+            this.out_priceBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "out_price", true));
+            this.out_priceBox.Location = new System.Drawing.Point(85, 99);
+            this.out_priceBox.Name = "out_priceBox";
+            this.out_priceBox.Size = new System.Drawing.Size(266, 21);
+            this.out_priceBox.TabIndex = 8;
             // 
             // remarkTextBox
             // 
@@ -191,6 +207,8 @@
             // 
             // cnlButton
             // 
+            this.cnlButton.Image = global::KuGuan.Properties.Resources.no;
+            this.cnlButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cnlButton.Location = new System.Drawing.Point(176, 316);
             this.cnlButton.Name = "cnlButton";
             this.cnlButton.Size = new System.Drawing.Size(75, 34);
@@ -201,6 +219,8 @@
             // 
             // cfmButton
             // 
+            this.cfmButton.Image = global::KuGuan.Properties.Resources.ok;
+            this.cfmButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cfmButton.Location = new System.Drawing.Point(85, 316);
             this.cfmButton.Name = "cfmButton";
             this.cfmButton.Size = new System.Drawing.Size(75, 34);
@@ -236,15 +256,6 @@
             this.unitBindingSource.DataMember = "unit";
             this.unitBindingSource.DataSource = this.dataDataSet;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(20, 42);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(35, 12);
-            label1.TabIndex = 53;
-            label1.Text = "规格:";
-            // 
             // specBox
             // 
             this.specBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "spec", true));
@@ -268,13 +279,14 @@
             this.Controls.Add(product_nameLabel);
             this.Controls.Add(this.product_nameTextBox);
             this.Controls.Add(get_priceLabel);
-            this.Controls.Add(this.get_priceTextBox);
+            this.Controls.Add(this.get_priceBox);
             this.Controls.Add(out_priceLabel);
-            this.Controls.Add(this.out_priceTextBox);
+            this.Controls.Add(this.out_priceBox);
             this.Controls.Add(product_introduceLabel);
             this.Controls.Add(unitLabel);
             this.Controls.Add(remarkLabel);
             this.Controls.Add(this.remarkTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChgProForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ChgProForm";
@@ -290,18 +302,18 @@
 
         #endregion
 
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource productBindingSource;
-        private dataDataSetTableAdapters.productTableAdapter productTableAdapter;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private kuguanDataSetTableAdapters.productTableAdapter productTableAdapter;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.TextBox idBox;
         private System.Windows.Forms.TextBox product_nameTextBox;
-        private System.Windows.Forms.TextBox get_priceTextBox;
-        private System.Windows.Forms.TextBox out_priceTextBox;
+        private System.Windows.Forms.TextBox get_priceBox;
+        private System.Windows.Forms.TextBox out_priceBox;
         private System.Windows.Forms.TextBox remarkTextBox;
         private System.Windows.Forms.Button cnlButton;
         private System.Windows.Forms.Button cfmButton;
-        private dataDataSetTableAdapters.unitTableAdapter unitTableAdapter;
+        private kuguanDataSetTableAdapters.unitTableAdapter unitTableAdapter;
         private System.Windows.Forms.RichTextBox introBox;
         private System.Windows.Forms.ComboBox unitBox;
         private System.Windows.Forms.BindingSource unitBindingSource;

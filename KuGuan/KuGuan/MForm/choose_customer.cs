@@ -11,7 +11,7 @@ namespace KuGuan.MForm
 {
     public partial class choose_customer : Form
     {
-        private dataDataSetTableAdapters.customer_typeTableAdapter custypeAdapter = new dataDataSetTableAdapters.customer_typeTableAdapter();
+        private kuguanDataSetTableAdapters.customer_typeTableAdapter custypeAdapter = new kuguanDataSetTableAdapters.customer_typeTableAdapter();
         private DataTable custypeTable;
         private Dictionary<String, int> node_index = new Dictionary<String, int>();
         private int customer_id = -1;
@@ -55,7 +55,7 @@ namespace KuGuan.MForm
             TreeNode node = ((TreeView)sender).SelectedNode;
             tLabel.Text = node.Text;
             if (((String)(node.Tag)) != "-1")
-                this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (long)node.Tag, (long)node.Tag);
+                this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (int?)node.Tag, (int?)node.Tag);
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -70,14 +70,14 @@ namespace KuGuan.MForm
         private void refreshButton_Click(object sender, EventArgs e)
         {
             TreeNode node = treeView.SelectedNode;
-            this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (long)node.Tag, (long)node.Tag);
+            this.customerTableAdapter.FillByParent(this.dataDataSet.customer, (int?)node.Tag, (int?)node.Tag);
         }
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
             if (index >= 0)
             {
-                KuGuan.dataDataSet.customerRow row = (KuGuan.dataDataSet.customerRow)this.dataDataSet.customer.Rows[index];
+                KuGuan.kuguanDataSet.customerRow row = (KuGuan.kuguanDataSet.customerRow)this.dataDataSet.customer.Rows[index];
                 this.customer_id = row.customer_id;
                 this.customer_name = row.customer_name;
                 this.DialogResult = DialogResult.OK;

@@ -1,12 +1,16 @@
 ﻿using KuGuan.Model;
+using KuGuan.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace KuGuan.MForm
@@ -21,25 +25,65 @@ namespace KuGuan.MForm
             set { this.user = value; }
             get { return this.user; }
         }
+        private StartForm startForm = new StartForm();
+        public StartForm SForm
+        {
+            get { return startForm; }
+        }
+        public DockPanel MDockPanel
+        {
+            get { return this.dockPanel; }
+        }
         public MainForm()
         {
             InitializeComponent();
+            if (DateTime.Now > Convert.ToDateTime("2015-1-31"))
+            {
+                if (!RegisterTable.isRegistered("license"))
+                {
+                    MessageBox.Show("软件授权已过期！");
+                    RegisterForm rf = new RegisterForm();
+                    if (!(rf.ShowDialog(this) == System.Windows.Forms.DialogResult.OK))
+                    {
+                        ExitSys();
+                    }
+                }
+                else
+                {
+
+                    SymmetricMethod sm = new SymmetricMethod();
+                    Machine m = new Machine();
+                    String encStr = RegisterTable.GetRegisterData("license");
+                    string decStr = sm.Decrypto(encStr);
+                    Byte[] b3 = m.CpuId2Byte(decStr);
+                    Byte[] key = m.CpuId2Byte("BFEBFBFF000206A7");
+                    Byte[] b4 = Util.Dec(b3, key);
+                    String idStr = Encoding.ASCII.GetString(b4);
+                    if (idStr != m.CpuId)
+                    {
+                        MessageBox.Show(this, "软件注册信息错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ExitSys();
+                    }
+                }
+            }
             this.Visible = false;
-            FormInit();
-            //DialogResult result = this.loginForm.ShowDialog(this);
-            //if (result == DialogResult.OK)
-            //{
-            //    FormInit();
-            //}
-            //else
-            //{
-            //    ExitSys();
-            //}
+            //FormInit();
+            startForm.Show(this);
+            DialogResult result = this.loginForm.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                FormInit();
+            }
+            else
+            {
+                ExitSys();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
+
+            this.unitLabel.Text = this.use_unitTableAdapter.GetName();
 
         }
 
@@ -73,14 +117,31 @@ namespace KuGuan.MForm
 
         private void FormInit()
         {
-            user = new User(1, "sjhd", "sdh", "shd");
+            //user = new User(1, "sjhd", "sdh", "shd");
             this.Text = "当前用户：" + user.Username;
             this.userLabel.Text = user.Username;
             this.Visible = true;
         }
         private void ExitSys()
         {
-            this.Dispose();
+            List<DockContent> dl = new List<DockContent>();
+            foreach (DockContent c in this.dockPanel.Contents)
+            {
+                dl.Add(c);
+            }
+            foreach (DockContent c in dl)
+            {
+                try
+                {
+                    c.Close();
+                }
+                catch (InvalidOperationException)
+                { }
+                if (!c.IsDisposed)
+                {
+                    return;
+                }
+            }
             this.Close();
             Application.ExitThread();
             System.Environment.Exit(0);
@@ -234,5 +295,68 @@ namespace KuGuan.MForm
             frm.Show(this.dockPanel);
             frm.BringToFront();
         }
+
+        private void 账目查询AToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("账目查询");
+            if (frm == null)
+                frm = new ProductAccountForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 使用单位设置DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UseUnitForm uForm = new UseUnitForm();
+            uForm.ShowDialog(this);
+            this.unitLabel.Text =  this.use_unitTableAdapter.GetName();
+        }
+
+        private void 标题字体设置TToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Util.SetFont(@"data\tf.dat",this);
+        }
+
+        private void 内容字体设置CToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Util.SetFont(@"data\cf.dat",this);
+        }
+
+        private void 标题字体设置TToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Util.SetFont(@"data\atf.dat", this);
+        }
+
+        private void 内容字体设置CToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Util.SetFont(@"data\acf.dat", this);
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Util.SetFont(@"data\asf.dat", this);
+        }
+
+        private void 年末打印查询EToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("年末打印");
+            if (frm == null)
+                frm = new AnnPrintAccountForm();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+
+        private void 保管员设置ZToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DockContent frm = FindDocument("保管员设置");
+            if (frm == null)
+                frm = new custodian();
+
+            frm.Show(this.dockPanel);
+            frm.BringToFront();
+        }
+    
     }
 }

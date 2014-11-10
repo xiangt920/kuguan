@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KuGuan.Model;
+using KuGuan.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,12 +24,12 @@ namespace KuGuan.MForm
         private int in_eng_id = -1;
         private int pro_id = -1;
         private string id = "";
-        private decimal min_price = -1;
-        private decimal max_price = -1;
-        private decimal min_num = -1;
-        private decimal max_num = -1;
-        private decimal min_amount = -1;
-        private decimal max_amount = -1;
+        private decimal min_price = -9999999999;
+        private decimal max_price = -9999999999;
+        private decimal min_num = -9999999999;
+        private decimal max_num = -9999999999;
+        private decimal min_amount = -9999999999;
+        private decimal max_amount = -9999999999;
         private bool refreshing = false;
         public CompositeForm()
         {
@@ -36,11 +38,11 @@ namespace KuGuan.MForm
 
         private void CompositeForm_Load(object sender, EventArgs e)
         {
-            // TODO:  这行代码将数据加载到表“dataDataSet.exchange_management”中。您可以根据需要移动或删除它。
-            this.exchange_managementTableAdapter.Fill(this.dataDataSet.exchange_management);
-            // TODO:  这行代码将数据加载到表“dataDataSet.out_management”中。您可以根据需要移动或删除它。
-            this.out_managementTableAdapter.Fill(this.dataDataSet.out_management);
-            // TODO:  这行代码将数据加载到表“dataDataSet.storage_management”中。您可以根据需要移动或删除它。
+            // TODO:  这行代码将数据加载到表“kuguanDataSet.exchange_management”中。您可以根据需要移动或删除它。
+            this.exchange_managementTableAdapter.Fill(this.kuguanDataSet.exchange_management);
+            // TODO:  这行代码将数据加载到表“kuguanDataSet.out_management”中。您可以根据需要移动或删除它。
+            this.out_managementTableAdapter.Fill(this.kuguanDataSet.out_management);
+            // TODO:  这行代码将数据加载到表“kuguanDataSet.storage_management”中。您可以根据需要移动或删除它。
             fromTimePicker.Value = DateTime.Now.Date.AddDays(-7);
             showSup(true);
             showCus(false);
@@ -123,6 +125,7 @@ namespace KuGuan.MForm
             Regex reg = new Regex("^\\d+(\\.\\d{0,11})?$");
             return reg.IsMatch(s);
         }
+        
         private void minPriceBox_TextChanged(object sender, EventArgs e)
         {
             if (refreshing)
@@ -147,7 +150,7 @@ namespace KuGuan.MForm
             {
                 tmp = min_price;
                 if(!Decimal.TryParse(box.Text,out min_price))
-                    min_price = -1;
+                    min_price = -9999999999;
                 if(tmp!=min_price)
                     search();
             }
@@ -155,7 +158,7 @@ namespace KuGuan.MForm
             {
                 tmp = max_price;
                 if (!Decimal.TryParse(box.Text, out max_price))
-                    max_price = -1;
+                    max_price = -9999999999;
                 if (tmp != max_price)
                     search();
             }
@@ -163,7 +166,7 @@ namespace KuGuan.MForm
             {
                 tmp = min_num;
                 if (!Decimal.TryParse(box.Text, out min_num))
-                    min_num = -1;
+                    min_num = -9999999999;
                 if (tmp != min_num)
                     search();
             }
@@ -171,7 +174,7 @@ namespace KuGuan.MForm
             {
                 tmp = max_num;
                 if (!Decimal.TryParse(box.Text, out max_num))
-                    max_num = -1;
+                    max_num = -9999999999;
                 if (tmp != max_num)
                     search();
             }
@@ -179,7 +182,7 @@ namespace KuGuan.MForm
             {
                 tmp = min_amount;
                 if (!Decimal.TryParse(box.Text, out min_amount))
-                    min_amount = -1;
+                    min_amount = -9999999999;
                 if (tmp != min_amount)
                     search();
             }
@@ -187,7 +190,7 @@ namespace KuGuan.MForm
             {
                 tmp = max_amount;
                 if (!Decimal.TryParse(box.Text, out max_amount))
-                    max_amount = -1;
+                    max_amount = -9999999999;
                 if (tmp != max_amount)
                     search();
             }
@@ -308,7 +311,7 @@ namespace KuGuan.MForm
         {
             if (storageDocButton.Checked)
             {
-                this.storage_managementTableAdapter.FillByCondition(dataDataSet.storage_management,
+                this.storage_managementTableAdapter.FillByCondition(kuguanDataSet.storage_management,
                     fromTimePicker.Value.Date.AddDays(-0.0000001),
                     toTimePicker.Value.Date.AddDays(0.9999999),
                     id,
@@ -320,14 +323,14 @@ namespace KuGuan.MForm
                     min_num,
                     max_num,min_amount,
                     max_amount);
-                var result = from dataDataSet.storage_managementRow r2 in dataDataSet.storage_management.Rows
+                var result = from kuguanDataSet.storage_managementRow r2 in kuguanDataSet.storage_management.Rows
                              select r2;
-                numBox.Text = result.Sum(r3 => r3.num) + "";
-                amountBox.Text = "￥ " + result.Sum(r4 => r4.total_price);
+                numBox.Text = result.Sum(r3 => Decimal.Round(r3.num,2)) + "";
+                amountBox.Text = "￥ " + result.Sum(r4 => Decimal.Round(r4.total_price,2));
             }
             else if (outDocButton.Checked)
             {
-                this.out_managementTableAdapter.FillByCondition(dataDataSet.out_management,
+                this.out_managementTableAdapter.FillByCondition(kuguanDataSet.out_management,
                     fromTimePicker.Value.Date.AddDays(-0.0000001),
                     toTimePicker.Value.Date.AddDays(0.9999999),
                     id,
@@ -340,14 +343,14 @@ namespace KuGuan.MForm
                     max_num,
                     min_amount,
                     max_amount);
-                var result = from dataDataSet.out_managementRow r2 in dataDataSet.out_management.Rows
+                var result = from kuguanDataSet.out_managementRow r2 in kuguanDataSet.out_management.Rows
                              select r2;
-                numBox.Text = result.Sum(r3 => r3.storage_num) + "";
-                amountBox.Text = "￥ " + result.Sum(r4 => r4.total_price);
+                numBox.Text = result.Sum(r3 => Decimal.Round(r3.storage_num, 2)) + "";
+                amountBox.Text = "￥ " + result.Sum(r4 => Decimal.Round(r4.total_price, 2));
             }
             else if (exchangeDocButton.Checked)
             {
-                this.exchange_managementTableAdapter.FillByCondition(dataDataSet.exchange_management,
+                this.exchange_managementTableAdapter.FillByCondition(kuguanDataSet.exchange_management,
                     fromTimePicker.Value.Date.AddDays(-0.0000001),
                     toTimePicker.Value.Date.AddDays(0.9999999),
                     id,
@@ -360,10 +363,10 @@ namespace KuGuan.MForm
                     max_num,
                     min_amount,
                     max_amount);
-                var result = from dataDataSet.exchange_managementRow r2 in dataDataSet.exchange_management.Rows
+                var result = from kuguanDataSet.exchange_managementRow r2 in kuguanDataSet.exchange_management.Rows
                              select r2;
-                numBox.Text = result.Sum(r3 => r3.exchange_num) + "";
-                amountBox.Text = "￥ " + result.Sum(r4 => r4.total_price);
+                numBox.Text = result.Sum(r3 => Decimal.Round(r3.exchange_num, 2)) + "";
+                amountBox.Text = "￥ " + result.Sum(r4 => Decimal.Round(r4.total_price, 2));
             }
         }
 
@@ -377,7 +380,7 @@ namespace KuGuan.MForm
                 = maxPriceBox.Text = minNumBox.Text = maxNumBox.Text
                 = minAmountBox.Text = maxAmountBox.Text = "";
             sup_id = out_eng_id = in_eng_id = pro_id = -1;
-            min_price = max_price = min_num = max_num = min_amount = max_amount = -1;
+            min_price = max_price = min_num = max_num = min_amount = max_amount = -9999999999;
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -395,6 +398,9 @@ namespace KuGuan.MForm
 
         private void saveExcelButton_Click(object sender, EventArgs e)
         {
+            string amount = amountBox.Text;
+            if (amount.Contains("￥"))
+                amount = amount.Substring(1);
             if (storageDocButton.Checked)
             {
                 if (storageDetailView.Rows.Count <= 0)
@@ -402,8 +408,8 @@ namespace KuGuan.MForm
                     MessageBox.Show("没有可导出的数据！");
                     return;
                 }
-                ExcelOperate excel = new ExcelOperate("综合入库记录");
-                excel.CompositeExport(storageDetailView,numBox.Text,amountBox.Text);
+                ExcelOperate excel = new ExcelOperate(this,"综合入库记录");
+                excel.CompositeExport(storageDetailView,numBox.Text,amount);
             }
             else if (outDocButton.Checked)
             {
@@ -412,8 +418,8 @@ namespace KuGuan.MForm
                     MessageBox.Show("没有可导出的数据！");
                     return;
                 }
-                ExcelOperate excel = new ExcelOperate("综合出库记录");
-                excel.CompositeExport(outDetailView, numBox.Text, amountBox.Text);
+                ExcelOperate excel = new ExcelOperate(this,"综合出库记录");
+                excel.CompositeExport(outDetailView, numBox.Text, amount);
             }
             else if (exchangeDocButton.Checked)
             {
@@ -422,8 +428,85 @@ namespace KuGuan.MForm
                     MessageBox.Show("没有可导出的数据！");
                     return;
                 }
-                ExcelOperate excel = new ExcelOperate("综合调库记录");
-                excel.CompositeExport(exchangeDetailView, numBox.Text, amountBox.Text);
+                ExcelOperate excel = new ExcelOperate(this,"综合调库记录");
+                excel.CompositeExport(exchangeDetailView, numBox.Text, amount);
+            }
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            string amount = amountBox.Text;
+            if (amount.Contains("￥"))
+                amount = amount.Substring(1);
+            PrintDialog dg = new PrintDialog();
+            DGVPrintDocument doc = null;
+            if (storageDocButton.Checked)
+            {
+                if (storageDetailView.Rows.Count <= 0)
+                {
+                    MessageBox.Show("没有可打印的数据！");
+                    return;
+                }
+                doc = new DGVPrintDocument(storageDetailView, "综合入库单据",new int[]{2});
+                doc.Title = use_unitTableAdapter.GetName() + "综合入库单据";
+                doc.Footer = new String[] {
+                    "操作员："+((MainForm)this.MdiParent).MUser.Username,
+                    "经手人：",
+                    "数量："+numBox.Text,
+                    "金额："+amount
+                };
+                
+            }
+            else if (outDocButton.Checked)
+            {
+                if (outDetailView.Rows.Count <= 0)
+                {
+                    MessageBox.Show("没有可导出的数据！");
+                    return;
+                }
+                doc = new DGVPrintDocument(outDetailView, "综合出库单据",new int[]{2});
+                doc.Title = use_unitTableAdapter.GetName() + "综合出库单据";
+                doc.Footer = new String[] {
+                    "操作员："+((MainForm)this.MdiParent).MUser.Username,
+                    "保管员：",
+                    "数量："+numBox.Text,
+                    "金额："+amount
+                };
+            }
+            else if (exchangeDocButton.Checked)
+            {
+                if (exchangeDetailView.Rows.Count <= 0)
+                {
+                    MessageBox.Show("没有可导出的数据！");
+                    return;
+                }
+                doc = new DGVPrintDocument(exchangeDetailView, "综合调库单据",new int[]{2});
+                doc.Title = use_unitTableAdapter.GetName() + "综合调库单据";
+                doc.Footer = new String[] {
+                    "操作员："+((MainForm)this.MdiParent).MUser.Username,
+                    "经手人：",
+                    "数量："+numBox.Text,
+                    "金额："+amount
+                };
+            }
+            if (doc != null)
+            {
+                doc.SubTitle = new String[] { 
+                    "",""
+                };
+                doc.CellFont = Util.GetFont(@"data\cf.dat");
+                doc.SubTitleFont = Util.GetFont(@"data\cf.dat");
+                doc.FooterFont = Util.GetFont(@"data\cf.dat");
+                doc.TitleFont = Util.GetFont(@"data\tf.dat");
+                doc.SubCount = 2;
+                dg.Document = doc.Doc;
+                doc.docInit(true);
+                doc.Doc.DefaultPageSettings.Landscape = true;
+
+                if (dg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    doc.Doc.Print();
+                }
             }
         }
     

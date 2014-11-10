@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompositeForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.exchangeDocButton = new System.Windows.Forms.RadioButton();
             this.storageDocButton = new System.Windows.Forms.RadioButton();
@@ -89,9 +90,7 @@
             this.store_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.storenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.storagemanagementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataDataSet = new KuGuan.dataDataSet();
-            this.searchButton = new System.Windows.Forms.Button();
-            this.refreshButton = new System.Windows.Forms.Button();
+            this.kuguanDataSet = new KuGuan.kuguanDataSet();
             this.panel2 = new System.Windows.Forms.Panel();
             this.saveExcelButton = new System.Windows.Forms.Button();
             this.printButton = new System.Windows.Forms.Button();
@@ -113,11 +112,10 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eng_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outmanagementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.storage_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.storage_managementTableAdapter();
-            this.out_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.out_managementTableAdapter();
             this.exchangeDetailView = new System.Windows.Forms.DataGridView();
             this.exchangeidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productnameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.specDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -129,7 +127,12 @@
             this.tostoreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toengDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.exchangemanagementBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.exchange_managementTableAdapter = new KuGuan.dataDataSetTableAdapters.exchange_managementTableAdapter();
+            this.storage_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.storage_managementTableAdapter();
+            this.out_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.out_managementTableAdapter();
+            this.exchange_managementTableAdapter = new KuGuan.kuguanDataSetTableAdapters.exchange_managementTableAdapter();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
+            this.use_unitTableAdapter = new KuGuan.kuguanDataSetTableAdapters.use_unitTableAdapter();
             this.panel1.SuspendLayout();
             this.conditionPanel.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -138,7 +141,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.storageDetailView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storagemanagementBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kuguanDataSet)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.outDetailView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outmanagementBindingSource)).BeginInit();
@@ -497,7 +500,7 @@
             this.inEngLabel.Name = "inEngLabel";
             this.inEngLabel.Size = new System.Drawing.Size(65, 12);
             this.inEngLabel.TabIndex = 23;
-            this.inEngLabel.Text = "调入工程：";
+            this.inEngLabel.Text = "调入类别：";
             // 
             // outStoreLabel
             // 
@@ -533,7 +536,7 @@
             this.outEngLabel.Name = "outEngLabel";
             this.outEngLabel.Size = new System.Drawing.Size(65, 12);
             this.outEngLabel.TabIndex = 21;
-            this.outEngLabel.Text = "调出工程：";
+            this.outEngLabel.Text = "调出类别：";
             // 
             // inStoreLabel
             // 
@@ -558,8 +561,8 @@
             this.storageDetailView.AllowUserToAddRows = false;
             this.storageDetailView.AllowUserToDeleteRows = false;
             this.storageDetailView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Linen;
-            this.storageDetailView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Linen;
+            this.storageDetailView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.storageDetailView.AutoGenerateColumns = false;
             this.storageDetailView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.storageDetailView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -597,9 +600,9 @@
             // tDataGridViewTextBoxColumn
             // 
             this.tDataGridViewTextBoxColumn.DataPropertyName = "t";
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.tDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Format = "d";
+            dataGridViewCellStyle2.NullValue = null;
+            this.tDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.tDataGridViewTextBoxColumn.HeaderText = "日期";
             this.tDataGridViewTextBoxColumn.Name = "tDataGridViewTextBoxColumn";
             this.tDataGridViewTextBoxColumn.ReadOnly = true;
@@ -672,39 +675,19 @@
             // storenameDataGridViewTextBoxColumn
             // 
             this.storenameDataGridViewTextBoxColumn.DataPropertyName = "eng_name";
-            this.storenameDataGridViewTextBoxColumn.HeaderText = "工程";
+            this.storenameDataGridViewTextBoxColumn.HeaderText = "类别";
             this.storenameDataGridViewTextBoxColumn.Name = "storenameDataGridViewTextBoxColumn";
             this.storenameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // storagemanagementBindingSource
             // 
             this.storagemanagementBindingSource.DataMember = "storage_management";
-            this.storagemanagementBindingSource.DataSource = this.dataDataSet;
+            this.storagemanagementBindingSource.DataSource = this.kuguanDataSet;
             // 
-            // dataDataSet
+            // kuguanDataSet
             // 
-            this.dataDataSet.DataSetName = "dataDataSet";
-            this.dataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(1151, 12);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(90, 36);
-            this.searchButton.TabIndex = 15;
-            this.searchButton.Text = "查询";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Location = new System.Drawing.Point(1257, 12);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(90, 36);
-            this.refreshButton.TabIndex = 16;
-            this.refreshButton.Text = "刷新";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            this.kuguanDataSet.DataSetName = "kuguanDataSet";
+            this.kuguanDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // panel2
             // 
@@ -723,9 +706,12 @@
             // 
             // saveExcelButton
             // 
-            this.saveExcelButton.Location = new System.Drawing.Point(1173, 3);
+            this.saveExcelButton.Font = new System.Drawing.Font("宋体", 10F);
+            this.saveExcelButton.Image = global::KuGuan.Properties.Resources._1_conew1;
+            this.saveExcelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.saveExcelButton.Location = new System.Drawing.Point(1157, 3);
             this.saveExcelButton.Name = "saveExcelButton";
-            this.saveExcelButton.Size = new System.Drawing.Size(110, 45);
+            this.saveExcelButton.Size = new System.Drawing.Size(126, 45);
             this.saveExcelButton.TabIndex = 21;
             this.saveExcelButton.Text = "导出到Excel";
             this.saveExcelButton.UseVisualStyleBackColor = true;
@@ -733,12 +719,16 @@
             // 
             // printButton
             // 
+            this.printButton.Font = new System.Drawing.Font("宋体", 10F);
+            this.printButton.Image = global::KuGuan.Properties.Resources._10_conew1;
+            this.printButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.printButton.Location = new System.Drawing.Point(1007, 3);
             this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(110, 45);
+            this.printButton.Size = new System.Drawing.Size(126, 45);
             this.printButton.TabIndex = 20;
             this.printButton.Text = "打印报表";
             this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.printButton_Click);
             // 
             // amountBox
             // 
@@ -817,9 +807,9 @@
             // timeDataGridViewTextBoxColumn
             // 
             this.timeDataGridViewTextBoxColumn.DataPropertyName = "time";
-            dataGridViewCellStyle8.Format = "d";
-            dataGridViewCellStyle8.NullValue = null;
-            this.timeDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.timeDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.timeDataGridViewTextBoxColumn.HeaderText = "时间";
             this.timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
             this.timeDataGridViewTextBoxColumn.ReadOnly = true;
@@ -892,36 +882,29 @@
             // eng_name
             // 
             this.eng_name.DataPropertyName = "eng_name";
-            this.eng_name.HeaderText = "工程";
+            this.eng_name.HeaderText = "类别";
             this.eng_name.Name = "eng_name";
             this.eng_name.ReadOnly = true;
             // 
             // outmanagementBindingSource
             // 
             this.outmanagementBindingSource.DataMember = "out_management";
-            this.outmanagementBindingSource.DataSource = this.dataDataSet;
-            // 
-            // storage_managementTableAdapter
-            // 
-            this.storage_managementTableAdapter.ClearBeforeFill = true;
-            // 
-            // out_managementTableAdapter
-            // 
-            this.out_managementTableAdapter.ClearBeforeFill = true;
+            this.outmanagementBindingSource.DataSource = this.kuguanDataSet;
             // 
             // exchangeDetailView
             // 
             this.exchangeDetailView.AllowUserToAddRows = false;
             this.exchangeDetailView.AllowUserToDeleteRows = false;
             this.exchangeDetailView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Linen;
-            this.exchangeDetailView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Linen;
+            this.exchangeDetailView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.exchangeDetailView.AutoGenerateColumns = false;
             this.exchangeDetailView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.exchangeDetailView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.exchangeDetailView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.exchangeidDataGridViewTextBoxColumn,
             this.timeDataGridViewTextBoxColumn1,
+            this.product_id,
             this.productnameDataGridViewTextBoxColumn1,
             this.specDataGridViewTextBoxColumn2,
             this.priceDataGridViewTextBoxColumn,
@@ -955,12 +938,19 @@
             // timeDataGridViewTextBoxColumn1
             // 
             this.timeDataGridViewTextBoxColumn1.DataPropertyName = "time";
-            dataGridViewCellStyle10.Format = "d";
-            dataGridViewCellStyle10.NullValue = null;
-            this.timeDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.timeDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
             this.timeDataGridViewTextBoxColumn1.HeaderText = "日期";
             this.timeDataGridViewTextBoxColumn1.Name = "timeDataGridViewTextBoxColumn1";
             this.timeDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // product_id
+            // 
+            this.product_id.DataPropertyName = "product_id";
+            this.product_id.HeaderText = "货品编号";
+            this.product_id.Name = "product_id";
+            this.product_id.ReadOnly = true;
             // 
             // productnameDataGridViewTextBoxColumn1
             // 
@@ -975,6 +965,7 @@
             this.specDataGridViewTextBoxColumn2.HeaderText = "规格";
             this.specDataGridViewTextBoxColumn2.Name = "specDataGridViewTextBoxColumn2";
             this.specDataGridViewTextBoxColumn2.ReadOnly = true;
+            this.specDataGridViewTextBoxColumn2.Width = 60;
             // 
             // priceDataGridViewTextBoxColumn
             // 
@@ -997,6 +988,7 @@
             this.unitDataGridViewTextBoxColumn1.HeaderText = "单位";
             this.unitDataGridViewTextBoxColumn1.Name = "unitDataGridViewTextBoxColumn1";
             this.unitDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.unitDataGridViewTextBoxColumn1.Width = 60;
             // 
             // totalpriceDataGridViewTextBoxColumn2
             // 
@@ -1016,7 +1008,7 @@
             // fromengDataGridViewTextBoxColumn
             // 
             this.fromengDataGridViewTextBoxColumn.DataPropertyName = "from_eng";
-            this.fromengDataGridViewTextBoxColumn.HeaderText = "调出工程";
+            this.fromengDataGridViewTextBoxColumn.HeaderText = "调出类别";
             this.fromengDataGridViewTextBoxColumn.Name = "fromengDataGridViewTextBoxColumn";
             this.fromengDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -1030,18 +1022,55 @@
             // toengDataGridViewTextBoxColumn
             // 
             this.toengDataGridViewTextBoxColumn.DataPropertyName = "to_eng";
-            this.toengDataGridViewTextBoxColumn.HeaderText = "调入工程";
+            this.toengDataGridViewTextBoxColumn.HeaderText = "调入类别";
             this.toengDataGridViewTextBoxColumn.Name = "toengDataGridViewTextBoxColumn";
             this.toengDataGridViewTextBoxColumn.ReadOnly = true;
+            this.toengDataGridViewTextBoxColumn.Width = 80;
             // 
             // exchangemanagementBindingSource
             // 
             this.exchangemanagementBindingSource.DataMember = "exchange_management";
-            this.exchangemanagementBindingSource.DataSource = this.dataDataSet;
+            this.exchangemanagementBindingSource.DataSource = this.kuguanDataSet;
+            // 
+            // storage_managementTableAdapter
+            // 
+            this.storage_managementTableAdapter.ClearBeforeFill = true;
+            // 
+            // out_managementTableAdapter
+            // 
+            this.out_managementTableAdapter.ClearBeforeFill = true;
             // 
             // exchange_managementTableAdapter
             // 
             this.exchange_managementTableAdapter.ClearBeforeFill = true;
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Image = global::KuGuan.Properties.Resources._11_conew3;
+            this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.Location = new System.Drawing.Point(1257, 12);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(90, 36);
+            this.refreshButton.TabIndex = 16;
+            this.refreshButton.Text = "刷新";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
+            // searchButton
+            // 
+            this.searchButton.Image = global::KuGuan.Properties.Resources._135_conew2;
+            this.searchButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.searchButton.Location = new System.Drawing.Point(1151, 12);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(90, 36);
+            this.searchButton.TabIndex = 15;
+            this.searchButton.Text = "查询";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // use_unitTableAdapter
+            // 
+            this.use_unitTableAdapter.ClearBeforeFill = true;
             // 
             // CompositeForm
             // 
@@ -1057,6 +1086,7 @@
             this.Controls.Add(this.storageDetailView);
             this.Controls.Add(this.conditionPanel);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CompositeForm";
             this.TabText = "单据综合查询";
             this.Text = "单据综合查询";
@@ -1074,7 +1104,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.storageDetailView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storagemanagementBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kuguanDataSet)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.outDetailView)).EndInit();
@@ -1101,9 +1131,9 @@
         private System.Windows.Forms.DateTimePicker fromTimePicker;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView storageDetailView;
-        private dataDataSet dataDataSet;
+        private kuguanDataSet kuguanDataSet;
         private System.Windows.Forms.BindingSource storagemanagementBindingSource;
-        private dataDataSetTableAdapters.storage_managementTableAdapter storage_managementTableAdapter;
+        private kuguanDataSetTableAdapters.storage_managementTableAdapter storage_managementTableAdapter;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox maxNumBox;
@@ -1132,6 +1162,21 @@
         private System.Windows.Forms.Label outEngLabel;
         private System.Windows.Forms.Label inStoreLabel;
         private System.Windows.Forms.TextBox outEngBox;
+        private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button saveExcelButton;
+        private System.Windows.Forms.Button printButton;
+        private System.Windows.Forms.TextBox amountBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox numBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridView outDetailView;
+        private System.Windows.Forms.BindingSource outmanagementBindingSource;
+        private kuguanDataSetTableAdapters.out_managementTableAdapter out_managementTableAdapter;
+        private System.Windows.Forms.DataGridView exchangeDetailView;
+        private System.Windows.Forms.BindingSource exchangemanagementBindingSource;
+        private kuguanDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn sidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn;
@@ -1144,18 +1189,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn custnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn store_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn storenameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Button searchButton;
-        private System.Windows.Forms.Button refreshButton;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button saveExcelButton;
-        private System.Windows.Forms.Button printButton;
-        private System.Windows.Forms.TextBox amountBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox numBox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridView outDetailView;
-        private System.Windows.Forms.BindingSource outmanagementBindingSource;
-        private dataDataSetTableAdapters.out_managementTableAdapter out_managementTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn outidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn productidDataGridViewTextBoxColumn1;
@@ -1168,11 +1201,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn customernameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn eng_name;
-        private System.Windows.Forms.DataGridView exchangeDetailView;
-        private System.Windows.Forms.BindingSource exchangemanagementBindingSource;
-        private dataDataSetTableAdapters.exchange_managementTableAdapter exchange_managementTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn exchangeidDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn productnameDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn specDataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
@@ -1183,5 +1214,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn fromengDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tostoreDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn toengDataGridViewTextBoxColumn;
+        private kuguanDataSetTableAdapters.use_unitTableAdapter use_unitTableAdapter;
     }
 }

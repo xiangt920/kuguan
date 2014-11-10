@@ -39,10 +39,11 @@
             System.Windows.Forms.Label emailLabel;
             System.Windows.Forms.Label opening_bankLabel;
             System.Windows.Forms.Label bank_accountLabel;
-            this.dataDataSet = new KuGuan.dataDataSet();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChgSupForm));
+            this.dataDataSet = new KuGuan.kuguanDataSet();
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.supplierTableAdapter = new KuGuan.dataDataSetTableAdapters.supplierTableAdapter();
-            this.tableAdapterManager = new KuGuan.dataDataSetTableAdapters.TableAdapterManager();
+            this.supplierTableAdapter = new KuGuan.kuguanDataSetTableAdapters.supplierTableAdapter();
+            this.tableAdapterManager = new KuGuan.kuguanDataSetTableAdapters.TableAdapterManager();
             this.supplier_nameTextBox = new System.Windows.Forms.TextBox();
             this.addressTextBox = new System.Windows.Forms.TextBox();
             this.codeTextBox = new System.Windows.Forms.TextBox();
@@ -177,16 +178,22 @@
             // 
             // tableAdapterManager
             // 
+            this.tableAdapterManager.accountTableAdapter = null;
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.customer_typeTableAdapter = null;
             this.tableAdapterManager.customerTableAdapter = null;
+            this.tableAdapterManager.exchangeTableAdapter = null;
+            this.tableAdapterManager.outTableAdapter = null;
             this.tableAdapterManager.product_typeTableAdapter = null;
+            this.tableAdapterManager.proTableAdapter = null;
+            this.tableAdapterManager.remainTableAdapter = null;
             this.tableAdapterManager.stockTableAdapter = null;
-            this.tableAdapterManager.storehouseTableAdapter = null;
+            this.tableAdapterManager.storageTableAdapter = null;
             this.tableAdapterManager.supplier_typeTableAdapter = null;
             this.tableAdapterManager.supplierTableAdapter = this.supplierTableAdapter;
             this.tableAdapterManager.unitTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = KuGuan.dataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.UpdateOrder = KuGuan.kuguanDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.userTableAdapter = null;
             // 
             // supplier_nameTextBox
             // 
@@ -270,6 +277,8 @@
             // 
             // cfmButton
             // 
+            this.cfmButton.Image = global::KuGuan.Properties.Resources.ok;
+            this.cfmButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cfmButton.Location = new System.Drawing.Point(25, 347);
             this.cfmButton.Name = "cfmButton";
             this.cfmButton.Size = new System.Drawing.Size(75, 34);
@@ -280,6 +289,8 @@
             // 
             // cnlButton
             // 
+            this.cnlButton.Image = global::KuGuan.Properties.Resources.no;
+            this.cnlButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cnlButton.Location = new System.Drawing.Point(118, 347);
             this.cnlButton.Name = "cnlButton";
             this.cnlButton.Size = new System.Drawing.Size(75, 34);
@@ -333,6 +344,7 @@
             this.Controls.Add(this.opening_bankTextBox);
             this.Controls.Add(bank_accountLabel);
             this.Controls.Add(this.bank_accountTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ChgSupForm";
@@ -349,10 +361,10 @@
 
         #endregion
 
-        private dataDataSet dataDataSet;
+        private kuguanDataSet dataDataSet;
         private System.Windows.Forms.BindingSource supplierBindingSource;
-        private dataDataSetTableAdapters.supplierTableAdapter supplierTableAdapter;
-        private dataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private kuguanDataSetTableAdapters.supplierTableAdapter supplierTableAdapter;
+        private kuguanDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.TextBox supplier_nameTextBox;
         private System.Windows.Forms.TextBox addressTextBox;
         private System.Windows.Forms.TextBox codeTextBox;
